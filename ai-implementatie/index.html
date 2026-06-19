@@ -1,0 +1,753 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- Markeer dat JS actief is (scroll-reveal). Zonder JS blijft alles gewoon zichtbaar. -->
+  <script>document.documentElement.classList.add('js');</script>
+
+  <title>AI Implementatie voor B2B | AI-chatbot &amp; agent | Kelvantis</title>
+  <meta name="description" content="AI-implementatie voor B2B: AI-chatbots en agents getraind op je eigen documenten, gekoppeld aan je systemen. Plan een gratis strategiegesprek.">
+  <meta name="robots" content="index, follow">
+
+  <link rel="canonical" href="https://kelvantis.com/ai-implementatie/">
+  <link rel="alternate" hreflang="nl" href="https://kelvantis.com/ai-implementatie/">
+  <link rel="alternate" hreflang="x-default" href="https://kelvantis.com/ai-implementatie/">
+
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+  <link rel="apple-touch-icon" href="/favicon.svg">
+
+  <!-- Open Graph -->
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://kelvantis.com/ai-implementatie/">
+  <meta property="og:title" content="AI-implementatie die je bedrijf echt snapt | Kelvantis">
+  <meta property="og:description" content="AI-chatbots en agents getraind op je eigen documenten, gekoppeld aan je systemen. Geen losse hype-tool, wel AI die past bij hoe jouw bedrijf werkt.">
+  <meta property="og:image" content="https://kelvantis.com/og-image.jpg">
+  <meta property="og:locale" content="nl_NL">
+  <meta property="og:site_name" content="Kelvantis">
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="AI-implementatie die je bedrijf echt snapt | Kelvantis">
+  <meta name="twitter:description" content="AI-chatbots en agents getraind op je eigen documenten, gekoppeld aan je systemen. Geen hype-tool, wel werkende AI.">
+  <meta name="twitter:image" content="https://kelvantis.com/og-image.jpg">
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght,SOFT,WONK@0,9..144,400..700,0..100,0..1;1,9..144,400..700,0..100,0..1&family=JetBrains+Mono:wght@400;500&family=Inter+Tight:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="/styles.css">
+  <style>
+    /* Hero twee-koloms: overschrijft de bestaande .hero .container grid */
+    .hero-cols {
+      grid-column: 1 / -1;
+      display: grid;
+      grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr);
+      gap: 2rem;
+      align-items: center;
+    }
+    .hero-cols .hero-copy { min-width: 0; }
+    .hero-art {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+    .hero-robot-svg { width: 100%; max-width: 460px; height: auto; overflow: visible;
+      /* harde offset-ink-schaduw onder het hele robot/doc-compositieblok (geen blur), zoals --shadow-hard-lg */
+      filter: drop-shadow(6px 6px 0 var(--ink)); }
+    .hero-note {
+      margin-top: 24px;
+      font-family: var(--font-mono);
+      font-size: 12px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--ink-faint);
+    }
+    @media (max-width: 768px) {
+      .hero-cols { grid-template-columns: 1fr; }
+      .hero-art { max-width: 320px; margin: 0 auto; order: 2; }
+    }
+    /* Subtiele float: alleen op de chat-bubble (de "output") */
+    @keyframes bubble-float {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-7px); }
+    }
+    .chat-bubble {
+      animation: bubble-float 3.2s ease-in-out infinite;
+      transform-origin: center;
+      transform-box: fill-box;
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .chat-bubble { animation: none; }
+    }
+
+    /* §03: exact de aanpak-component van /website-laten-maken/ (verticale scroll-progresslijn
+       op .steps-lean::after), alleen het kale nummer vervangen door een kleine oranje sticker-pill.
+       Kolommen blijven 'auto 1fr' zodat de pill compact is en NIET over de volle breedte rekt. */
+    .steps-ai .step-lean { grid-template-columns: auto 1fr; gap: 24px; align-items: start; }
+    .step-pill {
+      display: inline-flex;
+      align-items: center;
+      width: max-content;     /* compact: alleen zo breed als de tekst */
+      justify-self: start;    /* voorkomt dat het grid-item de kolom volrekt */
+      margin-top: 2px;
+      font-family: var(--font-mono);
+      font-size: 11px;
+      font-weight: 500;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      background: var(--signal);
+      color: #fff;
+      padding: 5px 11px;
+      border-radius: 3px;
+      border: var(--border-ink);
+      box-shadow: var(--shadow-hard-sm);
+      transform: rotate(-2deg);
+      transform-origin: left center;
+    }
+
+    /* §04: twee korte lijstjes naast elkaar */
+    .ai-fit { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; margin-top: 8px; }
+    .ai-fit h3 { font-size: 20px; margin-bottom: 14px; color: var(--ink); }
+    .ai-fit ul { list-style: none; padding: 0; margin: 0; display: grid; gap: 12px; }
+    .ai-fit li { display: grid; grid-template-columns: 18px 1fr; gap: 12px; font-size: 16px; color: var(--ink-soft); line-height: 1.5; }
+    .ai-fit .mk { font-family: var(--font-mono); font-weight: 500; line-height: 1.5; }
+    .ai-fit .mk-yes { color: var(--signal); }
+    .ai-fit .mk-no { color: var(--ink-faint); }
+    .ai-foot { margin-top: clamp(36px, 4vw, 52px); max-width: none; color: var(--ink-soft); font-size: 17px; line-height: 1.6; }
+    .ai-foot a { color: var(--ink); text-decoration: underline; text-underline-offset: 2px; text-decoration-color: var(--rule-strong); transition: text-decoration-color 0.18s ease; }
+    .ai-foot a:hover { text-decoration-color: var(--signal); }
+    @media (max-width: 768px) {
+      .ai-fit { grid-template-columns: 1fr; gap: 28px; }
+    }
+  </style>
+
+  <!-- JSON-LD: WebPage -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebPage",
+    "@id": "https://kelvantis.com/ai-implementatie/#webpage",
+    "url": "https://kelvantis.com/ai-implementatie/",
+    "name": "AI Implementatie voor B2B | AI-chatbot & agent | Kelvantis",
+    "description": "AI-implementatie voor B2B: AI-chatbots en agents getraind op je eigen documenten, gekoppeld aan je systemen. Plan een gratis strategiegesprek.",
+    "inLanguage": "nl",
+    "isPartOf": { "@id": "https://kelvantis.com/#website" },
+    "about": { "@id": "https://kelvantis.com/#organization" },
+    "primaryImageOfPage": "https://kelvantis.com/og-image.jpg",
+    "datePublished": "2026-06-10",
+    "dateModified": "2026-06-10",
+    "speakable": {
+      "@type": "SpeakableSpecification",
+      "cssSelector": [".lead", ".faq-answer"]
+    }
+  }
+  </script>
+
+  <!-- JSON-LD: Service -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Service",
+    "@id": "https://kelvantis.com/ai-implementatie/#service",
+    "serviceType": "AI-implementatie",
+    "name": "AI-implementatie voor B2B",
+    "description": "AI-implementatie betekent dat je AI-chatbots en agents laat bouwen die getraind zijn op jouw eigen documenten en gekoppeld aan je systemen. Bij Kelvantis krijg je geen losse hype-tool, maar AI die past bij hoe jouw bedrijf werkt. Je werkt rechtstreeks met de oprichter, van eerste gesprek tot werkend systeem.",
+    "provider": { "@id": "https://kelvantis.com/#organization" },
+    "areaServed": [
+      { "@type": "Country", "name": "Nederland" },
+      { "@type": "Country", "name": "België" }
+    ],
+    "audience": { "@type": "BusinessAudience", "audienceType": "B2B en MKB" },
+    "url": "https://kelvantis.com/ai-implementatie/"
+  }
+  </script>
+
+  <!-- JSON-LD: FAQPage (woord-voor-woord gelijk aan de zichtbare antwoorden) -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "@id": "https://kelvantis.com/ai-implementatie/#faq",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "Wat is AI-implementatie precies?",
+        "acceptedAnswer": { "@type": "Answer", "text": "AI-implementatie is het bouwen en koppelen van AI die echt voor je werkt: chatbots en agents getraind op je eigen documenten en verbonden met je systemen. Het verschil met een los AI-abonnement is dat alles aansluit op jouw processen en data." }
+      },
+      {
+        "@type": "Question",
+        "name": "Werkt de AI op onze eigen documenten en data?",
+        "acceptedAnswer": { "@type": "Answer", "text": "Ja. We trainen de chatbot of agent op jouw handleidingen, FAQ's, productinfo en processen, zodat de antwoorden specifiek over jouw bedrijf gaan en niet algemeen blijven. Hoe beter je documentatie, hoe sterker de AI." }
+      },
+      {
+        "@type": "Question",
+        "name": "Is onze bedrijfsdata veilig?",
+        "acceptedAnswer": { "@type": "Answer", "text": "Databeveiliging staat voorop. We werken zo dat jouw bedrijfsdata niet wordt gebruikt om openbare AI-modellen te trainen, en we kiezen verwerkers en instellingen die passen bij de privacy-eisen voor bedrijven in Nederland en België. We bespreken dit per project." }
+      },
+      {
+        "@type": "Question",
+        "name": "Hebben we technische kennis nodig?",
+        "acceptedAnswer": { "@type": "Answer", "text": "Nee. We bouwen, trainen, koppelen en leggen alles uit in gewone taal. Jij hoeft alleen te weten welke vragen of taken je wilt wegnemen. Het beheer houden we zo eenvoudig mogelijk." }
+      },
+      {
+        "@type": "Question",
+        "name": "Wat kost AI-implementatie?",
+        "acceptedAnswer": { "@type": "Answer", "text": "Vaste afspraken, geen uurtje-factuurtje. Wat het kost hangt af van wat we bouwen en koppelen. Tijdens het gratis strategiegesprek bekijken we samen wat past bij jouw situatie en wat het realistisch oplevert." }
+      },
+      {
+        "@type": "Question",
+        "name": "Wat is het verschil met workflow-automatisering?",
+        "acceptedAnswer": { "@type": "Answer", "text": "AI-implementatie draait om AI die begrijpt en beslist, zoals chatbots en agents. Workflow-automatisering draait om vaste stappen die automatisch lopen. Vaak combineren we ze: de AI denkt, de automation voert uit." }
+      }
+    ]
+  }
+  </script>
+
+  <!-- JSON-LD: BreadcrumbList -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://kelvantis.com/" },
+      { "@type": "ListItem", "position": 2, "name": "AI Implementatie", "item": "https://kelvantis.com/ai-implementatie/" }
+    ]
+  }
+  </script>
+</head>
+
+<body>
+  <a class="skip-link" href="#main">Direct naar inhoud</a>
+
+  <!-- ================= NAVBAR ================= -->
+  <header class="nav" id="nav">
+    <nav class="container nav-inner" aria-label="Hoofdmenu">
+      <a class="brand" href="/" aria-label="Kelvantis, naar de homepage">
+        <svg viewBox="0 0 1024 1024" aria-hidden="true">
+          <path fill="#1f1814" d="m290.9 434.8l-77.4 76.8c44.2 43.4 60.4 59.1 64.5 63.1 4.1 3.9 9.5 8.1 12 9.3 2.5 1.3 9 4.1 14.5 6.3 9.6 3.9 10.5 4 23.5 4.4 8.8 0.3 13.8 0 14.3-0.6 0.4-0.7-15.5-17.5-38.8-41.1-21.7-22-39.5-40.6-39.5-41.3 0-0.6 24-25.2 53.3-54.4l53.2-53.3c70.5 70.5 91.6 91 92.3 91 0.6 0 5.8-4.9 11.5-11 5.6-6 10.2-11.4 10.2-12 0-0.5-6.3-7.6-14.1-15.7-7.8-8.2-33.3-33.5-56.8-56.3-23.4-22.8-43.2-41.6-43.9-41.8-0.7-0.1-36.2 34.3-78.8 76.6z"/>
+          <path fill="#ff4d2e" d="m463.5 294.2c-26 25.9-47.4 47.9-47.4 48.7-0.1 0.9 5 6.8 11.4 13.1l11.4 11.5c10.5-10 26.8-26 42.9-42 16.1-15.9 29.7-29.1 30.2-29.2 0.6-0.2 16 14.4 34.3 32.5 18.3 18 35.9 35.3 39.2 38.5l6 5.7c14-6.1 21.5-8.9 25.8-10.2 4.2-1.3 7.7-2.6 7.7-3 0-0.5-25.1-26-55.8-56.8-30.6-30.7-56.3-55.9-57-56-0.8 0-22.7 21.2-48.7 47.2zm-36 373.6c-6.6 6.4-11.9 12.2-11.7 12.7 0.1 0.6 21.8 22.6 48.2 49l48 48c22.1-21.7 43.9-43.3 62.8-62 18.8-18.7 34.2-34.5 34.2-35 0-0.5-5.1-6.1-11.2-12.4-6.2-6.2-11.9-11.1-12.6-11-0.7 0.2-16 15-34 32.9-18 17.9-34.2 33.9-36 35.5l-3.3 3-72.4-72.5z"/>
+          <path fill="#1f1814" d="m681.2 430.1c-0.1 0.8 17.6 19.3 39.3 41.1 21.7 21.9 39.5 40.4 39.5 41 0 0.7-23.8 25-52.8 54.1l-52.7 52.7c-61.2-61.3-82.3-82.1-86.3-85.8l-7.4-6.7-23.3 23.5c76 76.1 102.4 102.1 107.7 107.1l9.8 8.9 155.2-154.5c-28.5-27.9-44.6-43.6-54.2-52.9-14.6-14.2-18.6-17.5-24-19.9-3.6-1.6-10.1-4.3-14.5-5.9-7.1-2.7-9.6-3.1-22.1-3.6-11.6-0.4-14.1-0.2-14.2 0.9z"/>
+          <path fill="#ff4d2e" d="m625.8 385c-4.3 1.1-11.3 3.7-15.5 5.7-7.2 3.4-9.9 5.8-33.8 29.3-14.2 14-57.7 57-96.5 95.6-38.8 38.5-75.4 74.7-81.5 80.3-7.1 6.5-13.1 11.1-17 13-3.3 1.6-8.2 3.7-11 4.6-2.9 1-9.4 2-15.5 2.2-8.5 0.4-12 0.1-18.5-1.6-4.4-1.1-10.7-3.1-14-4.4-3.3-1.3-9.3-4.4-13.2-7-4-2.6-7.7-4.5-8.3-4.2-0.5 0.3 0.2 1.9 1.8 3.6 1.5 1.7 7.7 7.3 13.8 12.3 6.2 5 14.7 11.2 19 13.7 4.4 2.6 11.1 6 14.9 7.6 3.9 1.7 9.5 3.6 12.5 4.4 3.5 0.9 10.6 1.4 19.5 1.3 13.3 0 14.4-0.2 22-3.2 4.4-1.7 10.1-4.5 12.8-6.2 2.6-1.6 9.3-7.3 15-12.7 5.6-5.3 48.9-47.9 96.1-94.7 47.3-46.8 90.9-89.8 97-95.5 9.2-8.7 12.6-11.2 20.1-14.7 8-3.8 10.2-4.4 20-5.3 7.7-0.8 13-0.8 17.5 0 3.6 0.6 9.2 1.9 12.5 3.1 3.3 1.1 8.3 3.2 11 4.6 2.8 1.4 7.4 4 10.3 5.9 2.8 1.8 5.7 3.3 6.2 3.3 0.5 0 1-0.4 1-1 0-0.6-4.8-5.2-10.6-10.2-5.8-5.1-14.7-12.1-19.8-15.5-5-3.5-12.5-7.7-16.6-9.4-4.1-1.8-9.7-3.8-12.5-4.6-2.7-0.8-10.8-1.6-18-1.9-10.7-0.3-14.3 0-20.7 1.6z"/>
+        </svg>
+        <span class="brand-word">Kelvan<span class="tis">tis</span></span>
+      </a>
+
+      <input type="checkbox" id="nav-toggle-cb" class="nav-toggle-cb">
+
+      <ul class="nav-links" id="nav-links">
+        <li class="nav-dd">
+          <button type="button" class="nav-dd-trigger" aria-haspopup="true" aria-expanded="false" aria-controls="dd-diensten">
+            Diensten
+            <svg class="nav-dd-caret" viewBox="0 0 12 12" aria-hidden="true">
+              <path d="M2 4l4 4 4-4" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </button>
+          <div class="nav-dd-panel" id="dd-diensten" role="group" aria-label="Diensten">
+            <a class="nav-dd-item" href="/website-laten-maken/">
+              <span class="nav-dd-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M3 9h18"/><circle cx="6.5" cy="6.5" r=".6" fill="currentColor"/></svg></span>
+              <span class="nav-dd-tx">
+                <span class="nav-dd-tt">Websites</span>
+              </span>
+            </a>
+            <a class="nav-dd-item" href="/workflow-automatisering/">
+              <span class="nav-dd-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M4 7a3 3 0 0 1 3-3h6"/><path d="M20 17a3 3 0 0 1-3 3h-6"/><path d="M13 1l3 3-3 3"/><path d="M11 23l-3-3 3-3"/><circle cx="5" cy="17" r="2"/><circle cx="19" cy="7" r="2"/></svg></span>
+              <span class="nav-dd-tx">
+                <span class="nav-dd-tt">Workflow automatisering</span>
+              </span>
+            </a>
+            <a class="nav-dd-item" href="/ai-implementatie/">
+              <span class="nav-dd-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="7" y="7" width="10" height="10" rx="2"/><path d="M9 1v3M15 1v3M9 20v3M15 20v3M1 9h3M1 15h3M20 9h3M20 15h3"/></svg></span>
+              <span class="nav-dd-tx">
+                <span class="nav-dd-tt">AI implementatie</span>
+              </span>
+            </a>
+            <a class="nav-dd-item" href="/geo-aeo/">
+              <span class="nav-dd-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/><path d="M11 8v6M8 11h6"/></svg></span>
+              <span class="nav-dd-tx">
+                <span class="nav-dd-tt">GEO &amp; AEO</span>
+              </span>
+            </a>
+          </div>
+        </li>
+        <li><a href="/over-ons/">Over ons</a></li>
+        <li><a href="/contact/">Tarieven</a></li>
+        <li><a href="/blog/">Blog</a></li>
+        <li><a href="/faq/">FAQ</a></li>
+        <li class="nav-item-cta"><a class="btn btn--primary" href="/contact/">Gratis gesprek <span class="arr">→</span></a></li>
+      </ul>
+
+      <a class="btn btn--primary btn--sm nav-cta" href="/contact/">Gratis gesprek <span class="arr">→</span></a>
+
+      <label class="nav-toggle" for="nav-toggle-cb" role="button" tabindex="0" aria-controls="nav-links" aria-expanded="false" aria-label="Menu openen">
+        <span class="bars" aria-hidden="true"></span>
+      </label>
+    </nav>
+  </header>
+  <div class="nav-spacer" aria-hidden="true"></div>
+
+  <main id="main">
+
+    <!-- ================= HERO ================= -->
+    <section class="section hero hero--compact s-paper" aria-labelledby="hero-title">
+      <div class="container">
+        <div class="hero-cols">
+          <div class="hero-copy">
+            <span class="badge" data-reveal="stamp">§ AI Implementatie</span>
+            <h1 class="hero-title" id="hero-title">AI-implementatie die je bedrijf echt <span class="accent">snapt</span>.</h1>
+            <p class="lead">AI-implementatie betekent dat je AI-chatbots en agents laat bouwen die getraind zijn op jouw eigen documenten en gekoppeld aan je systemen. Bij Kelvantis krijg je geen losse hype-tool, maar AI die past bij hoe jouw bedrijf werkt. Je werkt rechtstreeks met de oprichter, van eerste gesprek tot werkend systeem.</p>
+            <div class="hero-actions">
+              <a class="btn btn--primary" href="/contact/">Gratis strategiegesprek <span class="arr">→</span></a>
+              <a class="btn btn--ghost" href="#aanpak">Bekijk aanpak <span class="arr">→</span></a>
+            </div>
+            <p class="hero-note">Vanuit Maastricht · NL &amp; BE</p>
+          </div>
+          <div class="hero-art" aria-hidden="true">
+            <!-- Robot leert van documenten (input) en geeft een antwoord (chat-bubble, output).
+                 Zelfde tekenstijl als de §04-robot op /website-laten-maken/. Eén oranje accent: de bubble. -->
+            <svg class="hero-robot-svg" data-reveal="stamp" viewBox="0 0 480 460" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <!-- ── doc-kaartjes links/onder (input) ── -->
+              <g stroke-linejoin="round" stroke-linecap="round">
+                <!-- connector-lijnen van docs naar de robot -->
+                <path d="M150 330 Q178 322 198 322" stroke="var(--ink)" stroke-width="3" opacity="0.55"/>
+                <path d="M132 360 Q176 358 200 344" stroke="var(--ink)" stroke-width="3" opacity="0.4"/>
+
+                <!-- FAQ-kaart (achter) -->
+                <g transform="translate(28 300) rotate(-9)">
+                  <rect x="6" y="6" width="64" height="84" rx="3" fill="var(--ink)"/>
+                  <path d="M0 0 H52 L70 18 V90 H0 Z" fill="var(--paper)" stroke="var(--ink)" stroke-width="2.5"/>
+                  <path d="M52 0 V18 H70 Z" fill="var(--paper-deep)" stroke="var(--ink)" stroke-width="2.5"/>
+                  <path d="M11 36 H46" stroke="var(--ink)" stroke-width="2.5" opacity="0.45"/>
+                  <path d="M11 48 H40" stroke="var(--ink)" stroke-width="2.5" opacity="0.32"/>
+                  <text x="11" y="80" font-family="JetBrains Mono, monospace" font-size="10" font-weight="500" fill="var(--ink)">FAQ</text>
+                </g>
+
+                <!-- PDF-kaart (midden/voor) -->
+                <g transform="translate(74 326) rotate(6)">
+                  <rect x="6" y="6" width="64" height="84" rx="3" fill="var(--ink)"/>
+                  <path d="M0 0 H52 L70 18 V90 H0 Z" fill="var(--cream)" stroke="var(--ink)" stroke-width="2.5"/>
+                  <path d="M52 0 V18 H70 Z" fill="var(--paper-deep)" stroke="var(--ink)" stroke-width="2.5"/>
+                  <path d="M11 36 H46" stroke="var(--ink)" stroke-width="2.5" opacity="0.45"/>
+                  <path d="M11 48 H40" stroke="var(--ink)" stroke-width="2.5" opacity="0.32"/>
+                  <path d="M11 60 H34" stroke="var(--ink)" stroke-width="2.5" opacity="0.32"/>
+                  <text x="11" y="82" font-family="JetBrains Mono, monospace" font-size="10" font-weight="500" fill="var(--ink)">PDF</text>
+                </g>
+
+                <!-- DOC-kaart (dichtst bij de robot-hand) -->
+                <g transform="translate(120 292) rotate(-3)">
+                  <rect x="6" y="6" width="64" height="84" rx="3" fill="var(--ink)"/>
+                  <path d="M0 0 H52 L70 18 V90 H0 Z" fill="var(--paper)" stroke="var(--ink)" stroke-width="2.5"/>
+                  <path d="M52 0 V18 H70 Z" fill="var(--paper-deep)" stroke="var(--ink)" stroke-width="2.5"/>
+                  <path d="M11 36 H46" stroke="var(--ink)" stroke-width="2.5" opacity="0.45"/>
+                  <path d="M11 48 H40" stroke="var(--ink)" stroke-width="2.5" opacity="0.32"/>
+                  <text x="11" y="80" font-family="JetBrains Mono, monospace" font-size="10" font-weight="500" fill="var(--ink)">DOC</text>
+                </g>
+              </g>
+
+              <!-- ── chat-bubble rechtsboven (output): het enige oranje accent ── -->
+              <g class="chat-bubble">
+                <g stroke-linejoin="round" stroke-linecap="round">
+                  <rect x="336" y="78" width="132" height="78" rx="16" fill="var(--ink)"/>
+                  <rect x="330" y="72" width="132" height="78" rx="16" fill="var(--signal)" stroke="var(--ink)" stroke-width="3"/>
+                  <path d="M356 150 L344 176 L382 150 Z" fill="var(--signal)" stroke="var(--ink)" stroke-width="3"/>
+                  <path d="M348 100 H440" stroke="var(--cream)" stroke-width="5"/>
+                  <path d="M348 116 H424" stroke="var(--cream)" stroke-width="5" opacity="0.82"/>
+                  <path d="M348 132 H404" stroke="var(--cream)" stroke-width="5" opacity="0.64"/>
+                </g>
+              </g>
+
+              <!-- ── robot (exact zelfde stijl + proporties als §04) ── -->
+              <g transform="translate(90 96)">
+                <g transform="rotate(-5 150 175)" stroke-linejoin="round" stroke-linecap="round">
+                  <!-- harde offset-schaduw lichaam + hoofd -->
+                  <g transform="translate(8 8)" fill="var(--ink)">
+                    <rect x="92" y="182" width="116" height="86" rx="16"/>
+                    <rect x="76" y="76" width="148" height="102" rx="22"/>
+                  </g>
+                  <!-- armen: linkerarm reikt licht naar de doc-kaartjes -->
+                  <path d="M92 214 L48 246" stroke="var(--ink)" stroke-width="6"/>
+                  <path d="M208 210 L240 226" stroke="var(--ink)" stroke-width="6"/>
+                  <circle cx="46" cy="248" r="7" fill="var(--cream)" stroke="var(--ink)" stroke-width="3"/>
+                  <circle cx="242" cy="228" r="7" fill="var(--cream)" stroke="var(--ink)" stroke-width="3"/>
+                  <!-- nek (achter kop en romp; alleen zijkanten zichtbaar) -->
+                  <rect x="138" y="172" width="24" height="24" fill="var(--paper)" stroke="var(--ink)" stroke-width="3"/>
+                  <!-- lichaam -->
+                  <rect x="92" y="190" width="116" height="78" rx="16" fill="var(--paper)" stroke="var(--ink)" stroke-width="3"/>
+                  <circle cx="150" cy="222" r="12" fill="var(--cream)" stroke="var(--ink)" stroke-width="3"/>
+                  <path d="M126 248h48" stroke="var(--ink)" stroke-width="3"/>
+                  <!-- antenne -->
+                  <path d="M150 76V52" stroke="var(--ink)" stroke-width="3"/>
+                  <circle cx="150" cy="46" r="9" fill="var(--cream)" stroke="var(--ink)" stroke-width="3"/>
+                  <!-- hoofd -->
+                  <rect x="76" y="76" width="148" height="102" rx="22" fill="var(--cream)" stroke="var(--ink)" stroke-width="3"/>
+                  <!-- vriendelijke wenkbrauwen (zachte boog) -->
+                  <path d="M104 100c8-3 18-3 26 0" stroke="var(--ink)" stroke-width="2.5"/>
+                  <path d="M170 100c8-3 18-3 26 0" stroke="var(--ink)" stroke-width="2.5"/>
+                  <!-- vrolijke ogen (open, groot) -->
+                  <circle cx="118" cy="124" r="20" fill="#fff" stroke="var(--ink)" stroke-width="3"/>
+                  <circle cx="182" cy="124" r="20" fill="#fff" stroke="var(--ink)" stroke-width="3"/>
+                  <circle cx="126" cy="118" r="8" fill="var(--ink)"/>
+                  <circle cx="190" cy="118" r="8" fill="var(--ink)"/>
+                  <!-- highlight-puntjes -->
+                  <circle cx="132" cy="113" r="4" fill="#fff"/>
+                  <circle cx="196" cy="113" r="4" fill="#fff"/>
+                  <!-- glimlach -->
+                  <path d="M128 155 Q150 174 172 155" stroke="var(--ink)" stroke-width="3.5" fill="none"/>
+                </g>
+              </g>
+            </svg>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= §01 HERKEN JE DIT? ================= -->
+    <section class="section s-cream" aria-labelledby="herken-title">
+      <div class="container">
+        <div class="sec-head" data-reveal="up">
+          <p class="section-label" data-reveal="stamp"><span class="sl-num">§ 01</span> / Herken je dit?</p>
+          <h2 id="herken-title">AI klinkt goed, maar <span class="accent">wat heb je eraan</span>?</h2>
+        </div>
+        <div class="reason-list" data-reveal-group>
+          <div data-reveal="up" class="reason">
+            <span class="reason-n">01</span>
+            <div>
+              <h3>AI-hype, maar geen plan</h3>
+              <p>Iedereen roept dat je iets met AI moet doen. Maar een losse chatbot of een ChatGPT-account lost niks op als het niet aansluit op hoe jij werkt.</p>
+            </div>
+          </div>
+          <div data-reveal="up" class="reason">
+            <span class="reason-n">02</span>
+            <div>
+              <h3>Losse tools die niet met elkaar praten</h3>
+              <p>Een tool hier, een abonnement daar. Niks is gekoppeld, niemand weet wat het oplevert, en het werk blijft handmatig.</p>
+            </div>
+          </div>
+          <div data-reveal="up" class="reason">
+            <span class="reason-n">03</span>
+            <div>
+              <h3>AI die jouw bedrijf niet kent</h3>
+              <p>Een algemene chatbot geeft algemene antwoorden. Zonder kennis van jouw documenten, producten en processen blijft het een speeltje, geen medewerker.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= §02 WAT WE BOUWEN ================= -->
+    <section class="section s-paper" aria-labelledby="bouwen-title">
+      <div class="container">
+        <div class="sec-head" data-reveal="up">
+          <p class="section-label" data-reveal="stamp"><span class="sl-num">§ 02</span> / Wat we bouwen</p>
+          <h2 id="bouwen-title">Geen losse tools, maar <span class="accent">AI die je bedrijf kent</span>.</h2>
+          <p class="sec-answer">We bouwen geen losse AI-tools, maar AI die getraind is op jouw bedrijf en gekoppeld aan je systemen.</p>
+        </div>
+        <div class="feature-list" data-reveal-group>
+          <div data-reveal="up" class="feature">
+            <span class="feature-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M4 5h16v11H8l-4 4z"/><path d="M8 9h8M8 12h5"/></svg></span>
+            <div>
+              <h3>Chatbots getraind op je documenten</h3>
+              <p>Beantwoordt vragen van klanten of medewerkers op basis van jouw handleidingen, FAQ's en productinfo. Bijvoorbeeld een AI-chatbot op je website die de meestgestelde vragen 24/7 afvangt.</p>
+            </div>
+          </div>
+          <div data-reveal="up" class="feature">
+            <span class="feature-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M13 2 4 14h7l-1 8 9-12h-7z"/></svg></span>
+            <div>
+              <h3>AI-agents die taken uitvoeren</h3>
+              <p>Niet alleen praten, maar doen: aanvragen kwalificeren, concepten opstellen, gegevens opzoeken en wegschrijven in je systemen.</p>
+            </div>
+          </div>
+          <div data-reveal="up" class="feature">
+            <span class="feature-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M4 7a3 3 0 0 1 3-3h6"/><path d="M20 17a3 3 0 0 1-3 3h-6"/><path d="M13 1l3 3-3 3"/><path d="M11 23l-3-3 3-3"/></svg></span>
+            <div>
+              <h3>Gekoppeld aan je stack</h3>
+              <p>De AI staat niet los. Hij praat met je website, CRM en automations. Combineer 'm met <a href="/workflow-automatisering/">workflow automatisering</a> zodat denken en uitvoeren in elkaar overlopen.</p>
+            </div>
+          </div>
+          <div data-reveal="up" class="feature">
+            <span class="feature-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M12 3l7 3v5c0 4.4-3 7.6-7 9-4-1.4-7-4.6-7-9V6z"/><path d="M9 12l2 2 4-4"/></svg></span>
+            <div>
+              <h3>Jij houdt de regie</h3>
+              <p>AI neemt werk uit handen, maar jij bepaalt de grenzen. Bij twijfel schakelt de chatbot of agent door naar een mens, zodat je nooit de controle verliest over wat er namens je bedrijf gebeurt.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= §03 ONZE AANPAK ================= -->
+    <section class="section s-cream" id="aanpak" aria-labelledby="aanpak-title">
+      <div class="container">
+        <div class="sec-head" data-reveal="up">
+          <p class="section-label" data-reveal="stamp"><span class="sl-num">§ 03</span> / Onze aanpak</p>
+          <h2 id="aanpak-title">Van eerste gesprek tot <span class="accent">werkende AI</span>.</h2>
+          <p class="sec-answer">Onze aanpak verloopt in vier overzichtelijke stappen: een gratis strategiegesprek, een ontwerp met heldere afbakening, het bouwen en trainen, en de livegang met bijsturing. Je weet bij elke stap wat er gebeurt en waarom.</p>
+        </div>
+        <div class="steps-lean steps-ai" data-reveal-group>
+          <div data-reveal="up" class="step-lean">
+            <span class="step-pill">Stap 01</span>
+            <div>
+              <h3>Strategiegesprek</h3>
+              <p>Gratis gesprek om te bepalen waar AI in jouw bedrijf echt iets oplevert, en waar niet.</p>
+            </div>
+          </div>
+          <div data-reveal="up" class="step-lean">
+            <span class="step-pill">Stap 02</span>
+            <div>
+              <h3>Ontwerp &amp; afbakening</h3>
+              <p>We bepalen welke chatbot of agent we bouwen, op welke documenten hij draait en aan welke systemen hij koppelt. Helder plan, geen scope-creep.</p>
+            </div>
+          </div>
+          <div data-reveal="up" class="step-lean">
+            <span class="step-pill">Stap 03</span>
+            <div>
+              <h3>Bouwen &amp; trainen</h3>
+              <p>We bouwen de AI, trainen hem op jouw data en koppelen alles aan je bestaande tools.</p>
+            </div>
+          </div>
+          <div data-reveal="up" class="step-lean">
+            <span class="step-pill">Stap 04</span>
+            <div>
+              <h3>Live &amp; bijsturen</h3>
+              <p>De AI gaat live, wij monitoren de antwoorden en sturen bij op basis van echt gebruik.</p>
+            </div>
+          </div>
+        </div>
+        <div class="cta-row" data-reveal="up">
+          <a class="btn btn--ghost" href="/#aanpak">Bekijk de volledige werkwijze <span class="arr">→</span></a>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= §04 WANNEER LEVERT AI IETS OP? ================= -->
+    <section class="section s-paper" aria-labelledby="wanneer-title">
+      <div class="container">
+        <div class="sec-head" data-reveal="up">
+          <p class="section-label" data-reveal="stamp"><span class="sl-num">§ 04</span> / Eerlijk verhaal</p>
+          <h2 id="wanneer-title">Wanneer levert AI <span class="accent">iets op</span>?</h2>
+          <p class="sec-answer">AI levert het meeste op bij werk dat vaak voorkomt, duidelijke patronen heeft en nu handmatig gebeurt. Wij beginnen daarom nooit bij de tool, maar bij de vraag of AI in jouw situatie echt iets toevoegt. Soms is het antwoord nee, en dat zeggen we dan ook.</p>
+        </div>
+        <div class="ai-fit" data-reveal-group>
+          <div data-reveal="up">
+            <h3>AI is sterk wanneer:</h3>
+            <ul>
+              <li><span class="mk mk-yes">+</span><span>veel herhaalde vragen of taken</span></li>
+              <li><span class="mk mk-yes">+</span><span>genoeg eigen documenten of data om op te trainen</span></li>
+              <li><span class="mk mk-yes">+</span><span>het werk nu tijd kost en weinig oordeel vraagt</span></li>
+            </ul>
+          </div>
+          <div data-reveal="up">
+            <h3>AI is níet de oplossing wanneer:</h3>
+            <ul>
+              <li><span class="mk mk-no">–</span><span>het probleem eigenlijk een proces- of websiteprobleem is</span></li>
+              <li><span class="mk mk-no">–</span><span>er te weinig data is</span></li>
+              <li><span class="mk mk-no">–</span><span>menselijk maatwerk juist de waarde is</span></li>
+            </ul>
+          </div>
+        </div>
+        <p class="ai-foot" data-reveal="up">In die laatste gevallen verwijzen we je liever door naar de juiste aanpak, bijvoorbeeld een betere <a href="/website-laten-maken/">website</a>, slimme <a href="/workflow-automatisering/">workflow-automatisering</a> of betere vindbaarheid via <a href="/geo-aeo/">GEO &amp; AEO</a>. Twijfel je waar jouw winst zit? <a href="/contact/">Plan een gratis strategiegesprek.</a></p>
+      </div>
+    </section>
+
+    <!-- ================= FAQ ================= -->
+    <section class="section s-cream" id="faq" aria-labelledby="faq-title">
+      <div class="container">
+        <p class="section-label" data-reveal="stamp"><span class="sl-num">§ 05</span> / FAQ</p>
+        <div class="faq-head" data-reveal="up">
+          <h2 id="faq-title">Veelgestelde <span class="accent">vragen.</span></h2>
+        </div>
+        <div class="faq-list" data-reveal-group>
+          <details data-reveal="up" class="faq-item">
+            <summary>Wat is AI-implementatie precies? <span class="pm" aria-hidden="true"></span></summary>
+            <div class="faq-answer"><p>AI-implementatie is het bouwen en koppelen van AI die echt voor je werkt: chatbots en agents getraind op je eigen documenten en verbonden met je systemen. Het verschil met een los AI-abonnement is dat alles aansluit op jouw processen en data.</p></div>
+          </details>
+          <details data-reveal="up" class="faq-item">
+            <summary>Werkt de AI op onze eigen documenten en data? <span class="pm" aria-hidden="true"></span></summary>
+            <div class="faq-answer"><p>Ja. We trainen de chatbot of agent op jouw handleidingen, FAQ's, productinfo en processen, zodat de antwoorden specifiek over jouw bedrijf gaan en niet algemeen blijven. Hoe beter je documentatie, hoe sterker de AI.</p></div>
+          </details>
+          <details data-reveal="up" class="faq-item">
+            <summary>Is onze bedrijfsdata veilig? <span class="pm" aria-hidden="true"></span></summary>
+            <div class="faq-answer"><p>Databeveiliging staat voorop. We werken zo dat jouw bedrijfsdata niet wordt gebruikt om openbare AI-modellen te trainen, en we kiezen verwerkers en instellingen die passen bij de privacy-eisen voor bedrijven in Nederland en België. We bespreken dit per project.</p></div>
+          </details>
+          <details data-reveal="up" class="faq-item">
+            <summary>Hebben we technische kennis nodig? <span class="pm" aria-hidden="true"></span></summary>
+            <div class="faq-answer"><p>Nee. We bouwen, trainen, koppelen en leggen alles uit in gewone taal. Jij hoeft alleen te weten welke vragen of taken je wilt wegnemen. Het beheer houden we zo eenvoudig mogelijk.</p></div>
+          </details>
+          <details data-reveal="up" class="faq-item">
+            <summary>Wat kost AI-implementatie? <span class="pm" aria-hidden="true"></span></summary>
+            <div class="faq-answer"><p>Vaste afspraken, geen uurtje-factuurtje. Wat het kost hangt af van wat we bouwen en koppelen. Tijdens het gratis strategiegesprek bekijken we samen wat past bij jouw situatie en wat het realistisch oplevert.</p></div>
+          </details>
+          <details data-reveal="up" class="faq-item">
+            <summary>Wat is het verschil met workflow-automatisering? <span class="pm" aria-hidden="true"></span></summary>
+            <div class="faq-answer"><p>AI-implementatie draait om AI die begrijpt en beslist, zoals chatbots en agents. <a href="/workflow-automatisering/">Workflow-automatisering</a> draait om vaste stappen die automatisch lopen. Vaak combineren we ze: de AI denkt, de automation voert uit.</p></div>
+          </details>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= EIND-CTA (oranje accent) ================= -->
+    <section class="section s-signal" aria-labelledby="cta-title">
+      <div class="container cta cta--lean">
+        <p class="cta-label eyebrow">Klaar voor AI die werkt?</p>
+        <h2 class="cta-title" id="cta-title">AI die je bedrijf snapt. <span class="soft">Zonder de hype.</span></h2>
+        <p class="cta-sub">Plan een gratis strategiegesprek en ontdek waar AI in jouw bedrijf echt iets oplevert. Geen verplichtingen, wel een eerlijk antwoord.</p>
+        <div class="cta-actions">
+          <a class="btn btn--on-signal" href="/contact/">Gratis gesprek plannen <span class="arr">→</span></a>
+        </div>
+        <p class="cta-trust">Gratis · Geen verplichtingen · Reactie binnen 24 uur</p>
+      </div>
+    </section>
+  </main>
+
+  <!-- ================= FOOTER ================= -->
+  <footer class="s-footer" aria-label="Footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <a class="brand" href="/" aria-label="Kelvantis, naar de homepage">
+            <svg viewBox="0 0 1024 1024" aria-hidden="true">
+              <path fill="#ff4d2e" d="m290.9 434.8l-77.4 76.8c44.2 43.4 60.4 59.1 64.5 63.1 4.1 3.9 9.5 8.1 12 9.3 2.5 1.3 9 4.1 14.5 6.3 9.6 3.9 10.5 4 23.5 4.4 8.8 0.3 13.8 0 14.3-0.6 0.4-0.7-15.5-17.5-38.8-41.1-21.7-22-39.5-40.6-39.5-41.3 0-0.6 24-25.2 53.3-54.4l53.2-53.3c70.5 70.5 91.6 91 92.3 91 0.6 0 5.8-4.9 11.5-11 5.6-6 10.2-11.4 10.2-12 0-0.5-6.3-7.6-14.1-15.7-7.8-8.2-33.3-33.5-56.8-56.3-23.4-22.8-43.2-41.6-43.9-41.8-0.7-0.1-36.2 34.3-78.8 76.6z"/>
+              <path fill="#ff4d2e" d="m463.5 294.2c-26 25.9-47.4 47.9-47.4 48.7-0.1 0.9 5 6.8 11.4 13.1l11.4 11.5c10.5-10 26.8-26 42.9-42 16.1-15.9 29.7-29.1 30.2-29.2 0.6-0.2 16 14.4 34.3 32.5 18.3 18 35.9 35.3 39.2 38.5l6 5.7c14-6.1 21.5-8.9 25.8-10.2 4.2-1.3 7.7-2.6 7.7-3 0-0.5-25.1-26-55.8-56.8-30.6-30.7-56.3-55.9-57-56-0.8 0-22.7 21.2-48.7 47.2zm-36 373.6c-6.6 6.4-11.9 12.2-11.7 12.7 0.1 0.6 21.8 22.6 48.2 49l48 48c22.1-21.7 43.9-43.3 62.8-62 18.8-18.7 34.2-34.5 34.2-35 0-0.5-5.1-6.1-11.2-12.4-6.2-6.2-11.9-11.1-12.6-11-0.7 0.2-16 15-34 32.9-18 17.9-34.2 33.9-36 35.5l-3.3 3-72.4-72.5z"/>
+              <path fill="#FDFAF3" d="m681.2 430.1c-0.1 0.8 17.6 19.3 39.3 41.1 21.7 21.9 39.5 40.4 39.5 41 0 0.7-23.8 25-52.8 54.1l-52.7 52.7c-61.2-61.3-82.3-82.1-86.3-85.8l-7.4-6.7-23.3 23.5c76 76.1 102.4 102.1 107.7 107.1l9.8 8.9 155.2-154.5c-28.5-27.9-44.6-43.6-54.2-52.9-14.6-14.2-18.6-17.5-24-19.9-3.6-1.6-10.1-4.3-14.5-5.9-7.1-2.7-9.6-3.1-22.1-3.6-11.6-0.4-14.1-0.2-14.2 0.9z"/>
+              <path fill="#FDFAF3" d="m625.8 385c-4.3 1.1-11.3 3.7-15.5 5.7-7.2 3.4-9.9 5.8-33.8 29.3-14.2 14-57.7 57-96.5 95.6-38.8 38.5-75.4 74.7-81.5 80.3-7.1 6.5-13.1 11.1-17 13-3.3 1.6-8.2 3.7-11 4.6-2.9 1-9.4 2-15.5 2.2-8.5 0.4-12 0.1-18.5-1.6-4.4-1.1-10.7-3.1-14-4.4-3.3-1.3-9.3-4.4-13.2-7-4-2.6-7.7-4.5-8.3-4.2-0.5 0.3 0.2 1.9 1.8 3.6 1.5 1.7 7.7 7.3 13.8 12.3 6.2 5 14.7 11.2 19 13.7 4.4 2.6 11.1 6 14.9 7.6 3.9 1.7 9.5 3.6 12.5 4.4 3.5 0.9 10.6 1.4 19.5 1.3 13.3 0 14.4-0.2 22-3.2 4.4-1.7 10.1-4.5 12.8-6.2 2.6-1.6 9.3-7.3 15-12.7 5.6-5.3 48.9-47.9 96.1-94.7 47.3-46.8 90.9-89.8 97-95.5 9.2-8.7 12.6-11.2 20.1-14.7 8-3.8 10.2-4.4 20-5.3 7.7-0.8 13-0.8 17.5 0 3.6 0.6 9.2 1.9 12.5 3.1 3.3 1.1 8.3 3.2 11 4.6 2.8 1.4 7.4 4 10.3 5.9 2.8 1.8 5.7 3.3 6.2 3.3 0.5 0 1-0.4 1-1 0-0.6-4.8-5.2-10.6-10.2-5.8-5.1-14.7-12.1-19.8-15.5-5-3.5-12.5-7.7-16.6-9.4-4.1-1.8-9.7-3.8-12.5-4.6-2.7-0.8-10.8-1.6-18-1.9-10.7-0.3-14.3 0-20.7 1.6z"/>
+            </svg>
+            <span class="brand-word">Kelvan<span class="tis">tis</span></span>
+          </a>
+          <p class="footer-tag">AI-bureau uit Maastricht. Websites, automatisering, AI &amp; GEO/AEO voor B2B in Nederland en België.</p>
+        </div>
+
+        <div class="footer-col">
+          <h4>Diensten</h4>
+          <ul>
+            <li><a href="/website-laten-maken/">Websites</a></li>
+            <li><a href="/workflow-automatisering/">Automatisering</a></li>
+            <li><a href="/ai-implementatie/">AI Implementatie</a></li>
+            <li><a href="/geo-aeo/">GEO &amp; AEO</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-col">
+          <h4>Menu</h4>
+          <ul>
+            <li><a href="/over-ons/">Over ons</a></li>
+            <li><a href="/contact/">Tarieven</a></li>
+            <li><a href="/faq/">FAQ</a></li>
+            <li><a href="/blog/">Blog</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-col">
+          <h4>Contact</h4>
+          <ul>
+            <li><a href="mailto:kelvantis.com@gmail.com">kelvantis.com@gmail.com</a></li>
+            <li><a href="tel:+31627900367">+31 6 27 90 03 67</a></li>
+            <li><span>Maastricht, Nederland</span></li>
+          </ul>
+          <div class="footer-socials">
+            <a href="https://www.linkedin.com/company/kelvantis/" aria-label="Kelvantis op LinkedIn" rel="noopener" target="_blank">
+              <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M4.98 3.5A2.5 2.5 0 1 1 0 3.5a2.5 2.5 0 0 1 4.98 0zM.5 8h4V24h-4zM8 8h3.8v2.2h.05C12.4 8.9 14 8 16 8c4 0 5 2.6 5 6V24h-4v-7.5c0-1.8 0-4-2.5-4S12 14.3 12 16.4V24H8z"/></svg>
+            </a>
+            <a href="https://www.instagram.com/kelvantis/" aria-label="Kelvantis op Instagram" rel="noopener" target="_blank">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg>
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <div class="footer-bottom">
+        <span>© 2026 Kelvantis</span>
+        <span class="fb-links">
+          <a href="/privacy/">Privacybeleid</a>
+          <a href="/voorwaarden/">Algemene voorwaarden</a>
+        </span>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    // Minimale JS: balk → floating pill bij scroll (>60px, rAF) + aria-sync mobiel menu.
+    (function () {
+      var nav = document.getElementById('nav');
+      var ticking = false;
+      function applyNavState() { nav.classList.toggle('scrolled', window.scrollY > 60); ticking = false; }
+      window.addEventListener('scroll', function () {
+        if (!ticking) { requestAnimationFrame(applyNavState); ticking = true; }
+      }, { passive: true });
+      applyNavState(); // juiste begin-staat (ook na refresh mid-pagina)
+
+      var cb = document.getElementById('nav-toggle-cb');
+      var toggle = document.querySelector('.nav-toggle');
+      function sync() {
+        var open = cb.checked;
+        toggle.setAttribute('aria-expanded', open);
+        toggle.setAttribute('aria-label', open ? 'Menu sluiten' : 'Menu openen');
+        if (!open && dd) {  // dropdown resetten als hamburger sluit
+          dd.classList.remove('open');
+          dd.querySelector('.nav-dd-trigger').setAttribute('aria-expanded', 'false');
+        }
+      }
+      cb.addEventListener('change', sync);
+      // Toetsenbordbediening van de label-knop
+      toggle.addEventListener('keydown', function (e) {
+        if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); cb.checked = !cb.checked; sync(); }
+      });
+      // Sluit het menu na klik op een link
+      document.querySelectorAll('.nav-links a').forEach(function (a) {
+        a.addEventListener('click', function () { cb.checked = false; sync(); });
+      });
+
+      // Diensten-dropdown
+      var dd = document.querySelector('.nav-dd');
+      if (dd) {
+        var ddTrigger = dd.querySelector('.nav-dd-trigger');
+        function closeDD() { dd.classList.remove('open'); ddTrigger.setAttribute('aria-expanded', 'false'); }
+        function openDD()  { dd.classList.add('open');    ddTrigger.setAttribute('aria-expanded', 'true'); }
+
+        ddTrigger.addEventListener('click', function (e) {
+          e.stopPropagation();
+          dd.classList.contains('open') ? closeDD() : openDD();
+        });
+        document.addEventListener('click', function (e) {
+          if (!dd.contains(e.target)) closeDD();
+        });
+        document.addEventListener('keydown', function (e) {
+          if (e.key === 'Escape' && dd.classList.contains('open')) { closeDD(); ddTrigger.focus(); }
+        });
+        dd.querySelectorAll('.nav-dd-item').forEach(function (a) {
+          a.addEventListener('click', closeDD);
+        });
+      }
+    })();
+
+    // Scroll-reveal v2: data-reveal varianten + group-stagger, één keer afspelen.
+    (function () {
+      var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      if (reduce) return; // reduced-motion: CSS toont alles in eindtoestand
+      var els = document.querySelectorAll('[data-reveal]');
+      if (!('IntersectionObserver' in window)) {
+        els.forEach(function (el) { el.classList.add('is-visible', 'reveal-done'); });
+        return;
+      }
+      function delayFor(el) {
+        var group = el.closest('[data-reveal-group]');
+        if (!group) return 0;
+        var items = group.querySelectorAll('[data-reveal]');
+        var i = Array.prototype.indexOf.call(items, el);
+        return Math.min(i, 6) * 80; // var(--reveal-step), gecapt op 6 stappen
+      }
+      var io = new IntersectionObserver(function (entries) {
+        entries.forEach(function (e) {
+          if (!e.isIntersecting) return;
+          var el = e.target;
+          el.style.setProperty('--reveal-delay', delayFor(el) + 'ms');
+          el.addEventListener('animationend', function () { el.classList.add('reveal-done'); }, { once: true });
+          el.classList.add('is-visible');
+          io.unobserve(el);
+        });
+      }, { rootMargin: '0px 0px -8% 0px', threshold: 0.15 });
+      els.forEach(function (el) { io.observe(el); });
+    })();
+  </script>
+</body>
+</html>

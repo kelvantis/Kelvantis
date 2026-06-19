@@ -1,0 +1,765 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- Markeer dat JS actief is (scroll-reveal). Zonder JS blijft alles gewoon zichtbaar. -->
+  <script>document.documentElement.classList.add('js');</script>
+
+  <title>GEO &amp; AEO bureau · Generative Engine Optimization | Kelvantis</title>
+  <meta name="description" content="GEO &amp; AEO bureau Kelvantis zorgt dat je gevonden wordt in ChatGPT, Perplexity en Google AI Overviews. Generative engine optimization en geo optimalisatie voor B2B. Plan een gratis strategiegesprek.">
+  <meta name="robots" content="index, follow">
+
+  <link rel="canonical" href="https://kelvantis.com/geo-aeo/">
+  <link rel="alternate" hreflang="nl" href="https://kelvantis.com/geo-aeo/">
+  <link rel="alternate" hreflang="x-default" href="https://kelvantis.com/geo-aeo/">
+
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+  <link rel="apple-touch-icon" href="/favicon.svg">
+
+  <!-- Open Graph -->
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://kelvantis.com/geo-aeo/">
+  <meta property="og:title" content="GEO &amp; AEO bureau · Generative Engine Optimization | Kelvantis">
+  <meta property="og:description" content="We zorgen dat je gevonden en geciteerd wordt in ChatGPT, Perplexity, Gemini en Google AI Overviews. Generative engine optimization voor B2B in Nederland en België.">
+  <meta property="og:image" content="https://kelvantis.com/og-image.jpg">
+  <meta property="og:locale" content="nl_NL">
+  <meta property="og:site_name" content="Kelvantis">
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="GEO &amp; AEO bureau · Generative Engine Optimization | Kelvantis">
+  <meta name="twitter:description" content="Gevonden en geciteerd worden in ChatGPT, Perplexity, Gemini en Google AI Overviews. Generative engine optimization voor B2B.">
+  <meta name="twitter:image" content="https://kelvantis.com/og-image.jpg">
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght,SOFT,WONK@0,9..144,400..700,0..100,0..1;1,9..144,400..700,0..100,0..1&family=JetBrains+Mono:wght@400;500&family=Inter+Tight:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="/styles.css">
+  <style>
+    /* Hero twee-koloms: tekst links, citerende robot rechts. H1 blijft exact twee regels. */
+    .hero--geo .container { grid-template-columns: minmax(0, 1.7fr) minmax(0, 1fr); gap: clamp(28px, 3.5vw, 52px); align-items: center; }
+    .hero--geo .hero-copy { max-width: 760px; min-width: 0; }
+    /* Iets kleiner dan de standaard compact-maat zodat "Generative engine optimization" op één
+       regel blijft in de smallere tekstkolom (geen word-per-woord; accent blijft inline). */
+    .hero--geo .hero-title { font-size: clamp(31px, 3.4vw, 50px); text-wrap: balance; }
+    .hero-art { display: flex; justify-content: center; align-items: center; min-width: 0; }
+    .geo-robot-svg { width: 100%; max-width: 360px; height: auto; overflow: visible; }
+    /* Onder 920px: stapelen (tekst boven, robot eronder). minmax(0,1fr) zodat de robot-SVG
+       (viewBox-breedte) de kolom niet voorbij de viewport duwt. */
+    @media (max-width: 920px) {
+      .hero--geo .container { grid-template-columns: minmax(0, 1fr); gap: 36px; }
+      .hero-art { order: 2; max-width: 300px; margin: 0 auto; }
+    }
+    /* Smalle schermen: kleiner lettertype + normale woordafbreking (geen overflow/afkapping). */
+    @media (max-width: 640px) {
+      .hero--geo .hero-title { font-size: clamp(27px, 7.2vw, 42px); line-height: 1.07; text-wrap: wrap; }
+    }
+
+    /* Direct-antwoord-callout (§00 en §05): sticker-pop via ink-border + harde offset-schaduw */
+    .answer-card {
+      background: var(--cream);
+      border: var(--border-ink);
+      box-shadow: var(--shadow-hard);
+      border-radius: var(--r-md);
+      padding: clamp(24px, 3vw, 36px);
+      max-width: 780px;
+    }
+    .answer-card .ac-eyebrow {
+      font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.14em;
+      text-transform: uppercase; color: var(--signal); margin-bottom: 14px; display: block;
+    }
+    .answer-card .ac-q { font-family: var(--font-display); color: var(--ink); font-weight: 500;
+      font-size: clamp(22px, 2.8vw, 30px); line-height: 1.12; margin-bottom: 14px; }
+    .answer-card p { color: var(--ink-soft); font-size: 18px; line-height: 1.6; }
+    .answer-card p a { color: var(--ink); text-decoration: underline; text-underline-offset: 2px; text-decoration-color: var(--rule-strong); }
+    .answer-card p a:hover { text-decoration-color: var(--signal); }
+
+    /* §01 stats: twee identieke brutalist stat-kaarten (gelijke hoogte, zelfde interne opbouw) */
+    .stats-grid--2 { grid-template-columns: repeat(2, 1fr); gap: 24px; max-width: 860px; align-items: stretch; }
+    .stat-card {
+      display: flex; flex-direction: column; height: 100%;
+      background: var(--cream); border: var(--border-ink); box-shadow: var(--shadow-hard);
+      border-radius: var(--r-md); padding: 28px 26px;
+    }
+    .stat-card .stat-value { font-size: clamp(36px, 4vw, 54px); }
+    .stat-card .stat-label { flex: 1; margin: 14px 0 16px; color: var(--ink-soft); }
+    .stat-card .stat-source { margin: 0; color: var(--ink-faint); }
+    @media (max-width: 640px) { .stats-grid--2 { grid-template-columns: 1fr; gap: 20px; } }
+
+    /* §02 definitie-kaarten (licht, brutalist) */
+    .def-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: clamp(18px, 2.5vw, 26px); margin-top: 8px; }
+    .def-card { background: var(--cream); border: var(--border-ink); box-shadow: var(--shadow-hard);
+      border-radius: var(--r-md); padding: 26px 24px; }
+    .def-card .term { font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.08em;
+      text-transform: uppercase; color: var(--signal); margin-bottom: 10px; }
+    .def-card h3 { font-family: var(--font-body); font-weight: 600; font-size: 18px; color: var(--ink); margin-bottom: 10px; }
+    .def-card p { color: var(--ink-soft); font-size: 15px; line-height: 1.55; }
+    @media (max-width: 860px) { .def-grid { grid-template-columns: 1fr; } }
+
+    /* §03 per-engine: compacte hairline-rijen */
+    .engine-list { margin-top: 8px; max-width: 940px; }
+    .engine-row { display: grid; grid-template-columns: 220px 1fr; gap: 28px; align-items: baseline;
+      padding: 20px 0; border-top: 1px solid var(--rule); }
+    .engine-row:last-child { border-bottom: 1px solid var(--rule); }
+    .engine-row .en { font-family: var(--font-body); font-weight: 600; color: var(--ink); font-size: 18px; }
+    .engine-row p { color: var(--ink-soft); font-size: 16px; line-height: 1.5; }
+    @media (max-width: 768px) { .engine-row { grid-template-columns: 1fr; gap: 6px; } }
+
+    /* §04: kleine oranje sticker-pill 'Stap 0X' op de aanpak-stappen; verticale progresslijn blijft
+       (exact dezelfde techniek als /website-laten-maken/ §03 en /ai-implementatie/ §03). */
+    .steps-geo .step-lean { grid-template-columns: auto 1fr; gap: 24px; align-items: start; }
+    .step-pill {
+      display: inline-flex; align-items: center; width: max-content; justify-self: start; margin-top: 2px;
+      font-family: var(--font-mono); font-size: 11px; font-weight: 500; letter-spacing: 0.12em; text-transform: uppercase;
+      background: var(--signal); color: #fff; padding: 5px 11px; border-radius: 3px;
+      border: var(--border-ink); box-shadow: var(--shadow-hard-sm); transform: rotate(-2deg); transform-origin: left center;
+    }
+    .step-src { display: block; margin-top: 8px; font-family: var(--font-mono); font-size: 11px;
+      letter-spacing: 0.04em; color: var(--ink-faint); }
+  </style>
+
+  <!-- JSON-LD: WebPage (+ Speakable) -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebPage",
+    "@id": "https://kelvantis.com/geo-aeo/#webpage",
+    "url": "https://kelvantis.com/geo-aeo/",
+    "name": "GEO & AEO bureau · Generative Engine Optimization | Kelvantis",
+    "description": "GEO & AEO bureau Kelvantis zorgt dat je gevonden wordt in ChatGPT, Perplexity en Google AI Overviews. Generative engine optimization en geo optimalisatie voor B2B.",
+    "inLanguage": "nl",
+    "isPartOf": { "@id": "https://kelvantis.com/#website" },
+    "about": { "@id": "https://kelvantis.com/#organization" },
+    "primaryImageOfPage": "https://kelvantis.com/og-image.jpg",
+    "datePublished": "2026-06-11",
+    "dateModified": "2026-06-11",
+    "speakable": {
+      "@type": "SpeakableSpecification",
+      "cssSelector": ["#wat-is-geo", "#entity-answer", ".faq-answer"]
+    }
+  }
+  </script>
+
+  <!-- JSON-LD: Service -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Service",
+    "@id": "https://kelvantis.com/geo-aeo/#service",
+    "serviceType": "Generative Engine Optimization",
+    "name": "GEO & AEO voor B2B",
+    "description": "Generative engine optimization (GEO) en answer engine optimization (AEO) zorgen dat je gevonden en geciteerd wordt in AI-zoekmachines zoals ChatGPT, Perplexity, Gemini en Google AI Overviews, naast je positie in de klassieke Google-resultaten. Kelvantis levert dit als kerndienst voor B2B-bedrijven in Nederland en België.",
+    "provider": { "@id": "https://kelvantis.com/#organization" },
+    "areaServed": [
+      { "@type": "Country", "name": "Nederland" },
+      { "@type": "Country", "name": "België" }
+    ],
+    "audience": { "@type": "BusinessAudience", "audienceType": "B2B en MKB" },
+    "url": "https://kelvantis.com/geo-aeo/"
+  }
+  </script>
+
+  <!-- JSON-LD: FAQPage (woord-voor-woord gelijk aan de zichtbare antwoorden) -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "@id": "https://kelvantis.com/geo-aeo/#faq",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "Wat is het verschil tussen GEO en SEO?",
+        "acceptedAnswer": { "@type": "Answer", "text": "GEO richt zich op genoemd worden in AI-zoekmachines zoals ChatGPT en Perplexity; SEO op hoog scoren in de klassieke Google-resultaten. Ze delen hetzelfde fundament maar werken op deels andere signalen, dus je doet GEO náást SEO, niet in plaats ervan." }
+      },
+      {
+        "@type": "Question",
+        "name": "Hoe lang duurt het voor ik effect zie van GEO?",
+        "acceptedAnswer": { "@type": "Answer", "text": "GEO-effect verschilt per engine. Via Bing-gevoede engines zoals Copilot verschijnen resultaten volgens branche-onderzoek vaak binnen 3 tot 6 weken; bij engines zonder push-protocol eerder 6 tot 12 weken. Het is een doorlopend proces van testen en bijsturen." }
+      },
+      {
+        "@type": "Question",
+        "name": "Kan ik in ChatGPT en Perplexity verschijnen zonder hoge Google-positie?",
+        "acceptedAnswer": { "@type": "Answer", "text": "Ja. De overlap tussen Google-toplinks en de bronnen die AI citeert is volgens branche-onderzoek gedaald tot onder 20%. AI-citatie is een aparte discipline; met de juiste structuur en autoriteit kun je geciteerd worden zonder dat je Google-positie al hoog is." }
+      },
+      {
+        "@type": "Question",
+        "name": "Wat kost generative engine optimization?",
+        "acceptedAnswer": { "@type": "Answer", "text": "Dat hangt af van je situatie en doelen. We werken niet met uurtje-factuurtje. Tijdens het gratis strategiegesprek bekijken we samen wat past en wat het oplevert, zodat je vooraf weet waar je aan toe bent." }
+      },
+      {
+        "@type": "Question",
+        "name": "Hoe meten jullie of GEO werkt?",
+        "acceptedAnswer": { "@type": "Answer", "text": "We meten per AI-engine of en hoe je genoemd wordt: mention rate en citation rate, getest in ChatGPT, Perplexity, Gemini en Copilot, plus het AI Performance-rapport in Bing Webmaster Tools. Zo sturen we op verdiende zichtbaarheid in plaats van ijdele cijfers." }
+      },
+      {
+        "@type": "Question",
+        "name": "Werk ik direct met de oprichter?",
+        "acceptedAnswer": { "@type": "Answer", "text": "Ja. Je werkt rechtstreeks met Kjell Kuijpers, geen accountmanager, geen doorsluis naar een junior-team. De founder doet zelf de strategie én de uitvoering." }
+      }
+    ]
+  }
+  </script>
+
+  <!-- JSON-LD: BreadcrumbList -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://kelvantis.com/" },
+      { "@type": "ListItem", "position": 2, "name": "GEO & AEO", "item": "https://kelvantis.com/geo-aeo/" }
+    ]
+  }
+  </script>
+
+  <!-- JSON-LD: DefinedTermSet (woord-voor-woord gelijk aan de zichtbare definities) -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "DefinedTermSet",
+    "@id": "https://kelvantis.com/geo-aeo/#terms",
+    "name": "GEO, AEO en SEO",
+    "hasDefinedTerm": [
+      {
+        "@type": "DefinedTerm",
+        "name": "SEO",
+        "alternateName": "Search Engine Optimization",
+        "description": "Klassieke zoekmachine-optimalisatie: zorgen dat je hoog staat in de tien blauwe links van Google en Bing. Draait om techniek, content, autoriteit en zoekintentie. De basis waar GEO en AEO op voortbouwen.",
+        "inDefinedTermSet": "https://kelvantis.com/geo-aeo/#terms"
+      },
+      {
+        "@type": "DefinedTerm",
+        "name": "AEO",
+        "alternateName": "Answer Engine Optimization",
+        "description": "Optimaliseren voor directe antwoorden: featured snippets, AI Overviews en voorgelezen antwoorden. Draait om heldere, extraheerbare antwoordblokken die een machine letterlijk kan overnemen.",
+        "inDefinedTermSet": "https://kelvantis.com/geo-aeo/#terms"
+      },
+      {
+        "@type": "DefinedTerm",
+        "name": "GEO",
+        "alternateName": "Generative Engine Optimization",
+        "description": "Optimaliseren om genoemd en geciteerd te worden in generatieve AI-zoekmachines zoals ChatGPT, Perplexity en Gemini. Draait om feitelijke specificiteit, bronvermelding en onafhankelijke bevestiging van je merk.",
+        "inDefinedTermSet": "https://kelvantis.com/geo-aeo/#terms"
+      }
+    ]
+  }
+  </script>
+</head>
+
+<body>
+  <a class="skip-link" href="#main">Direct naar inhoud</a>
+
+  <!-- ================= NAVBAR ================= -->
+  <header class="nav" id="nav">
+    <nav class="container nav-inner" aria-label="Hoofdmenu">
+      <a class="brand" href="/" aria-label="Kelvantis, naar de homepage">
+        <svg viewBox="0 0 1024 1024" aria-hidden="true">
+          <path fill="#1f1814" d="m290.9 434.8l-77.4 76.8c44.2 43.4 60.4 59.1 64.5 63.1 4.1 3.9 9.5 8.1 12 9.3 2.5 1.3 9 4.1 14.5 6.3 9.6 3.9 10.5 4 23.5 4.4 8.8 0.3 13.8 0 14.3-0.6 0.4-0.7-15.5-17.5-38.8-41.1-21.7-22-39.5-40.6-39.5-41.3 0-0.6 24-25.2 53.3-54.4l53.2-53.3c70.5 70.5 91.6 91 92.3 91 0.6 0 5.8-4.9 11.5-11 5.6-6 10.2-11.4 10.2-12 0-0.5-6.3-7.6-14.1-15.7-7.8-8.2-33.3-33.5-56.8-56.3-23.4-22.8-43.2-41.6-43.9-41.8-0.7-0.1-36.2 34.3-78.8 76.6z"/>
+          <path fill="#ff4d2e" d="m463.5 294.2c-26 25.9-47.4 47.9-47.4 48.7-0.1 0.9 5 6.8 11.4 13.1l11.4 11.5c10.5-10 26.8-26 42.9-42 16.1-15.9 29.7-29.1 30.2-29.2 0.6-0.2 16 14.4 34.3 32.5 18.3 18 35.9 35.3 39.2 38.5l6 5.7c14-6.1 21.5-8.9 25.8-10.2 4.2-1.3 7.7-2.6 7.7-3 0-0.5-25.1-26-55.8-56.8-30.6-30.7-56.3-55.9-57-56-0.8 0-22.7 21.2-48.7 47.2zm-36 373.6c-6.6 6.4-11.9 12.2-11.7 12.7 0.1 0.6 21.8 22.6 48.2 49l48 48c22.1-21.7 43.9-43.3 62.8-62 18.8-18.7 34.2-34.5 34.2-35 0-0.5-5.1-6.1-11.2-12.4-6.2-6.2-11.9-11.1-12.6-11-0.7 0.2-16 15-34 32.9-18 17.9-34.2 33.9-36 35.5l-3.3 3-72.4-72.5z"/>
+          <path fill="#1f1814" d="m681.2 430.1c-0.1 0.8 17.6 19.3 39.3 41.1 21.7 21.9 39.5 40.4 39.5 41 0 0.7-23.8 25-52.8 54.1l-52.7 52.7c-61.2-61.3-82.3-82.1-86.3-85.8l-7.4-6.7-23.3 23.5c76 76.1 102.4 102.1 107.7 107.1l9.8 8.9 155.2-154.5c-28.5-27.9-44.6-43.6-54.2-52.9-14.6-14.2-18.6-17.5-24-19.9-3.6-1.6-10.1-4.3-14.5-5.9-7.1-2.7-9.6-3.1-22.1-3.6-11.6-0.4-14.1-0.2-14.2 0.9z"/>
+          <path fill="#ff4d2e" d="m625.8 385c-4.3 1.1-11.3 3.7-15.5 5.7-7.2 3.4-9.9 5.8-33.8 29.3-14.2 14-57.7 57-96.5 95.6-38.8 38.5-75.4 74.7-81.5 80.3-7.1 6.5-13.1 11.1-17 13-3.3 1.6-8.2 3.7-11 4.6-2.9 1-9.4 2-15.5 2.2-8.5 0.4-12 0.1-18.5-1.6-4.4-1.1-10.7-3.1-14-4.4-3.3-1.3-9.3-4.4-13.2-7-4-2.6-7.7-4.5-8.3-4.2-0.5 0.3 0.2 1.9 1.8 3.6 1.5 1.7 7.7 7.3 13.8 12.3 6.2 5 14.7 11.2 19 13.7 4.4 2.6 11.1 6 14.9 7.6 3.9 1.7 9.5 3.6 12.5 4.4 3.5 0.9 10.6 1.4 19.5 1.3 13.3 0 14.4-0.2 22-3.2 4.4-1.7 10.1-4.5 12.8-6.2 2.6-1.6 9.3-7.3 15-12.7 5.6-5.3 48.9-47.9 96.1-94.7 47.3-46.8 90.9-89.8 97-95.5 9.2-8.7 12.6-11.2 20.1-14.7 8-3.8 10.2-4.4 20-5.3 7.7-0.8 13-0.8 17.5 0 3.6 0.6 9.2 1.9 12.5 3.1 3.3 1.1 8.3 3.2 11 4.6 2.8 1.4 7.4 4 10.3 5.9 2.8 1.8 5.7 3.3 6.2 3.3 0.5 0 1-0.4 1-1 0-0.6-4.8-5.2-10.6-10.2-5.8-5.1-14.7-12.1-19.8-15.5-5-3.5-12.5-7.7-16.6-9.4-4.1-1.8-9.7-3.8-12.5-4.6-2.7-0.8-10.8-1.6-18-1.9-10.7-0.3-14.3 0-20.7 1.6z"/>
+        </svg>
+        <span class="brand-word">Kelvan<span class="tis">tis</span></span>
+      </a>
+
+      <input type="checkbox" id="nav-toggle-cb" class="nav-toggle-cb">
+
+      <ul class="nav-links" id="nav-links">
+        <li class="nav-dd">
+          <button type="button" class="nav-dd-trigger" aria-haspopup="true" aria-expanded="false" aria-controls="dd-diensten">
+            Diensten
+            <svg class="nav-dd-caret" viewBox="0 0 12 12" aria-hidden="true">
+              <path d="M2 4l4 4 4-4" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </button>
+          <div class="nav-dd-panel" id="dd-diensten" role="group" aria-label="Diensten">
+            <a class="nav-dd-item" href="/website-laten-maken/">
+              <span class="nav-dd-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M3 9h18"/><circle cx="6.5" cy="6.5" r=".6" fill="currentColor"/></svg></span>
+              <span class="nav-dd-tx">
+                <span class="nav-dd-tt">Websites</span>
+              </span>
+            </a>
+            <a class="nav-dd-item" href="/workflow-automatisering/">
+              <span class="nav-dd-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M4 7a3 3 0 0 1 3-3h6"/><path d="M20 17a3 3 0 0 1-3 3h-6"/><path d="M13 1l3 3-3 3"/><path d="M11 23l-3-3 3-3"/><circle cx="5" cy="17" r="2"/><circle cx="19" cy="7" r="2"/></svg></span>
+              <span class="nav-dd-tx">
+                <span class="nav-dd-tt">Workflow automatisering</span>
+              </span>
+            </a>
+            <a class="nav-dd-item" href="/ai-implementatie/">
+              <span class="nav-dd-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="7" y="7" width="10" height="10" rx="2"/><path d="M9 1v3M15 1v3M9 20v3M15 20v3M1 9h3M1 15h3M20 9h3M20 15h3"/></svg></span>
+              <span class="nav-dd-tx">
+                <span class="nav-dd-tt">AI implementatie</span>
+              </span>
+            </a>
+            <a class="nav-dd-item" href="/geo-aeo/">
+              <span class="nav-dd-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/><path d="M11 8v6M8 11h6"/></svg></span>
+              <span class="nav-dd-tx">
+                <span class="nav-dd-tt">GEO &amp; AEO</span>
+              </span>
+            </a>
+          </div>
+        </li>
+        <li><a href="/over-ons/">Over ons</a></li>
+        <li><a href="/contact/">Tarieven</a></li>
+        <li><a href="/blog/">Blog</a></li>
+        <li><a href="/faq/">FAQ</a></li>
+        <li class="nav-item-cta"><a class="btn btn--primary" href="/contact/">Gratis gesprek <span class="arr">→</span></a></li>
+      </ul>
+
+      <a class="btn btn--primary btn--sm nav-cta" href="/contact/">Gratis gesprek <span class="arr">→</span></a>
+
+      <label class="nav-toggle" for="nav-toggle-cb" role="button" tabindex="0" aria-controls="nav-links" aria-expanded="false" aria-label="Menu openen">
+        <span class="bars" aria-hidden="true"></span>
+      </label>
+    </nav>
+  </header>
+  <div class="nav-spacer" aria-hidden="true"></div>
+
+  <main id="main">
+
+    <!-- ================= HERO ================= -->
+    <section class="section hero hero--compact hero--geo s-paper" aria-labelledby="hero-title">
+      <div class="container">
+        <div class="hero-copy">
+          <span class="badge" data-reveal="stamp">§ GEO &amp; AEO</span>
+          <h1 class="hero-title" id="hero-title">Generative engine optimization<br>die je <span class="accent">laat vinden</span> in AI.</h1>
+          <p class="hero-sub">We zorgen dat je gevonden en geciteerd wordt in ChatGPT, Perplexity, Gemini en Google AI Overviews, niet alleen in de klassieke tien blauwe links. Voor B2B-bedrijven die zichtbaar willen blijven nu zoeken verschuift naar antwoorden.</p>
+          <div class="hero-actions">
+            <a class="btn btn--primary" href="/contact/">Gratis strategiegesprek <span class="arr">→</span></a>
+            <a class="btn btn--ghost" href="#aanpak">Bekijk onze aanpak <span class="arr">→</span></a>
+          </div>
+          <div class="hero-meta">
+            <span class="dots" aria-hidden="true">
+              <span style="background:var(--signal)"></span>
+              <span style="background:var(--ink)"></span>
+              <span style="background:var(--moss)"></span>
+              <span style="background:var(--paper-deep)"></span>
+            </span>
+            <span class="m-text">Vanuit Maastricht · NL &amp; BE</span>
+          </div>
+        </div>
+        <div class="hero-art" aria-hidden="true">
+          <!-- Robot citeert één bron: speech-bubble met één quote, tail wijst rechtstreeks naar
+               de kleine BRON-sticker. Geen losse verbindingslijntjes. §04-robotstijl. -->
+          <svg class="geo-robot-svg" viewBox="47 42 392 290" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <!-- citatie: één speech-bubble + tail naar de BRON-sticker (één relatie) -->
+            <g stroke-linejoin="round" stroke-linecap="round">
+              <rect x="268" y="72" width="146" height="70" rx="16" fill="var(--ink)"/>
+              <rect x="262" y="66" width="146" height="70" rx="16" fill="var(--cream)" stroke="var(--ink)" stroke-width="3"/>
+              <!-- tail wijst naar de BRON-sticker eronder -->
+              <path d="M296 136 L308 167 L322 136 Z" fill="var(--cream)" stroke="var(--ink)" stroke-width="3"/>
+              <!-- één rustig citatie-accent in signal -->
+              <text x="300" y="126" font-family="Fraunces, Georgia, serif" font-size="70" font-weight="700" fill="var(--signal)">&#8220;</text>
+              <!-- BRON-sticker (klein, brutalist) -->
+              <rect x="270" y="169" width="86" height="32" rx="5" fill="var(--ink)"/>
+              <rect x="265" y="164" width="86" height="32" rx="5" fill="var(--cream)" stroke="var(--ink)" stroke-width="2.5"/>
+              <text x="308" y="185" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="13" font-weight="500" letter-spacing="1.5" fill="var(--ink)">BRON</text>
+            </g>
+
+            <!-- robot: §04-stroke, proporties en signal-accenten (antenne, handen, borstknop) -->
+            <g transform="translate(16 32)">
+              <g transform="rotate(-5 150 175)" stroke-linejoin="round" stroke-linecap="round">
+                <g transform="translate(8 8)" fill="var(--ink)">
+                  <rect x="92" y="182" width="116" height="86" rx="16"/>
+                  <rect x="76" y="76" width="148" height="102" rx="22"/>
+                </g>
+                <path d="M92 210 L60 226" stroke="var(--ink)" stroke-width="6"/>
+                <path d="M208 210 L240 226" stroke="var(--ink)" stroke-width="6"/>
+                <circle cx="58" cy="228" r="7" fill="var(--signal)" stroke="var(--ink)" stroke-width="3"/>
+                <circle cx="242" cy="228" r="7" fill="var(--signal)" stroke="var(--ink)" stroke-width="3"/>
+                <rect x="138" y="172" width="24" height="24" fill="var(--paper)" stroke="var(--ink)" stroke-width="3"/>
+                <rect x="92" y="190" width="116" height="78" rx="16" fill="var(--paper)" stroke="var(--ink)" stroke-width="3"/>
+                <circle cx="150" cy="222" r="12" fill="var(--signal)" stroke="var(--ink)" stroke-width="3"/>
+                <path d="M126 248h48" stroke="var(--ink)" stroke-width="3"/>
+                <path d="M150 76V52" stroke="var(--ink)" stroke-width="3"/>
+                <circle cx="150" cy="46" r="9" fill="var(--signal)" stroke="var(--ink)" stroke-width="3"/>
+                <rect x="76" y="76" width="148" height="102" rx="22" fill="var(--cream)" stroke="var(--ink)" stroke-width="3"/>
+                <path d="M104 100c8-3 18-3 26 0" stroke="var(--ink)" stroke-width="2.5"/>
+                <path d="M170 100c8-3 18-3 26 0" stroke="var(--ink)" stroke-width="2.5"/>
+                <circle cx="118" cy="124" r="20" fill="#fff" stroke="var(--ink)" stroke-width="3"/>
+                <circle cx="182" cy="124" r="20" fill="#fff" stroke="var(--ink)" stroke-width="3"/>
+                <circle cx="126" cy="118" r="8" fill="var(--ink)"/>
+                <circle cx="190" cy="118" r="8" fill="var(--ink)"/>
+                <circle cx="132" cy="113" r="4" fill="#fff"/>
+                <circle cx="196" cy="113" r="4" fill="#fff"/>
+                <path d="M128 155 Q150 174 172 155" stroke="var(--ink)" stroke-width="3.5" fill="none"/>
+              </g>
+            </g>
+          </svg>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= §00 DIRECT ANTWOORD (Speakable) ================= -->
+    <section class="section s-cream" aria-labelledby="wat-is-geo-q">
+      <div class="container">
+        <div class="answer-card" data-reveal="up" id="wat-is-geo">
+          <span class="ac-eyebrow">Direct antwoord</span>
+          <p class="ac-q" id="wat-is-geo-q">Wat is generative engine optimization (GEO)?</p>
+          <p>Generative engine optimization (GEO) is het optimaliseren van je content zodat AI-zoekmachines zoals ChatGPT, Perplexity en Google AI Overviews je noemen en citeren in hun antwoorden. Answer engine optimization (AEO) is de verwante discipline gericht op directe antwoorden. Samen bepalen ze of je zichtbaar bent nu zoeken zonder klik de norm wordt. Wil je het verschil rustig nalezen? Lees <a href="/blog/wat-is-generative-engine-optimization/">wat GEO en AEO precies inhouden</a>.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= §01 WAAROM DIT NU TELT ================= -->
+    <section class="section s-paper" aria-labelledby="waarom-title">
+      <div class="container">
+        <div class="sec-head" data-reveal="up">
+          <p class="section-label" data-reveal="stamp"><span class="sl-num">§ 01</span> / Waarom dit nu telt</p>
+          <h2 id="waarom-title">Goed scoren in Google is niet langer <span class="accent">genoeg</span>.</h2>
+          <p class="sec-answer">Goed scoren in Google is niet langer genoeg, omdat steeds meer mensen hun antwoord direct op het scherm krijgen zonder nog te klikken. Wie alleen stuurt op de klassieke tien blauwe links, wordt onzichtbaar op het moment dat een AI-zoekmachine het antwoord samenvat. GEO en AEO vangen precies dat nieuwe gedrag op.</p>
+        </div>
+        <div class="stats-grid stats-grid--2" data-reveal-group>
+          <div data-reveal="up" class="stat-card">
+            <div class="stat-value">Meerderheid</div>
+            <p class="stat-label">van de zoekopdrachten eindigt in 2026 zonder klik naar een website; het antwoord staat al op het scherm.</p>
+            <p class="stat-source">Bron: GEO-praktijkonderzoek 2026</p>
+          </div>
+          <div data-reveal="up" class="stat-card">
+            <div class="stat-value">70% → &lt;20%</div>
+            <p class="stat-label">zo sterk daalde de overlap tussen de Google-toplinks en de bronnen die AI citeert.</p>
+            <p class="stat-source">Bron: branche-onderzoek 2026</p>
+          </div>
+        </div>
+        <p class="reason-foot" data-reveal="up">Goed scoren in Google garandeert dus niet langer dat AI je citeert: het is een aparte discipline geworden.</p>
+      </div>
+    </section>
+
+    <!-- ================= §02 GEO vs AEO vs SEO ================= -->
+    <section class="section s-cream" aria-labelledby="begrippen-title">
+      <div class="container">
+        <div class="sec-head" data-reveal="up">
+          <p class="section-label" data-reveal="stamp"><span class="sl-num">§ 02</span> / De begrippen</p>
+          <h2 id="begrippen-title">GEO, AEO en SEO: wat is het <span class="accent">verschil</span>?</h2>
+          <p class="sec-answer">SEO, AEO en GEO bouwen op elkaar voort. SEO is de basis, answer engine optimization richt zich op directe antwoorden, en generative engine optimization op genoemd worden in AI. Ze vullen elkaar aan: goede geo optimalisatie en ai zoekmachine optimalisatie beginnen bij een gezonde SEO-fundering.</p>
+        </div>
+        <div class="def-grid" data-reveal-group>
+          <div data-reveal="up" class="def-card">
+            <p class="term">SEO</p>
+            <h3>Search Engine Optimization</h3>
+            <p>Klassieke zoekmachine-optimalisatie: zorgen dat je hoog staat in de tien blauwe links van Google en Bing. Draait om techniek, content, autoriteit en zoekintentie. De basis waar GEO en AEO op voortbouwen.</p>
+          </div>
+          <div data-reveal="up" class="def-card">
+            <p class="term">AEO</p>
+            <h3>Answer Engine Optimization</h3>
+            <p>Optimaliseren voor directe antwoorden: featured snippets, AI Overviews en voorgelezen antwoorden. Draait om heldere, extraheerbare antwoordblokken die een machine letterlijk kan overnemen.</p>
+          </div>
+          <div data-reveal="up" class="def-card">
+            <p class="term">GEO</p>
+            <h3>Generative Engine Optimization</h3>
+            <p>Optimaliseren om genoemd en geciteerd te worden in generatieve AI-zoekmachines zoals ChatGPT, Perplexity en Gemini. Draait om feitelijke specificiteit, bronvermelding en onafhankelijke bevestiging van je merk.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= §03 PER AI-ZOEKMACHINE ================= -->
+    <section class="section s-paper" aria-labelledby="engines-title">
+      <div class="container">
+        <div class="sec-head" data-reveal="up">
+          <p class="section-label" data-reveal="stamp"><span class="sl-num">§ 03</span> / Per AI-zoekmachine</p>
+          <h2 id="engines-title">Elke AI-zoekmachine kiest <span class="accent">anders</span>.</h2>
+          <p class="sec-answer">Elke engine haalt zijn bronnen ergens anders vandaan, dus één algemene aanpak werkt niet. We sturen per zoekmachine op de hefboom die daar het zwaarst weegt.</p>
+        </div>
+        <div class="engine-list" data-reveal-group>
+          <div data-reveal="up" class="engine-row">
+            <span class="en">ChatGPT</span>
+            <p>Haalt live resultaten op via Bing en een eigen OAI-SearchBot. Hefboom: Bing-indexering plus schone, extraheerbare content.</p>
+          </div>
+          <div data-reveal="up" class="engine-row">
+            <span class="en">Perplexity</span>
+            <p>Eigen crawler die veel en zichtbaar citeert. Hefboom: direct-antwoord-blokken, bronvermelding en versheid.</p>
+          </div>
+          <div data-reveal="up" class="engine-row">
+            <span class="en">Gemini / Google AI Overviews</span>
+            <p>Bouwt bovenop de Google-index. Hefboom: sterke SEO plus AEO-structuur en E-E-A-T.</p>
+          </div>
+          <div data-reveal="up" class="engine-row">
+            <span class="en">Copilot</span>
+            <p>Bing-index met inline citaties. Hefboom: Bing Webmaster Tools, IndexNow en FAQ-schema.</p>
+          </div>
+          <div data-reveal="up" class="engine-row">
+            <span class="en">Claude</span>
+            <p>Retrieval bij live vragen. Hefboom: toegang voor de juiste bots en feitelijke specificiteit.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= §04 ONZE AANPAK ================= -->
+    <section class="section s-cream" id="aanpak" aria-labelledby="aanpak-title">
+      <div class="container">
+        <div class="sec-head" data-reveal="up">
+          <p class="section-label" data-reveal="stamp"><span class="sl-num">§ 04</span> / Onze aanpak</p>
+          <h2 id="aanpak-title">Van onzichtbaar naar <span class="accent">geciteerd</span>.</h2>
+          <p class="sec-answer">Onze aanpak bestaat uit zes bewezen technieken die we per project toepassen en meten. Elke stap is een concrete deliverable, geen vaag advies, en we sturen bij op basis van wat AI-zoekmachines daadwerkelijk citeren.</p>
+        </div>
+        <div class="steps-lean steps-geo" data-reveal-group>
+          <div data-reveal="up" class="step-lean">
+            <span class="step-pill">Stap 01</span>
+            <div>
+              <h3>Direct-antwoord-blokken</h3>
+              <p>Na elke kernkop een zelfstandig antwoord van 40 tot 60 woorden dat AI letterlijk kan overnemen.</p>
+            </div>
+          </div>
+          <div data-reveal="up" class="step-lean">
+            <span class="step-pill">Stap 02</span>
+            <div>
+              <h3>Feitelijke specificiteit &amp; bronnen</h3>
+              <p>Concrete, verifieerbare cijfers met bronvermelding; volgens Princeton-onderzoek goed voor circa 30 tot 40% meer AI-zichtbaarheid.</p>
+            </div>
+          </div>
+          <div data-reveal="up" class="step-lean">
+            <span class="step-pill">Stap 03</span>
+            <div>
+              <h3>Gestructureerde data</h3>
+              <p>Schema-markup (FAQPage, Service, Speakable) maakt expliciet wat iets is en verhoogt de citatiekans.</p>
+            </div>
+          </div>
+          <div data-reveal="up" class="step-lean">
+            <span class="step-pill">Stap 04</span>
+            <div>
+              <h3>Server-side &amp; crawlbaar</h3>
+              <p>Content in de bron-HTML en de juiste AI-bots toegelaten; wat niet in de bron staat, bestaat niet voor een AI-crawler.</p>
+            </div>
+          </div>
+          <div data-reveal="up" class="step-lean">
+            <span class="step-pill">Stap 05</span>
+            <div>
+              <h3>Bing &amp; IndexNow</h3>
+              <p>Bing voedt Copilot en deels ChatGPT; met IndexNow tot twee keer sneller zichtbaar.</p>
+            </div>
+          </div>
+          <div data-reveal="up" class="step-lean">
+            <span class="step-pill">Stap 06</span>
+            <div>
+              <h3>Off-site autoriteit</h3>
+              <p>Eerlijke, verdiende vermeldingen op de bronnen die AI daadwerkelijk citeert.</p>
+            </div>
+          </div>
+        </div>
+        <div class="cta-row" data-reveal="up">
+          <a class="btn btn--ghost" href="/#aanpak">Bekijk het volledige proces <span class="arr">→</span></a>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= §05 ENTITY ================= -->
+    <section class="section s-paper" aria-labelledby="entity-title">
+      <div class="container">
+        <div class="sec-head" data-reveal="up">
+          <p class="section-label" data-reveal="stamp"><span class="sl-num">§</span> Wie zit erachter</p>
+          <h2 id="entity-title">Kelvantis is een GEO/AEO-bureau uit Maastricht, opgericht door <span class="accent">Kjell Kuijpers</span>.</h2>
+        </div>
+        <div class="answer-card" data-reveal="up" id="entity">
+          <span class="ac-eyebrow">Direct antwoord</span>
+          <p id="entity-answer">Kelvantis is een B2B-bureau uit Maastricht dat generative engine optimization en answer engine optimization levert als kerndienst. We zorgen dat opdrachtgevers in Nederland en België gevonden worden in zowel Google als AI-zoekmachines, en combineren dat met conversiegerichte websites, workflow-automatisering en AI-implementatie.</p>
+        </div>
+        <p class="reason-foot" data-reveal="up">GEO werkt het sterkst als het samenhangt met de rest van je online aanwezigheid. We koppelen het daarom aan een <a href="/website-laten-maken/">conversiegerichte website</a>, slimme <a href="/workflow-automatisering/">workflow-automatisering</a> en praktische <a href="/ai-implementatie/">AI-implementatie</a>.</p>
+      </div>
+    </section>
+
+    <!-- ================= §06 FAQ ================= -->
+    <section class="section s-cream" id="faq" aria-labelledby="faq-title">
+      <div class="container">
+        <p class="section-label" data-reveal="stamp"><span class="sl-num">§ 06</span> / FAQ</p>
+        <div class="faq-head" data-reveal="up">
+          <h2 id="faq-title">Veelgestelde <span class="accent">vragen.</span></h2>
+        </div>
+        <div class="faq-list" data-reveal-group>
+          <details data-reveal="up" class="faq-item">
+            <summary>Wat is het verschil tussen GEO en SEO? <span class="pm" aria-hidden="true"></span></summary>
+            <div class="faq-answer"><p>GEO richt zich op genoemd worden in AI-zoekmachines zoals ChatGPT en Perplexity; SEO op hoog scoren in de klassieke Google-resultaten. Ze delen hetzelfde fundament maar werken op deels andere signalen, dus je doet GEO náást SEO, niet in plaats ervan.</p></div>
+          </details>
+          <details data-reveal="up" class="faq-item">
+            <summary>Hoe lang duurt het voor ik effect zie van GEO? <span class="pm" aria-hidden="true"></span></summary>
+            <div class="faq-answer"><p>GEO-effect verschilt per engine. Via Bing-gevoede engines zoals Copilot verschijnen resultaten volgens branche-onderzoek vaak binnen 3 tot 6 weken; bij engines zonder push-protocol eerder 6 tot 12 weken. Het is een doorlopend proces van testen en bijsturen.</p></div>
+          </details>
+          <details data-reveal="up" class="faq-item">
+            <summary>Kan ik in ChatGPT en Perplexity verschijnen zonder hoge Google-positie? <span class="pm" aria-hidden="true"></span></summary>
+            <div class="faq-answer"><p>Ja. De overlap tussen Google-toplinks en de bronnen die AI citeert is volgens branche-onderzoek gedaald tot onder 20%. AI-citatie is een aparte discipline; met de juiste structuur en autoriteit kun je geciteerd worden zonder dat je Google-positie al hoog is.</p></div>
+          </details>
+          <details data-reveal="up" class="faq-item">
+            <summary>Wat kost generative engine optimization? <span class="pm" aria-hidden="true"></span></summary>
+            <div class="faq-answer"><p>Dat hangt af van je situatie en doelen. We werken niet met uurtje-factuurtje. Tijdens het gratis strategiegesprek bekijken we samen wat past en wat het oplevert, zodat je vooraf weet waar je aan toe bent.</p></div>
+          </details>
+          <details data-reveal="up" class="faq-item">
+            <summary>Hoe meten jullie of GEO werkt? <span class="pm" aria-hidden="true"></span></summary>
+            <div class="faq-answer"><p>We meten per AI-engine of en hoe je genoemd wordt: mention rate en citation rate, getest in ChatGPT, Perplexity, Gemini en Copilot, plus het AI Performance-rapport in Bing Webmaster Tools. Zo sturen we op verdiende zichtbaarheid in plaats van ijdele cijfers.</p></div>
+          </details>
+          <details data-reveal="up" class="faq-item">
+            <summary>Werk ik direct met de oprichter? <span class="pm" aria-hidden="true"></span></summary>
+            <div class="faq-answer"><p>Ja. Je werkt rechtstreeks met Kjell Kuijpers, geen accountmanager, geen doorsluis naar een junior-team. De founder doet zelf de strategie én de uitvoering.</p></div>
+          </details>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= EIND-CTA (oranje accent) ================= -->
+    <section class="section s-signal" aria-labelledby="cta-title">
+      <div class="container cta cta--lean">
+        <p class="cta-label eyebrow">Klaar om gevonden te worden?</p>
+        <h2 class="cta-title" id="cta-title">Zichtbaar in Google. <span class="soft">Geciteerd in AI.</span></h2>
+        <p class="cta-sub">Plan een gratis strategiegesprek en ontdek hoe generative engine optimization je zichtbaar houdt nu zoeken verschuift naar antwoorden. Geen verplichtingen, wel concrete inzichten.</p>
+        <div class="cta-actions">
+          <a class="btn btn--on-signal" href="/contact/">Gratis gesprek plannen <span class="arr">→</span></a>
+        </div>
+        <p class="cta-trust">Gratis · Geen verplichtingen · Reactie binnen 24 uur</p>
+      </div>
+    </section>
+  </main>
+
+  <!-- ================= FOOTER ================= -->
+  <footer class="s-footer" aria-label="Footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <a class="brand" href="/" aria-label="Kelvantis, naar de homepage">
+            <svg viewBox="0 0 1024 1024" aria-hidden="true">
+              <path fill="#ff4d2e" d="m290.9 434.8l-77.4 76.8c44.2 43.4 60.4 59.1 64.5 63.1 4.1 3.9 9.5 8.1 12 9.3 2.5 1.3 9 4.1 14.5 6.3 9.6 3.9 10.5 4 23.5 4.4 8.8 0.3 13.8 0 14.3-0.6 0.4-0.7-15.5-17.5-38.8-41.1-21.7-22-39.5-40.6-39.5-41.3 0-0.6 24-25.2 53.3-54.4l53.2-53.3c70.5 70.5 91.6 91 92.3 91 0.6 0 5.8-4.9 11.5-11 5.6-6 10.2-11.4 10.2-12 0-0.5-6.3-7.6-14.1-15.7-7.8-8.2-33.3-33.5-56.8-56.3-23.4-22.8-43.2-41.6-43.9-41.8-0.7-0.1-36.2 34.3-78.8 76.6z"/>
+              <path fill="#ff4d2e" d="m463.5 294.2c-26 25.9-47.4 47.9-47.4 48.7-0.1 0.9 5 6.8 11.4 13.1l11.4 11.5c10.5-10 26.8-26 42.9-42 16.1-15.9 29.7-29.1 30.2-29.2 0.6-0.2 16 14.4 34.3 32.5 18.3 18 35.9 35.3 39.2 38.5l6 5.7c14-6.1 21.5-8.9 25.8-10.2 4.2-1.3 7.7-2.6 7.7-3 0-0.5-25.1-26-55.8-56.8-30.6-30.7-56.3-55.9-57-56-0.8 0-22.7 21.2-48.7 47.2zm-36 373.6c-6.6 6.4-11.9 12.2-11.7 12.7 0.1 0.6 21.8 22.6 48.2 49l48 48c22.1-21.7 43.9-43.3 62.8-62 18.8-18.7 34.2-34.5 34.2-35 0-0.5-5.1-6.1-11.2-12.4-6.2-6.2-11.9-11.1-12.6-11-0.7 0.2-16 15-34 32.9-18 17.9-34.2 33.9-36 35.5l-3.3 3-72.4-72.5z"/>
+              <path fill="#FDFAF3" d="m681.2 430.1c-0.1 0.8 17.6 19.3 39.3 41.1 21.7 21.9 39.5 40.4 39.5 41 0 0.7-23.8 25-52.8 54.1l-52.7 52.7c-61.2-61.3-82.3-82.1-86.3-85.8l-7.4-6.7-23.3 23.5c76 76.1 102.4 102.1 107.7 107.1l9.8 8.9 155.2-154.5c-28.5-27.9-44.6-43.6-54.2-52.9-14.6-14.2-18.6-17.5-24-19.9-3.6-1.6-10.1-4.3-14.5-5.9-7.1-2.7-9.6-3.1-22.1-3.6-11.6-0.4-14.1-0.2-14.2 0.9z"/>
+              <path fill="#FDFAF3" d="m625.8 385c-4.3 1.1-11.3 3.7-15.5 5.7-7.2 3.4-9.9 5.8-33.8 29.3-14.2 14-57.7 57-96.5 95.6-38.8 38.5-75.4 74.7-81.5 80.3-7.1 6.5-13.1 11.1-17 13-3.3 1.6-8.2 3.7-11 4.6-2.9 1-9.4 2-15.5 2.2-8.5 0.4-12 0.1-18.5-1.6-4.4-1.1-10.7-3.1-14-4.4-3.3-1.3-9.3-4.4-13.2-7-4-2.6-7.7-4.5-8.3-4.2-0.5 0.3 0.2 1.9 1.8 3.6 1.5 1.7 7.7 7.3 13.8 12.3 6.2 5 14.7 11.2 19 13.7 4.4 2.6 11.1 6 14.9 7.6 3.9 1.7 9.5 3.6 12.5 4.4 3.5 0.9 10.6 1.4 19.5 1.3 13.3 0 14.4-0.2 22-3.2 4.4-1.7 10.1-4.5 12.8-6.2 2.6-1.6 9.3-7.3 15-12.7 5.6-5.3 48.9-47.9 96.1-94.7 47.3-46.8 90.9-89.8 97-95.5 9.2-8.7 12.6-11.2 20.1-14.7 8-3.8 10.2-4.4 20-5.3 7.7-0.8 13-0.8 17.5 0 3.6 0.6 9.2 1.9 12.5 3.1 3.3 1.1 8.3 3.2 11 4.6 2.8 1.4 7.4 4 10.3 5.9 2.8 1.8 5.7 3.3 6.2 3.3 0.5 0 1-0.4 1-1 0-0.6-4.8-5.2-10.6-10.2-5.8-5.1-14.7-12.1-19.8-15.5-5-3.5-12.5-7.7-16.6-9.4-4.1-1.8-9.7-3.8-12.5-4.6-2.7-0.8-10.8-1.6-18-1.9-10.7-0.3-14.3 0-20.7 1.6z"/>
+            </svg>
+            <span class="brand-word">Kelvan<span class="tis">tis</span></span>
+          </a>
+          <p class="footer-tag">AI-bureau uit Maastricht. Websites, automatisering, AI &amp; GEO/AEO voor B2B in Nederland en België.</p>
+        </div>
+
+        <div class="footer-col">
+          <h4>Diensten</h4>
+          <ul>
+            <li><a href="/website-laten-maken/">Websites</a></li>
+            <li><a href="/workflow-automatisering/">Automatisering</a></li>
+            <li><a href="/ai-implementatie/">AI Implementatie</a></li>
+            <li><a href="/geo-aeo/">GEO &amp; AEO</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-col">
+          <h4>Menu</h4>
+          <ul>
+            <li><a href="/over-ons/">Over ons</a></li>
+            <li><a href="/contact/">Tarieven</a></li>
+            <li><a href="/faq/">FAQ</a></li>
+            <li><a href="/blog/">Blog</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-col">
+          <h4>Contact</h4>
+          <ul>
+            <li><a href="mailto:kelvantis.com@gmail.com">kelvantis.com@gmail.com</a></li>
+            <li><a href="tel:+31627900367">+31 6 27 90 03 67</a></li>
+            <li><span>Maastricht, Nederland</span></li>
+          </ul>
+          <div class="footer-socials">
+            <a href="https://www.linkedin.com/company/kelvantis/" aria-label="Kelvantis op LinkedIn" rel="noopener" target="_blank">
+              <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M4.98 3.5A2.5 2.5 0 1 1 0 3.5a2.5 2.5 0 0 1 4.98 0zM.5 8h4V24h-4zM8 8h3.8v2.2h.05C12.4 8.9 14 8 16 8c4 0 5 2.6 5 6V24h-4v-7.5c0-1.8 0-4-2.5-4S12 14.3 12 16.4V24H8z"/></svg>
+            </a>
+            <a href="https://www.instagram.com/kelvantis/" aria-label="Kelvantis op Instagram" rel="noopener" target="_blank">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg>
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <div class="footer-bottom">
+        <span>© 2026 Kelvantis</span>
+        <span class="fb-links">
+          <a href="/privacy/">Privacybeleid</a>
+          <a href="/voorwaarden/">Algemene voorwaarden</a>
+        </span>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    // Minimale JS: balk → floating pill bij scroll (>60px, rAF) + aria-sync mobiel menu.
+    (function () {
+      var nav = document.getElementById('nav');
+      var ticking = false;
+      function applyNavState() { nav.classList.toggle('scrolled', window.scrollY > 60); ticking = false; }
+      window.addEventListener('scroll', function () {
+        if (!ticking) { requestAnimationFrame(applyNavState); ticking = true; }
+      }, { passive: true });
+      applyNavState(); // juiste begin-staat (ook na refresh mid-pagina)
+
+      var cb = document.getElementById('nav-toggle-cb');
+      var toggle = document.querySelector('.nav-toggle');
+      function sync() {
+        var open = cb.checked;
+        toggle.setAttribute('aria-expanded', open);
+        toggle.setAttribute('aria-label', open ? 'Menu sluiten' : 'Menu openen');
+        if (!open && dd) {  // dropdown resetten als hamburger sluit
+          dd.classList.remove('open');
+          dd.querySelector('.nav-dd-trigger').setAttribute('aria-expanded', 'false');
+        }
+      }
+      cb.addEventListener('change', sync);
+      // Toetsenbordbediening van de label-knop
+      toggle.addEventListener('keydown', function (e) {
+        if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); cb.checked = !cb.checked; sync(); }
+      });
+      // Sluit het menu na klik op een link
+      document.querySelectorAll('.nav-links a').forEach(function (a) {
+        a.addEventListener('click', function () { cb.checked = false; sync(); });
+      });
+
+      // Diensten-dropdown
+      var dd = document.querySelector('.nav-dd');
+      if (dd) {
+        var ddTrigger = dd.querySelector('.nav-dd-trigger');
+        function closeDD() { dd.classList.remove('open'); ddTrigger.setAttribute('aria-expanded', 'false'); }
+        function openDD()  { dd.classList.add('open');    ddTrigger.setAttribute('aria-expanded', 'true'); }
+
+        ddTrigger.addEventListener('click', function (e) {
+          e.stopPropagation();
+          dd.classList.contains('open') ? closeDD() : openDD();
+        });
+        document.addEventListener('click', function (e) {
+          if (!dd.contains(e.target)) closeDD();
+        });
+        document.addEventListener('keydown', function (e) {
+          if (e.key === 'Escape' && dd.classList.contains('open')) { closeDD(); ddTrigger.focus(); }
+        });
+        dd.querySelectorAll('.nav-dd-item').forEach(function (a) {
+          a.addEventListener('click', closeDD);
+        });
+      }
+    })();
+
+    // Scroll-reveal v2: data-reveal varianten + group-stagger, één keer afspelen.
+    (function () {
+      var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      if (reduce) return; // reduced-motion: CSS toont alles in eindtoestand
+      var els = document.querySelectorAll('[data-reveal]');
+      if (!('IntersectionObserver' in window)) {
+        els.forEach(function (el) { el.classList.add('is-visible', 'reveal-done'); });
+        return;
+      }
+      function delayFor(el) {
+        var group = el.closest('[data-reveal-group]');
+        if (!group) return 0;
+        var items = group.querySelectorAll('[data-reveal]');
+        var i = Array.prototype.indexOf.call(items, el);
+        return Math.min(i, 6) * 80; // var(--reveal-step), gecapt op 6 stappen
+      }
+      var io = new IntersectionObserver(function (entries) {
+        entries.forEach(function (e) {
+          if (!e.isIntersecting) return;
+          var el = e.target;
+          el.style.setProperty('--reveal-delay', delayFor(el) + 'ms');
+          el.addEventListener('animationend', function () { el.classList.add('reveal-done'); }, { once: true });
+          el.classList.add('is-visible');
+          io.unobserve(el);
+        });
+      }, { rootMargin: '0px 0px -8% 0px', threshold: 0.15 });
+      els.forEach(function (el) { io.observe(el); });
+    })();
+  </script>
+</body>
+</html>

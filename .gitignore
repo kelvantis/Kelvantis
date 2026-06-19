@@ -1,0 +1,38 @@
+# Dependencies
+node_modules/
+package-lock.json
+
+# Dev server
+serve.mjs
+
+# Environment files
+.env
+.env.local
+.env.*.local
+
+# IDE & Editor
+.claude/
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Build & Temp
+dist/
+build/
+.cache/
+*.log
+temp/
+temporary/
+
+# Vercel deployment
+.vercel/
+.vercelignore
+
+# Screenshots (dev testing)
+temporary screenshots/

@@ -1,0 +1,25 @@
+# Kelvantis
+
+> B2B-bureau uit Maastricht (opgericht in 2024 door Kjell Kuijpers) dat conversiegerichte
+> websites, GEO/AEO-strategieën en workflow-automatisering combineert in één samenhangend
+> systeem. Werkgebied: Nederland en België, met focus op (Belgisch) Limburg en de regio Luik.
+> Doelgroep: B2B, MKB en ZZP, van eenpitter tot bedrijven met honderd man personeel.
+
+## Diensten
+- Websites die converteren: snelle, conversiegerichte sites, gebouwd op Webflow (https://kelvantis.com/website-laten-maken/)
+- Workflow automatisering: offertes, leadopvolging en facturen automatiseren via n8n en Make (https://kelvantis.com/workflow-automatisering/)
+- AI-implementatie: chatbots en agents getraind op je eigen documenten (https://kelvantis.com/ai-implementatie/)
+- GEO & AEO: gevonden worden in Google én ChatGPT, Perplexity en AI Overviews (https://kelvantis.com/geo-aeo/)
+
+## Aanpak
+1. Strategiegesprek (gratis): situatie en groeikansen in kaart.
+2. Systeem ontwerp: helder plan met exacte tools en verwachte resultaten.
+3. Bouwen & koppelen: website, AI, chatbot, automations en CRM naadloos verbonden.
+4. Live & schaalbaar: monitoren, optimaliseren en meeschalen.
+
+## Contact
+- E-mail: kelvantis.com@gmail.com
+- Telefoon: +31 6 27 90 03 67
+- Plaats: Maastricht, Nederland
+- LinkedIn: https://www.linkedin.com/company/kelvantis/
+- Instagram: https://www.instagram.com/kelvantis/
