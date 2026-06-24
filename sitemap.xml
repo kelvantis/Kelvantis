@@ -55,6 +55,12 @@
     <priority>0.7</priority>
   </url>
   <url>
+    <loc>https://kelvantis.com/projecten/</loc>
+    <lastmod>2026-06-24</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
     <loc>https://kelvantis.com/faq/</loc>
     <lastmod>2026-06-14</lastmod>
     <changefreq>monthly</changefreq>
