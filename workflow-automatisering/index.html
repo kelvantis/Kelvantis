@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <script>document.documentElement.classList.add('js');</script>
+  <script src="/js/site.js"></script>
 
   <title>Bedrijfsprocessen automatiseren | Kelvantis</title>
   <meta name="description" content="Bedrijfsprocessen automatiseren met n8n en Make.com. Wij bouwen workflow automatisering voor B2B in Nederland en België: lead-routing, CRM-sync, offertes, facturen en rapportages.">
@@ -823,89 +823,5 @@
     </div>
   </footer>
 
-  <script>
-    // Minimale JS: balk → floating pill bij scroll (>60px, rAF) + aria-sync mobiel menu.
-    (function () {
-      var nav = document.getElementById('nav');
-      var ticking = false;
-      function applyNavState() { nav.classList.toggle('scrolled', window.scrollY > 60); ticking = false; }
-      window.addEventListener('scroll', function () {
-        if (!ticking) { requestAnimationFrame(applyNavState); ticking = true; }
-      }, { passive: true });
-      applyNavState(); // juiste begin-staat (ook na refresh mid-pagina)
-
-      var cb = document.getElementById('nav-toggle-cb');
-      var toggle = document.querySelector('.nav-toggle');
-      function sync() {
-        var open = cb.checked;
-        toggle.setAttribute('aria-expanded', open);
-        toggle.setAttribute('aria-label', open ? 'Menu sluiten' : 'Menu openen');
-        if (!open && dd) {  // dropdown resetten als hamburger sluit
-          dd.classList.remove('open');
-          dd.querySelector('.nav-dd-trigger').setAttribute('aria-expanded', 'false');
-        }
-      }
-      cb.addEventListener('change', sync);
-      // Toetsenbordbediening van de label-knop
-      toggle.addEventListener('keydown', function (e) {
-        if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); cb.checked = !cb.checked; sync(); }
-      });
-      // Sluit het menu na klik op een link
-      document.querySelectorAll('.nav-links a').forEach(function (a) {
-        a.addEventListener('click', function () { cb.checked = false; sync(); });
-      });
-
-      // Diensten-dropdown
-      var dd = document.querySelector('.nav-dd');
-      if (dd) {
-        var ddTrigger = dd.querySelector('.nav-dd-trigger');
-        function closeDD() { dd.classList.remove('open'); ddTrigger.setAttribute('aria-expanded', 'false'); }
-        function openDD()  { dd.classList.add('open');    ddTrigger.setAttribute('aria-expanded', 'true'); }
-
-        ddTrigger.addEventListener('click', function (e) {
-          e.stopPropagation();
-          dd.classList.contains('open') ? closeDD() : openDD();
-        });
-        document.addEventListener('click', function (e) {
-          if (!dd.contains(e.target)) closeDD();
-        });
-        document.addEventListener('keydown', function (e) {
-          if (e.key === 'Escape' && dd.classList.contains('open')) { closeDD(); ddTrigger.focus(); }
-        });
-        dd.querySelectorAll('.nav-dd-item').forEach(function (a) {
-          a.addEventListener('click', closeDD);
-        });
-      }
-    })();
-
-    // Scroll-reveal v2: data-reveal varianten + group-stagger, één keer afspelen.
-    (function () {
-      var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-      if (reduce) return; // reduced-motion: CSS toont alles in eindtoestand
-      var els = document.querySelectorAll('[data-reveal]');
-      if (!('IntersectionObserver' in window)) {
-        els.forEach(function (el) { el.classList.add('is-visible', 'reveal-done'); });
-        return;
-      }
-      function delayFor(el) {
-        var group = el.closest('[data-reveal-group]');
-        if (!group) return 0;
-        var items = group.querySelectorAll('[data-reveal]');
-        var i = Array.prototype.indexOf.call(items, el);
-        return Math.min(i, 6) * 80; // var(--reveal-step), gecapt op 6 stappen
-      }
-      var io = new IntersectionObserver(function (entries) {
-        entries.forEach(function (e) {
-          if (!e.isIntersecting) return;
-          var el = e.target;
-          el.style.setProperty('--reveal-delay', delayFor(el) + 'ms');
-          el.addEventListener('animationend', function () { el.classList.add('reveal-done'); }, { once: true });
-          el.classList.add('is-visible');
-          io.unobserve(el);
-        });
-      }, { rootMargin: '0px 0px -8% 0px', threshold: 0.15 });
-      els.forEach(function (el) { io.observe(el); });
-    })();
-  </script>
 </body>
 </html>

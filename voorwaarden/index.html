@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <!-- Markeer dat JS actief is (scroll-reveal). Zonder JS blijft alles gewoon zichtbaar. -->
-  <script>document.documentElement.classList.add('js');</script>
+  <!-- Site-brede JS: zet de .js-class voor scroll-reveal (synchroon in de head tegen FOUC). Zonder JS blijft alles gewoon zichtbaar. -->
+  <script src="/js/site.js"></script>
 
   <title>Algemene voorwaarden | Kelvantis</title>
   <meta name="description" content="De algemene voorwaarden van Kelvantis: hoe een opdracht tot stand komt, wat je mag verwachten, betaling, aansprakelijkheid, intellectueel eigendom en toepasselijk recht.">
@@ -485,50 +485,5 @@
     </div>
   </footer>
 
-  <script>
-    // Minimale JS: balk → floating pill bij scroll (>60px, rAF) + aria-sync mobiel menu.
-    (function () {
-      var nav = document.getElementById('nav');
-      var ticking = false;
-      function applyNavState() { nav.classList.toggle('scrolled', window.scrollY > 60); ticking = false; }
-      window.addEventListener('scroll', function () {
-        if (!ticking) { requestAnimationFrame(applyNavState); ticking = true; }
-      }, { passive: true });
-      applyNavState(); // juiste begin-staat (ook na refresh mid-pagina)
-
-      var cb = document.getElementById('nav-toggle-cb');
-      var toggle = document.querySelector('.nav-toggle');
-      function sync() {
-        var open = cb.checked;
-        toggle.setAttribute('aria-expanded', open);
-        toggle.setAttribute('aria-label', open ? 'Menu sluiten' : 'Menu openen');
-      }
-      cb.addEventListener('change', sync);
-      // Toetsenbordbediening van de label-knop
-      toggle.addEventListener('keydown', function (e) {
-        if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); cb.checked = !cb.checked; sync(); }
-      });
-      // Sluit het menu na klik op een link
-      document.querySelectorAll('.nav-links a').forEach(function (a) {
-        a.addEventListener('click', function () { cb.checked = false; sync(); });
-      });
-    })();
-
-    // Scroll-reveal: één keer infaden + licht omhoog wanneer in beeld.
-    (function () {
-      var els = document.querySelectorAll('.reveal, .stagger');
-      var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-      if (!('IntersectionObserver' in window) || reduce) {
-        els.forEach(function (el) { el.classList.add('in-view'); });
-        return;
-      }
-      var io = new IntersectionObserver(function (entries) {
-        entries.forEach(function (e) {
-          if (e.isIntersecting) { e.target.classList.add('in-view'); io.unobserve(e.target); }
-        });
-      }, { rootMargin: '0px 0px -10% 0px', threshold: 0.12 });
-      els.forEach(function (el) { io.observe(el); });
-    })();
-  </script>
 </body>
 </html>
