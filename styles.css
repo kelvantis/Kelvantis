@@ -757,7 +757,7 @@ h1, h2, h3, h4 {
 }
 .ticker-move { display: inline-flex; align-items: center; white-space: nowrap; animation: marquee 34s linear infinite; }
 .ticker-track:hover .ticker-move { animation-play-state: paused; }
-.ticker-move .tk { font-family: var(--font-mono); font-size: 14px; color: var(--ink-soft); padding: 0 22px; display: inline-flex; align-items: center; gap: 22px; }
+.ticker-move .tk { font-family: var(--font-body); font-size: 14px; font-weight: 500; letter-spacing: 0.01em; color: var(--ink-soft); padding: 0 22px; display: inline-flex; align-items: center; gap: 22px; }
 .ticker-move .tk::after { content: "·"; color: var(--rule-strong); }
 @keyframes marquee { from { transform: translateX(0); } to { transform: translateX(-50%); } }
 
