@@ -748,7 +748,7 @@ h1, h2, h3, h4 {
    ========================================================================= */
 .ticker { border-top: var(--border-ink); border-bottom: var(--border-ink); padding-block: 26px; overflow: hidden; }
 .ticker-inner { display: flex; align-items: center; gap: 28px; }
-.ticker-label { flex-shrink: 0; font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--ink-soft); }
+.ticker-label { flex-shrink: 0; font-family: var(--font-body); font-weight: 600; font-size: 13px; letter-spacing: 0; color: var(--ink-soft); }
 .ticker-track {
   position: relative; overflow: hidden; flex: 1;
   /* zachte fade naar de sectie-achtergrond aan beide randen */
