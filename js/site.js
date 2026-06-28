@@ -143,4 +143,69 @@ document.addEventListener('DOMContentLoaded', function () {
     cats.forEach(function (c) { spy.observe(c); });
   })();
 
+  /* --- "Onze aanpak" sticky-pin: de robot stijgt als raket op (volledig CSS-
+        gedreven via --kv-p) en de actieve stap rechts wordt een opgetilde kaart.
+        Alleen op de homepage (.kv-approach). Progressive enhancement: zet
+        .kv-pinned alleen op brede viewports zonder reduced-motion; anders blijft
+        de toegankelijke basisstaat (robot op de grond, alle stappen uitgeklapt)
+        staan. JS doet enkel: --kv-p zetten + actieve stap markeren. rAF, geen jank. --- */
+  (function () {
+    var section = document.querySelector('.kv-approach');
+    if (!section) return;                         // niet de homepage: niets te doen
+    var pin = section.querySelector('.kv-pin');
+    var steps = section.querySelectorAll('.kv-step');
+    if (!pin || !steps.length) return;
+
+    var LAST = steps.length - 1;
+    var reduce = window.matchMedia('(prefers-reduced-motion: reduce)');
+    var small  = window.matchMedia('(max-width: 860px)');
+    function clamp(v, a, b) { return v < a ? a : (v > b ? b : v); }
+    function canPin() { return !reduce.matches && !small.matches; }
+
+    var pinned = false, ticking = false;
+
+    function setActive(i) {
+      steps.forEach(function (s, idx) {
+        var on = idx === i;
+        s.classList.toggle('is-active', on);
+        s.setAttribute('aria-current', on ? 'step' : 'false');
+      });
+      section.dataset.kvStep = i;   // stuurt de robot-expressie (CSS [data-kv-step])
+    }
+
+    function update() {
+      ticking = false;
+      if (!pinned) return;
+      var rect = pin.getBoundingClientRect();
+      var total = pin.offsetHeight - window.innerHeight;       // scrollbare lengte binnen de pin
+      var p = total > 0 ? clamp(-rect.top / total, 0, 1) : 0;  // 0..1 voortgang
+      section.style.setProperty('--kv-p', p.toFixed(4));       // raket stijgt (CSS)
+      setActive(Math.min(LAST, Math.floor(p * steps.length)));
+    }
+
+    function onScroll() { if (!ticking) { ticking = true; requestAnimationFrame(update); } }
+
+    function applyMode() {
+      var should = canPin();
+      if (should && !pinned) {
+        pinned = true;
+        section.classList.add('kv-pinned');
+        window.addEventListener('scroll', onScroll, { passive: true });
+        update();
+      } else if (!should && pinned) {
+        pinned = false;
+        section.classList.remove('kv-pinned');
+        window.removeEventListener('scroll', onScroll);
+        section.style.removeProperty('--kv-p');
+        delete section.dataset.kvStep;   // terug naar basis-expressie (face--0)
+        steps.forEach(function (s) { s.classList.remove('is-active'); s.setAttribute('aria-current', 'false'); });
+      }
+    }
+
+    applyMode();
+    window.addEventListener('resize', function () { applyMode(); if (pinned) onScroll(); }, { passive: true });
+    if (reduce.addEventListener) { reduce.addEventListener('change', applyMode); }
+    if (small.addEventListener)  { small.addEventListener('change', applyMode); }
+  })();
+
 });

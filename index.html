@@ -448,34 +448,195 @@
       </div>
     </section>
 
-    <!-- ================= AANPAK ================= -->
-    <section class="section s-cream" id="aanpak" aria-labelledby="aanpak-title">
+    <!-- ================= AANPAK (sticky-pin) ================= -->
+    <section class="section s-cream kv-approach" id="aanpak" aria-labelledby="aanpak-title" aria-label="Onze aanpak">
       <div class="container">
         <p class="section-label" data-reveal="stamp"><span class="sl-num">§ 03</span> / Onze aanpak</p>
         <div class="aanpak-head" data-reveal="up">
-          <h2 id="aanpak-title">Van eerste gesprek tot<span class="accent">draaiend systeem.</span></h2>
+          <h2 id="aanpak-title">Van eerste gesprek tot <span class="accent">draaiend systeem.</span></h2>
         </div>
-        <div class="aanpak-grid" data-reveal-group>
-          <article data-reveal="pop" class="step-card">
-            <span class="step-pill">Stap 01</span>
-            <h3>Strategiegesprek</h3>
-            <p>Gratis gesprek om je situatie te begrijpen, knelpunten te identificeren en de grootste groeikansen bloot te leggen.</p>
-          </article>
-          <article data-reveal="pop" class="step-card">
-            <span class="step-pill">Stap 02</span>
-            <h3>Systeem ontwerp</h3>
-            <p>Op basis van je doelen ontwerpen we een op maat gemaakt digitaal systeem. Helder plan met exacte tools en verwachte resultaten.</p>
-          </article>
-          <article data-reveal="pop" class="step-card">
-            <span class="step-pill">Stap 03</span>
-            <h3>Bouwen &amp; koppelen</h3>
-            <p>We bouwen alles van A tot Z en koppelen alle tools naadloos aan elkaar. Website, AI, chatbot, automations, CRM.</p>
-          </article>
-          <article data-reveal="pop" class="step-card">
-            <span class="step-pill">Stap 04</span>
-            <h3>Live &amp; schaalbaar</h3>
-            <p>Je systeem gaat live en begint direct voor je te werken. We monitoren, optimaliseren en schalen mee.</p>
-          </article>
+
+        <!-- .kv-pin = lange scroll-baan (bepaalt pin-duur). .kv-stage pint (sticky). -->
+        <div class="kv-pin">
+          <div class="kv-stage">
+
+            <!-- Illustratie: Kelvantis-robot die als raket opstijgt.
+                 Alles gekoppeld aan --kv-p (0→1): robot schuift omhoog, raketmotor
+                 + vinnen faden in (vanaf stap 02), de vlam ontsteekt en groeit,
+                 en onderaan blijft een rookpluim op het launchpad achter. -->
+            <div class="kv-art" aria-hidden="true">
+              <svg class="kv-robot" viewBox="0 0 300 420" fill="none" xmlns="http://www.w3.org/2000/svg" role="img">
+                <!-- sky: verfijnde twinkles (cream/coral plus-jes + stipjes), faden in bij stap 03-04 -->
+                <g class="kv-stars" stroke-linecap="round">
+                  <path class="kv-tw" d="M66 92V104 M60 98H72" stroke="var(--cream)" stroke-width="2"/>
+                  <path class="kv-tw" d="M234 58V68 M229 63H239" stroke="var(--signal)" stroke-width="2"/>
+                  <circle class="kv-tw" cx="212" cy="120" r="2.5" fill="var(--signal)"/>
+                  <circle class="kv-tw" cx="88" cy="150" r="2" fill="var(--cream)"/>
+                  <circle class="kv-tw" cx="244" cy="150" r="2" fill="var(--cream)"/>
+                </g>
+                <!-- launchpad-lijn (blijft staan; licht tegen donker) -->
+                <path class="kv-ground" d="M44 414H256" stroke="var(--cream)" stroke-width="4" stroke-linecap="round" opacity="0.28"/>
+                <!-- rookpluim: lichte grijs-cream wolk; stapelt onderaan, faded weg bij het stijgen -->
+                <g class="kv-smoke" stroke="var(--on-dark-soft)" stroke-width="2.5" fill="rgba(253,250,243,0.14)" stroke-linejoin="round">
+                  <circle cx="150" cy="416" r="22"/>
+                  <circle cx="118" cy="424" r="17"/>
+                  <circle cx="182" cy="424" r="17"/>
+                  <circle cx="96"  cy="418" r="12"/>
+                  <circle cx="204" cy="418" r="12"/>
+                  <circle cx="134" cy="403" r="14"/>
+                  <circle cx="168" cy="403" r="14"/>
+                </g>
+
+                <!-- robot + raket: reist van onder (stap 01) naar boven (stap 04).
+                     .kv-bot = scroll-translateY, .kv-bob = subtiele idle-bob -->
+                <g class="kv-bot">
+                  <g class="kv-bob">
+                    <g transform="rotate(-2 150 320)" stroke-linejoin="round" stroke-linecap="round">
+
+                      <!-- zachte coral glow achter de vlam (tegen donker) -->
+                      <ellipse class="kv-glow" cx="150" cy="476" rx="42" ry="66" fill="var(--signal)"/>
+
+                      <!-- vlam: teardrop met punt onderaan; coral buiten + lichte kern.
+                           .kv-flame schaalt met --kv-p, .kv-flame-flicker wiebelt zacht. -->
+                      <g class="kv-flame">
+                        <g class="kv-flame-flicker">
+                          <path d="M126 432 C120 474 138 504 150 518 C162 504 180 474 174 432 Z" fill="var(--signal)" stroke="var(--ink)" stroke-width="3.5"/>
+                          <path class="kv-flame-inner" d="M138 438 C135 468 145 490 150 500 C155 490 165 468 162 438 Z" fill="#FFE7AE"/>
+                        </g>
+                      </g>
+
+                      <!-- robot-huid met crisp cream-rim (zie .kv-bot-skin in CSS) zodat hij tegen donker pops -->
+                      <g class="kv-bot-skin">
+                        <!-- beat 02: vinnen vast aan het lijf -->
+                        <polygon class="kv-rocket-part kv-fin" points="106,364 74,426 106,404" fill="var(--signal)" stroke="var(--ink)" stroke-width="4"/>
+                        <polygon class="kv-rocket-part kv-fin" points="194,364 226,426 194,404" fill="var(--signal)" stroke="var(--ink)" stroke-width="4"/>
+                        <!-- beat 03: nozzle ontsteekt -->
+                        <polygon class="kv-rocket-part kv-nozzle" points="118,406 182,406 168,440 132,440" fill="var(--paper)" stroke="var(--ink)" stroke-width="4"/>
+
+                        <!-- armpjes -->
+                        <path d="M104 360 80 378" stroke="var(--ink)" stroke-width="6"/>
+                        <path d="M196 360 220 378" stroke="var(--ink)" stroke-width="6"/>
+                        <circle cx="78" cy="380" r="7" fill="var(--signal)" stroke="var(--ink)" stroke-width="3"/>
+                        <circle cx="222" cy="380" r="7" fill="var(--signal)" stroke="var(--ink)" stroke-width="3"/>
+
+                        <!-- nek + lichaam -->
+                        <rect x="138" y="330" width="24" height="18" fill="var(--paper)" stroke="var(--ink)" stroke-width="3"/>
+                        <rect x="104" y="346" width="92" height="62" rx="16" fill="var(--paper)" stroke="var(--ink)" stroke-width="4"/>
+                        <circle cx="150" cy="374" r="11" fill="var(--signal)" stroke="var(--ink)" stroke-width="3"/>
+                        <path d="M132 392h36" stroke="var(--ink)" stroke-width="3"/>
+
+                        <!-- antenne -->
+                        <path d="M150 240V222" stroke="var(--ink)" stroke-width="4"/>
+                        <circle cx="150" cy="216" r="8" fill="var(--signal)" stroke="var(--ink)" stroke-width="3"/>
+
+                        <!-- hoofd + constante blosjes -->
+                        <rect x="96" y="240" width="108" height="92" rx="20" fill="var(--cream)" stroke="var(--ink)" stroke-width="4"/>
+                        <circle cx="116" cy="304" r="3.5" fill="var(--signal)" opacity="0.7"/>
+                        <circle cx="184" cy="304" r="3.5" fill="var(--signal)" opacity="0.7"/>
+
+                        <!-- expressies per stap (crossfade via [data-kv-step]) -->
+                        <!-- 01 neutraal vriendelijk -->
+                        <g class="kv-face kv-face--0">
+                          <circle cx="126" cy="284" r="15" fill="#fff" stroke="var(--ink)" stroke-width="3"/>
+                          <circle cx="174" cy="284" r="15" fill="#fff" stroke="var(--ink)" stroke-width="3"/>
+                          <circle cx="129" cy="286" r="6" fill="var(--ink)"/>
+                          <circle cx="177" cy="286" r="6" fill="var(--ink)"/>
+                          <path d="M130 306 Q150 324 170 306" fill="none" stroke="var(--ink)" stroke-width="3"/>
+                        </g>
+                        <!-- 02 nadenkend: ogen omhoog, rechter wenkbrauw op -->
+                        <g class="kv-face kv-face--1">
+                          <circle cx="126" cy="284" r="15" fill="#fff" stroke="var(--ink)" stroke-width="3"/>
+                          <circle cx="174" cy="284" r="15" fill="#fff" stroke="var(--ink)" stroke-width="3"/>
+                          <circle cx="129" cy="280" r="6" fill="var(--ink)"/>
+                          <circle cx="177" cy="280" r="6" fill="var(--ink)"/>
+                          <path d="M114 267 Q126 262 138 265" fill="none" stroke="var(--ink)" stroke-width="3"/>
+                          <path d="M162 258 Q175 252 188 257" fill="none" stroke="var(--ink)" stroke-width="3"/>
+                          <path d="M134 312 Q150 318 166 311" fill="none" stroke="var(--ink)" stroke-width="3"/>
+                        </g>
+                        <!-- 03 geconcentreerd: smalle ogen, strakke mond, vastberaden brows -->
+                        <g class="kv-face kv-face--2">
+                          <ellipse cx="126" cy="285" rx="14" ry="6" fill="#fff" stroke="var(--ink)" stroke-width="3"/>
+                          <ellipse cx="174" cy="285" rx="14" ry="6" fill="#fff" stroke="var(--ink)" stroke-width="3"/>
+                          <circle cx="126" cy="285" r="4" fill="var(--ink)"/>
+                          <circle cx="174" cy="285" r="4" fill="var(--ink)"/>
+                          <path d="M114 269 L134 274" stroke="var(--ink)" stroke-width="3"/>
+                          <path d="M186 269 L166 274" stroke="var(--ink)" stroke-width="3"/>
+                          <path d="M133 312 H167" stroke="var(--ink)" stroke-width="3.5"/>
+                        </g>
+                        <!-- 04 blij & verrast: grote ronde ogen, brede open grijns -->
+                        <g class="kv-face kv-face--3">
+                          <circle cx="126" cy="283" r="17" fill="#fff" stroke="var(--ink)" stroke-width="3"/>
+                          <circle cx="174" cy="283" r="17" fill="#fff" stroke="var(--ink)" stroke-width="3"/>
+                          <circle cx="127" cy="284" r="8" fill="var(--ink)"/>
+                          <circle cx="175" cy="284" r="8" fill="var(--ink)"/>
+                          <circle cx="123" cy="280" r="2.5" fill="#fff"/>
+                          <circle cx="171" cy="280" r="2.5" fill="#fff"/>
+                          <path d="M110 260 Q126 252 142 259" fill="none" stroke="var(--ink)" stroke-width="3"/>
+                          <path d="M158 259 Q174 252 190 260" fill="none" stroke="var(--ink)" stroke-width="3"/>
+                          <path d="M126 304 Q150 334 174 304 Z" fill="var(--ink)"/>
+                        </g>
+
+                        <!-- idle: knipperende oogleden (cream lid + crease, scaleY-blink) -->
+                        <g class="kv-blink">
+                          <rect x="108" y="262" width="36" height="38" fill="var(--cream)"/>
+                          <rect x="156" y="262" width="36" height="38" fill="var(--cream)"/>
+                          <path d="M110 300 H144 M156 300 H190" stroke="var(--ink)" stroke-width="3" stroke-linecap="round"/>
+                        </g>
+                      </g>
+                    </g>
+                  </g>
+                </g>
+              </svg>
+            </div>
+
+            <!-- Stappen: schone lijst; de actieve stap is een opgetilde bordered kaart
+                 (één active-device), de rest leesbaar gedimd met dichtgeklapte bullets. -->
+            <ol class="kv-steps">
+              <li class="kv-step is-active" data-step="0" aria-current="step">
+                <span class="kv-num">01</span>
+                <div class="kv-body">
+                  <h3>Strategiegesprek</h3>
+                  <ul class="kv-bullets">
+                    <li>Gratis gesprek over waar je nu staat</li>
+                    <li>We leggen de knelpunten en grootste groeikansen bloot</li>
+                  </ul>
+                </div>
+              </li>
+              <li class="kv-step" data-step="1" aria-current="false">
+                <span class="kv-num">02</span>
+                <div class="kv-body">
+                  <h3>Systeem ontwerp</h3>
+                  <ul class="kv-bullets">
+                    <li>Een plan dat past bij jouw doelen</li>
+                    <li>Je weet vooraf welke tools we inzetten</li>
+                    <li>Heldere verwachting van het resultaat</li>
+                  </ul>
+                </div>
+              </li>
+              <li class="kv-step" data-step="2" aria-current="false">
+                <span class="kv-num">03</span>
+                <div class="kv-body">
+                  <h3>Bouwen &amp; koppelen</h3>
+                  <ul class="kv-bullets">
+                    <li>We bouwen alles, jij hoeft niets technisch te doen</li>
+                    <li>Website, AI, automations en CRM praten met elkaar</li>
+                  </ul>
+                </div>
+              </li>
+              <li class="kv-step" data-step="3" aria-current="false">
+                <span class="kv-num">04</span>
+                <div class="kv-body">
+                  <h3>Live &amp; schaalbaar</h3>
+                  <ul class="kv-bullets">
+                    <li>Je systeem gaat live en werkt meteen</li>
+                    <li>We monitoren en sturen bij</li>
+                    <li>Groeit je bedrijf, dan groeit het systeem mee</li>
+                  </ul>
+                </div>
+              </li>
+            </ol>
+
+          </div>
         </div>
       </div>
     </section>

@@ -1810,3 +1810,187 @@ h1, h2, h3, h4 {
 @media (prefers-reduced-motion: reduce) {
   .kr-robot { transform: rotate(6deg) !important; }   /* sticker-tilt is statisch, geen animatie */
 }
+
+/* =========================================================================
+   KV: Onze aanpak — sticky-pin; robot stijgt als raket op (signature links),
+   schone stappenlijst met opgetilde actieve kaart (rechts)
+   -------------------------------------------------------------------------
+   BASIS (geen JS / mobiel / reduced motion) = toegankelijke eindstaat:
+   robot staat gewoon op de grond (geen raket/vlam/rook), alle stappen
+   zichtbaar met open bullets. De launch + fade-beleving is een progressive
+   enhancement die JS aanzet via .kv-pinned (alleen op brede viewports zonder
+   reduced-motion) en aanstuurt met --kv-p (0→1). Alles kv-geprefixed.
+   ========================================================================= */
+.kv-pin { height: auto; }
+
+.kv-stage {
+  display: grid;
+  grid-template-columns: minmax(280px, 0.9fr) 1fr;
+  gap: clamp(32px, 5vw, 72px);
+  align-items: center;
+}
+
+/* ── Donker launch-paneel: warme bijna-zwart, dikke ink-border + harde offset-
+      schaduw, héél subtiele dot-matrix. De cream robot pops hiertegen. ── */
+.kv-art {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: clamp(16px, 2.4vw, 32px);
+  border: 3px solid var(--ink);
+  border-radius: 14px;
+  background-color: #241a12;        /* warme bijna-zwart, niet puur #000 */
+  background-image: radial-gradient(rgba(253, 250, 243, 0.06) 1.1px, transparent 1.1px);
+  background-size: 22px 22px;
+  box-shadow: 10px 10px 0 var(--ink);
+  overflow: hidden;                 /* robot blijft binnen het launch-paneel */
+}
+.kv-robot { width: 100%; max-width: 320px; height: auto; }
+
+/* Cream-rim rond de robot-huid zodat de ink-borders niet wegvallen tegen donker.
+   Gestapelde 0-blur drop-shadows = crisp cream outline (geen zachte glow). */
+.kv-bot-skin {
+  filter:
+    drop-shadow(1.5px 0 0 var(--cream)) drop-shadow(-1.5px 0 0 var(--cream))
+    drop-shadow(0 1.5px 0 var(--cream)) drop-shadow(0 -1.5px 0 var(--cream));
+}
+
+/* Raketdelen, vlam, glow, rook en twinkles: in BASIS verborgen (robot staat enkel op de grond) */
+.kv-rocket-part, .kv-flame, .kv-glow, .kv-smoke, .kv-stars { opacity: 0; }
+.kv-glow { filter: blur(13px); }
+
+/* ── Idle-leven (los van de scroll; uit bij reduced-motion) ── */
+.kv-bob { transform-box: fill-box; transform-origin: center; animation: kv-bob 3.4s ease-in-out infinite; }
+@keyframes kv-bob { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-5px); } }
+.kv-blink { transform-box: fill-box; transform-origin: center top; animation: kv-blink 5.5s ease-in-out infinite; }
+@keyframes kv-blink { 0%, 93%, 100% { transform: scaleY(0); } 96% { transform: scaleY(1); } }
+
+/* ── Expressie per stap: crossfade tussen 4 gezichten. Basis = vriendelijk (face--0). ── */
+.kv-face { opacity: 0; transition: opacity 0.35s ease; }
+.kv-face--0 { opacity: 1; }
+.kv-approach[data-kv-step] .kv-face { opacity: 0; }
+.kv-approach[data-kv-step="0"] .kv-face--0,
+.kv-approach[data-kv-step="1"] .kv-face--1,
+.kv-approach[data-kv-step="2"] .kv-face--2,
+.kv-approach[data-kv-step="3"] .kv-face--3 { opacity: 1; }
+
+/* ── Stappenlijst: schone editorial-lijst met doorlopende tijdlijn links.
+      De coral balk is het oplichtende segment op de actieve stap. ── */
+.kv-steps { position: relative; list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: clamp(8px, 2.2vh, 22px); }
+/* doorlopende tijdlijn-lijn in gedimde ink, links van de nummers */
+.kv-steps::before {
+  content: ""; position: absolute; left: 5px; top: 14px; bottom: 14px;
+  width: 3px; border-radius: 3px; background: rgba(31, 24, 20, 0.16);
+}
+.kv-step {
+  position: relative;
+  display: grid; grid-template-columns: 64px 1fr; gap: 24px; align-items: baseline;
+  padding: clamp(12px, 1.8vh, 20px) 0 clamp(12px, 1.8vh, 20px) 30px;
+  transition: opacity 0.45s var(--ease-soft), color 0.35s var(--ease-soft);
+}
+/* oplichtend coral segment op de tijdlijn: alleen de actieve stap (pin-modus) */
+.kv-step::before {
+  content: ""; position: absolute; left: 4px; top: 8px; bottom: 8px;
+  width: 5px; border-radius: 3px;
+  background: var(--signal);
+  opacity: 0; transform: scaleY(0.25); transform-origin: center;
+  transition: opacity 0.35s var(--ease-soft), transform 0.35s var(--ease-stamp);
+}
+.kv-num {
+  font-family: var(--font-display); font-weight: 500;
+  font-size: clamp(34px, 3.8vw, 52px); line-height: 1;
+  color: var(--signal);
+  text-align: center;
+}
+.kv-body h3 { font-family: var(--font-body); font-weight: 600; font-size: clamp(21px, 2.4vw, 27px); line-height: 1.2; }
+
+/* Bullets — schoon coral streepje (geen doosje), meer ademruimte */
+.kv-bullets { list-style: none; margin: 14px 0 0; padding: 0; }
+.kv-bullets li {
+  position: relative; padding-left: 26px;
+  color: var(--ink-soft); font-size: clamp(16px, 1.7vw, 18px); line-height: 1.6;
+}
+.kv-bullets li + li { margin-top: 12px; }
+.kv-bullets li::before {
+  content: ""; position: absolute; left: 0; top: 0.72em;
+  width: 14px; height: 3px; border-radius: 2px;
+  background: var(--signal);
+}
+
+/* ── Enhancement: gepinde launch-beleving ──────────────────────────────────
+   JS zet .kv-pinned alleen wanneer pinnen mag (breed + geen reduced-motion). */
+.js .kv-approach.kv-pinned .kv-pin { height: 360vh; }
+.js .kv-approach.kv-pinned .kv-stage {
+  position: sticky; top: 0; min-height: 100vh; align-content: center;
+}
+
+/* LINKS — robot reist van onderin (stap 01) naar bovenin (stap 04).
+   p² = ease-in: blijft laag tijdens het opbouwen, versnelt bij de thrust.
+   (transforms zonder transition: blijven 1-op-1 in sync met de scroll) */
+.js .kv-approach.kv-pinned .kv-bot {
+  transform: translateY(calc(var(--kv-p, 0) * var(--kv-p, 0) * -195px));
+}
+/* BEAT stap 02: vinnen verschijnen aan het lijf */
+.js .kv-approach.kv-pinned .kv-fin {
+  opacity: clamp(0, calc((var(--kv-p, 0) - 0.25) * 6), 1);
+  transform: scale(clamp(0.4, calc((var(--kv-p, 0) - 0.2) * 2.4), 1));
+  transform-box: fill-box; transform-origin: center top;
+}
+/* BEAT stap 03: nozzle ontsteekt */
+.js .kv-approach.kv-pinned .kv-nozzle {
+  opacity: clamp(0, calc((var(--kv-p, 0) - 0.5) * 6), 1);
+  transform: scaleY(clamp(0.2, calc((var(--kv-p, 0) - 0.46) * 4), 1));
+  transform-box: fill-box; transform-origin: center top;
+}
+/* BEAT stap 03→04: vlam ontsteekt en groeit naar volle thrust.
+   .kv-flame = lengte (p), .kv-flame-flicker = rustige wiebel */
+.js .kv-approach.kv-pinned .kv-flame {
+  opacity: clamp(0, calc((var(--kv-p, 0) - 0.5) * 6), 1);
+  transform: scaleY(clamp(0.25, calc((var(--kv-p, 0) - 0.48) * 2.4), 1.3));
+  transform-box: fill-box; transform-origin: center top;
+}
+.js .kv-approach.kv-pinned .kv-flame-flicker {
+  transform-box: fill-box; transform-origin: center top;
+  animation: kv-flicker 0.5s ease-in-out infinite alternate;
+}
+@keyframes kv-flicker {
+  from { transform: scale(1.05, 0.9); }
+  to   { transform: scale(0.94, 1.08); }
+}
+/* zachte coral glow achter de vlam (met de vlam mee) */
+.js .kv-approach.kv-pinned .kv-glow {
+  opacity: clamp(0, calc((var(--kv-p, 0) - 0.5) * 4), 0.6);
+}
+/* twinkles faden in bij stap 03-04 (sfeer/hoogte) */
+.js .kv-approach.kv-pinned .kv-stars {
+  opacity: clamp(0, calc((var(--kv-p, 0) - 0.5) * 3), 1);
+}
+/* BEAT stap 04: rookpluim onderaan bij volle thrust */
+.js .kv-approach.kv-pinned .kv-smoke {
+  opacity: clamp(0, calc((var(--kv-p, 0) - 0.7) * 5), 0.85);
+}
+
+/* RECHTS — inactief schoon gedimd (ink, lage opacity); actief = coral accentbalk */
+.js .kv-approach.kv-pinned .kv-step { opacity: 0.38; }
+.js .kv-approach.kv-pinned .kv-num { color: var(--ink); }              /* gedimd via step-opacity, geen vuil roze */
+.js .kv-approach.kv-pinned .kv-step.is-active { opacity: 1; }
+.js .kv-approach.kv-pinned .kv-step.is-active .kv-num { color: var(--signal); }
+.js .kv-approach.kv-pinned .kv-step.is-active::before { opacity: 1; transform: scaleY(1); }
+/* bullets ingeklapt, alleen open onder de actieve kaart */
+.js .kv-approach.kv-pinned .kv-bullets {
+  max-height: 0; margin-top: 0; opacity: 0; overflow: hidden;
+  transition: max-height 0.5s var(--ease-soft), opacity 0.4s var(--ease-soft), margin-top 0.5s var(--ease-soft);
+}
+.js .kv-approach.kv-pinned .kv-step.is-active .kv-bullets { max-height: 320px; margin-top: 14px; opacity: 1; }
+
+/* Mobiel: nooit pinnen — twee kolommen → gestapeld, robot boven de stappen */
+@media (max-width: 860px) {
+  .kv-stage { grid-template-columns: 1fr; gap: 36px; }
+  .kv-art { max-width: 360px; margin-inline: auto; }
+  .kv-robot { max-width: 260px; }
+}
+/* reduced-motion: JS zet .kv-pinned niet → basisstaat. Extra hard-stop op
+   de flikker voor het geval iets toch een animatie zou triggeren. */
+@media (prefers-reduced-motion: reduce) {
+  .kv-flame-flicker, .kv-bob, .kv-blink { animation: none !important; }
+}
