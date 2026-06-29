@@ -143,12 +143,16 @@ document.addEventListener('DOMContentLoaded', function () {
     cats.forEach(function (c) { spy.observe(c); });
   })();
 
-  /* --- "Onze aanpak" sticky-pin: de robot stijgt als raket op (volledig CSS-
-        gedreven via --kv-p) en de actieve stap rechts wordt een opgetilde kaart.
-        Alleen op de homepage (.kv-approach). Progressive enhancement: zet
-        .kv-pinned alleen op brede viewports zonder reduced-motion; anders blijft
-        de toegankelijke basisstaat (robot op de grond, alle stappen uitgeklapt)
-        staan. JS doet enkel: --kv-p zetten + actieve stap markeren. rAF, geen jank. --- */
+  /* --- "Onze aanpak": robot stijgt als raket op (CSS-gedreven via --kv-p) en de
+        actieve stap krijgt zijn coral tijdlijn-segment + open bullets. Alleen op de
+        homepage (.kv-approach). Twee modi, beide progressive enhancement:
+          • DESKTOP (breed, geen reduced-motion): sticky-pin, rAF-scroll → --kv-p
+            continu (1-op-1 met de scroll). Klasse .kv-launch + .kv-pinned.
+          • MOBIEL (≤880px, geen reduced-motion): geen pin/scroll-hijack. Sticky
+            robot-stage bovenaan, stappen scrollen native; een IntersectionObserver
+            bepaalt de actieve stap, --kv-p wordt discreet per stap gezet en de
+            CSS-transitions animeren de beats. Klasse .kv-launch + .kv-mobile.
+        Reduced-motion: geen van beide → toegankelijke basisstaat. --- */
   (function () {
     var section = document.querySelector('.kv-approach');
     if (!section) return;                         // niet de homepage: niets te doen
@@ -157,12 +161,13 @@ document.addEventListener('DOMContentLoaded', function () {
     if (!pin || !steps.length) return;
 
     var LAST = steps.length - 1;
+    // representatieve --kv-p per stap voor de mobiele (discrete) beats
+    var STEP_P = [0.12, 0.42, 0.66, 1];
     var reduce = window.matchMedia('(prefers-reduced-motion: reduce)');
-    var small  = window.matchMedia('(max-width: 860px)');
+    var small  = window.matchMedia('(max-width: 880px)');
     function clamp(v, a, b) { return v < a ? a : (v > b ? b : v); }
-    function canPin() { return !reduce.matches && !small.matches; }
 
-    var pinned = false, ticking = false;
+    var mode = 'none', ticking = false, io = null;
 
     function setActive(i) {
       steps.forEach(function (s, idx) {
@@ -173,37 +178,77 @@ document.addEventListener('DOMContentLoaded', function () {
       section.dataset.kvStep = i;   // stuurt de robot-expressie (CSS [data-kv-step])
     }
 
+    /* DESKTOP — rAF-scroll → continue --kv-p */
     function update() {
       ticking = false;
-      if (!pinned) return;
+      if (mode !== 'desktop') return;
       var rect = pin.getBoundingClientRect();
-      var total = pin.offsetHeight - window.innerHeight;       // scrollbare lengte binnen de pin
-      var p = total > 0 ? clamp(-rect.top / total, 0, 1) : 0;  // 0..1 voortgang
-      section.style.setProperty('--kv-p', p.toFixed(4));       // raket stijgt (CSS)
+      var total = pin.offsetHeight - window.innerHeight;
+      var p = total > 0 ? clamp(-rect.top / total, 0, 1) : 0;
+      section.style.setProperty('--kv-p', p.toFixed(4));
       setActive(Math.min(LAST, Math.floor(p * steps.length)));
     }
-
     function onScroll() { if (!ticking) { ticking = true; requestAnimationFrame(update); } }
 
+    /* MOBIEL — IntersectionObserver wekt ons; kies de stap het dichtst bij de
+       detectielijn (~60% viewport) en zet de discrete beat. Geen scroll-listener. */
+    function pickActive() {
+      var line = window.innerHeight * 0.6;
+      var best = 0, bestDist = Infinity;
+      steps.forEach(function (s, i) {
+        var r = s.getBoundingClientRect();
+        var c = r.top + r.height / 2;
+        var d = Math.abs(c - line);
+        if (d < bestDist) { bestDist = d; best = i; }
+      });
+      setActive(best);
+      section.style.setProperty('--kv-p', String(STEP_P[best]));
+    }
+
+    // sticky-stage offset = werkelijke navbar-hoogte + marge (mobiel)
+    function setTop() {
+      var nav = document.getElementById('nav');
+      var h = nav ? nav.getBoundingClientRect().height : 56;
+      section.style.setProperty('--kv-top', Math.round(h + 18) + 'px');
+    }
+
+    function teardown() {
+      window.removeEventListener('scroll', onScroll);
+      if (io) { io.disconnect(); io = null; }
+      section.classList.remove('kv-launch', 'kv-pinned', 'kv-mobile');
+      section.style.removeProperty('--kv-p');
+      section.style.removeProperty('--kv-top');
+      delete section.dataset.kvStep;   // terug naar basis-expressie (face--0)
+      steps.forEach(function (s) { s.classList.remove('is-active'); s.setAttribute('aria-current', 'false'); });
+    }
+
     function applyMode() {
-      var should = canPin();
-      if (should && !pinned) {
-        pinned = true;
-        section.classList.add('kv-pinned');
+      var want = reduce.matches ? 'none' : (small.matches ? 'mobile' : 'desktop');
+      if (want === mode) return;
+      teardown();
+      mode = want;
+      if (mode === 'desktop') {
+        section.classList.add('kv-launch', 'kv-pinned');
         window.addEventListener('scroll', onScroll, { passive: true });
         update();
-      } else if (!should && pinned) {
-        pinned = false;
-        section.classList.remove('kv-pinned');
-        window.removeEventListener('scroll', onScroll);
-        section.style.removeProperty('--kv-p');
-        delete section.dataset.kvStep;   // terug naar basis-expressie (face--0)
-        steps.forEach(function (s) { s.classList.remove('is-active'); s.setAttribute('aria-current', 'false'); });
+      } else if (mode === 'mobile') {
+        section.classList.add('kv-launch', 'kv-mobile');
+        setTop();       // sticky-stage onder de navbar
+        io = new IntersectionObserver(pickActive, {
+          threshold: [0, 0.25, 0.5, 0.75, 1]
+        });
+        steps.forEach(function (s) { io.observe(s); });
+        pickActive();   // begintoestand
       }
+      // mode 'none' → niets: CSS toont de toegankelijke basisstaat
     }
 
     applyMode();
-    window.addEventListener('resize', function () { applyMode(); if (pinned) onScroll(); }, { passive: true });
+    window.addEventListener('resize', function () {
+      applyMode();
+      if (mode === 'desktop') onScroll();
+      if (mode === 'mobile') { setTop(); pickActive(); }
+    }, { passive: true });
     if (reduce.addEventListener) { reduce.addEventListener('change', applyMode); }
     if (small.addEventListener)  { small.addEventListener('change', applyMode); }
   })();
