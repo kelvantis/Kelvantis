@@ -1,0 +1,5 @@
+# Lokale blog-generator: nooit mee naar de deploy.
+# Alleen de gegenereerde blog/<slug>/index.html-bestanden worden gepubliceerd.
+scripts/
+blog-src/
+blog-template.html

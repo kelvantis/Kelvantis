@@ -7,34 +7,34 @@
        zet .js-class vóór eerste paint (voorkomt FOUC van reveal-elementen). -->
   <script src="/js/site.js"></script>
 
-  <title>AI-chatbot voor je website: wanneer loont het? | Kelvantis</title>
-  <meta name="description" content="Een AI-chatbot beantwoordt terugkerende vragen op je site, getraind op je eigen content. We leggen uit wat hij kan, wanneer hij loont en waar je op let.">
+  <title>{{ meta_title }}</title>
+  <meta name="description" content="{{ description }}">
   <meta name="robots" content="index, follow">
 
-  <link rel="canonical" href="https://kelvantis.com/blog/ai-chatbot-website/">
-  <link rel="alternate" hreflang="nl" href="https://kelvantis.com/blog/ai-chatbot-website/">
-  <link rel="alternate" hreflang="x-default" href="https://kelvantis.com/blog/ai-chatbot-website/">
+  <link rel="canonical" href="{{ canonical }}">
+  <link rel="alternate" hreflang="nl" href="{{ canonical }}">
+  <link rel="alternate" hreflang="x-default" href="{{ canonical }}">
 
   <link rel="icon" type="image/svg+xml" href="/favicon.svg">
   <link rel="apple-touch-icon" href="/favicon.svg">
 
   <!-- Open Graph -->
   <meta property="og:type" content="article">
-  <meta property="og:url" content="https://kelvantis.com/blog/ai-chatbot-website/">
-  <meta property="og:title" content="AI-chatbot voor je website: wanneer loont het? | Kelvantis">
-  <meta property="og:description" content="Een AI-chatbot beantwoordt terugkerende vragen op je site, getraind op je eigen content. We leggen uit wat hij kan, wanneer hij loont en waar je op let.">
-  <meta property="og:image" content="https://kelvantis.com/og-image.png">
+  <meta property="og:url" content="{{ canonical }}">
+  <meta property="og:title" content="{{ meta_title }}">
+  <meta property="og:description" content="{{ description }}">
+  <meta property="og:image" content="{{ og_image }}">
   <meta property="og:locale" content="nl_NL">
   <meta property="og:site_name" content="Kelvantis">
-  <meta property="article:published_time" content="2026-04-08">
-  <meta property="article:modified_time" content="2026-06-25">
-  <meta property="article:author" content="Kjell Kuijpers">
+  <meta property="article:published_time" content="{{ date_published }}">
+  <meta property="article:modified_time" content="{{ date_modified }}">
+  <meta property="article:author" content="{{ author }}">
 
   <!-- Twitter Card -->
   <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="AI-chatbot voor je website: wanneer loont het? | Kelvantis">
-  <meta name="twitter:description" content="Een AI-chatbot beantwoordt terugkerende vragen op je site, getraind op je eigen content. We leggen uit wat hij kan, wanneer hij loont en waar je op let.">
-  <meta name="twitter:image" content="https://kelvantis.com/og-image.png">
+  <meta name="twitter:title" content="{{ meta_title }}">
+  <meta name="twitter:description" content="{{ description }}">
+  <meta name="twitter:image" content="{{ og_image }}">
 
   <!-- Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -45,112 +45,17 @@
 
   <!-- JSON-LD: BlogPosting (+ Speakable) -->
   <script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@type": "BlogPosting",
-  "@id": "https://kelvantis.com/blog/ai-chatbot-website/#article",
-  "headline": "AI-chatbot voor je website: wanneer loont het?",
-  "description": "Een AI-chatbot beantwoordt terugkerende vragen op je site, getraind op je eigen content. We leggen uit wat hij kan, wanneer hij loont en waar je op let.",
-  "image": "https://kelvantis.com/og-image.png",
-  "inLanguage": "nl",
-  "datePublished": "2026-04-08",
-  "dateModified": "2026-06-25",
-  "mainEntityOfPage": {
-    "@id": "https://kelvantis.com/blog/ai-chatbot-website/"
-  },
-  "isPartOf": {
-    "@id": "https://kelvantis.com/#website"
-  },
-  "author": {
-    "@type": "Person",
-    "name": "Kjell Kuijpers",
-    "jobTitle": "Oprichter & AI-strateeg",
-    "worksFor": {
-      "@id": "https://kelvantis.com/#organization"
-    },
-    "image": "https://kelvantis.com/Kjell.jpg",
-    "sameAs": [
-      "https://www.linkedin.com/in/kjellkuijpers/"
-    ]
-  },
-  "publisher": {
-    "@id": "https://kelvantis.com/#organization",
-    "logo": {
-      "@type": "ImageObject",
-      "url": "https://kelvantis.com/logo.svg"
-    }
-  },
-  "speakable": {
-    "@type": "SpeakableSpecification",
-    "cssSelector": [
-      ".kr-tldr",
-      ".faq-answer"
-    ]
-  }
-}
+{{ jsonld_article }}
   </script>
 
   <!-- JSON-LD: BreadcrumbList -->
   <script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@type": "BreadcrumbList",
-  "itemListElement": [
-    {
-      "@type": "ListItem",
-      "position": 1,
-      "name": "Home",
-      "item": "https://kelvantis.com/"
-    },
-    {
-      "@type": "ListItem",
-      "position": 2,
-      "name": "Blog",
-      "item": "https://kelvantis.com/blog/"
-    },
-    {
-      "@type": "ListItem",
-      "position": 3,
-      "name": "AI-chatbot voor je website: wanneer loont het?",
-      "item": "https://kelvantis.com/blog/ai-chatbot-website/"
-    }
-  ]
-}
+{{ jsonld_breadcrumb }}
   </script>
 
   <!-- JSON-LD: FAQPage (woord-voor-woord gelijk aan de zichtbare antwoorden) -->
   <script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@type": "FAQPage",
-  "@id": "https://kelvantis.com/blog/ai-chatbot-website/#faq",
-  "mainEntity": [
-    {
-      "@type": "Question",
-      "name": "Wat is het verschil tussen een AI-chatbot en een gewone chatbot?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "Een gewone chatbot werkt met vaste knoppen en vooraf ingetypte antwoorden, en loopt vast bij vragen buiten dat lijstje. Een AI-chatbot begrijpt gewone taal en stelt antwoorden samen uit je eigen content. Daardoor kan hij ook vragen aan die je niet één voor één hebt voorbereid, en verwijst hij door als hij iets niet weet."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "Kan een AI-chatbot verkeerde antwoorden geven?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "Dat kan, als hij niet goed is opgezet. Een bot die mag putten uit alles wat een taalmodel denkt te weten, gaat soms gokken. Daarom koppelen we hem strak aan je eigen informatie en laten we hem doorverwijzen naar een mens zodra hij het niet zeker weet. Zo blijven de antwoorden betrouwbaar."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "Hoe lang duurt het om een AI-chatbot te bouwen?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "Dat hangt af van hoe slim hij moet zijn en op hoeveel content hij getraind wordt. Een eenvoudige FAQ-bot staat sneller dan een bot die met je systemen praat. We bekijken in het strategiegesprek wat past bij je situatie en geven dan een realistische inschatting."
-      }
-    }
-  ]
-}
+{{ jsonld_faq }}
   </script>
 </head>
 
@@ -271,8 +176,8 @@
 
             <p class="kr-wordmark">De Kelvantis Courant</p>
             <p class="kr-edition">
-              <span>Opgericht 2026 · Maastricht</span>
-              <span>8 april 2026</span>
+              <span>Opgericht {{ founded_year }} · Maastricht</span>
+              <span>{{ pub_long }}</span>
             </p>
           </div>
         </div>
@@ -282,46 +187,21 @@
       <div class="kr-article">
         <div class="container">
           <header class="kr-head">
-            <span class="kr-kicker" data-reveal="stamp">Katern · AI</span>
-            <h1 class="kr-h1">AI-chatbot voor je website: <span class="accent">wanneer loont het?</span></h1>
-            <p class="kr-deck">We leggen uit wat een AI-chatbot kan, wanneer hij zich terugverdient en waar je op let.</p>
-            <p class="kr-dateline">Kjell Kuijpers · 8 april 2026 · Bijgewerkt 25 juni 2026 · 5 min lezen</p>
+            <span class="kr-kicker" data-reveal="stamp">Katern · {{ cluster }}</span>
+            <h1 class="kr-h1">{{ h1_html }}</h1>
+            <p class="kr-deck">{{ deck }}</p>
+            <p class="kr-dateline">{{ author }} · {{ pub_long }} · Bijgewerkt {{ mod_long }} · {{ reading_minutes }} min lezen</p>
           </header>
 
           <!-- In het kort (TL;DR, speakable) -->
           <aside class="kr-tldr" id="in-het-kort" aria-label="In het kort">
             <span class="kr-tldr-label">In het kort</span>
-            <p>Een AI-chatbot op je website beantwoordt vragen van bezoekers met antwoorden uit je eigen content, dag en nacht. Anders dan de oude keuzemenu-bots begrijpt hij gewone taal en kan hij doorverwijzen naar een mens als het te complex wordt. Of het de moeite waard is, hangt af van hoeveel terugkerende vragen je nu met de hand beantwoordt.</p>
+            <p>{{ tldr }}</p>
           </aside>
 
           <!-- ================= BODY ================= -->
           <div class="kr-body">
-<p class="kr-lead">De meeste websites krijgen elke week dezelfde vragen. Wat kost het, hoe lang duurt het, doen jullie ook X. Een AI-chatbot kan die vragen overnemen, getraind op je eigen informatie, zonder dat een bezoeker hoeft te wachten op een mailtje terug. Of dat bij jouw bedrijf iets oplevert, hangt af van het soort vragen dat binnenkomt en hoeveel ervan zich herhaalt.</p>
-<h2 class="kr-h2">Wat is een AI-chatbot voor je <span class="accent">website</span>?</h2>
-<p>Een AI-chatbot voor je website is een gespreksvenster dat vragen van bezoekers beantwoordt op basis van jouw eigen documenten en pagina's. Hij gebruikt een taalmodel om gewone vragen te begrijpen, en geeft antwoord in je eigen woorden in plaats van een vast keuzemenu. Weet hij iets niet, dan verwijst hij door naar contact of een mens.</p>
-<p>Het verschil met de chatbots van vroeger zit in hoe hij antwoorden vindt. De oude bots werkten met vaste knoppen en vooraf ingetypte antwoorden, en liepen vast zodra je iets vroeg dat niet in het lijstje stond. Een AI-chatbot leest je eigen content, je FAQ, je dienstpagina's en je handleidingen, en stelt daar antwoorden uit samen. Daardoor kan hij ook vragen aan die je niet één voor één hebt voorbereid. Belangrijk is wel dat hij alleen put uit wat jij hem geeft, zodat hij niet gaat gokken.</p>
-<h2 class="kr-h2">Wat kan een AI-chatbot voor je <span class="accent">bedrijf</span> doen?</h2>
-<p>Een AI-chatbot neemt de terugkerende vragen over die nu je inbox of telefoon vullen. Hij beantwoordt veelgestelde vragen direct, helpt bezoekers de juiste pagina te vinden, en kan een aanvraag of contactgegevens opvangen buiten kantooruren. Voor complexe of commerciële gesprekken geeft hij het stokje door aan jou.</p>
-<p>In de praktijk pakt hij het simpele werk, zodat jij tijd overhoudt voor de gesprekken die er echt toe doen. Denk aan vragen over wat je aanbiedt, hoe je werkt of waar iets te vinden is. Hij kan ook een eerste schifting maken: iemand met een serieuze aanvraag stuurt hij naar je contactformulier of vraagt hij om gegevens, iemand die alleen iets opzoekt krijgt gewoon antwoord. Wat hij niet moet doen is doen alsof hij alles weet. Een goede bot zegt eerlijk wanneer een mens beter kan overnemen.</p>
-<aside class="kr-ad">
-  <span class="kr-ad-label">Kelvantis</span>
-  <p>Wil je een AI-chatbot die op je eigen content draait?</p>
-  <a class="btn btn--primary" href="/ai-implementatie/">Bekijk de AI-implementatieaanpak <span class="arr">→</span></a>
-</aside>
-<h2 class="kr-h2">Wanneer is een AI-chatbot de <span class="accent">moeite waard</span>?</h2>
-<p>Een AI-chatbot loont als je veel terugkerende vragen krijgt en die nu handmatig beantwoordt. Hoe meer herhaling in je inbox of support, hoe sneller hij zich terugverdient in tijd. Krijg je vooral unieke, complexe vragen of weinig verkeer, dan is de winst kleiner en kun je beter eerst je content en FAQ op orde brengen.</p>
-<p>De rekensom is simpel: tel hoeveel tijd er nu weglekt aan vragen die zich herhalen. Zit daar een paar uur per week in, dan verdient een bot zich snel terug, niet in geld maar in tijd die je aan ander werk besteedt. Heb je weinig verkeer of vooral maatwerkvragen die toch een mens nodig hebben, dan voegt een bot minder toe. In dat geval helpt een heldere FAQ-pagina vaak al een eind.</p>
-<h2 class="kr-h2">Wat kost een AI-chatbot, en wat <span class="accent">levert</span> hij op?</h2>
-<p>Wat een AI-chatbot kost hangt af van hoe slim hij moet zijn en op hoeveel content hij getraind wordt. Er zijn eenmalige kosten om hem op te zetten en doorlopende kosten voor het gebruik van het taalmodel. Wat hij oplevert is vooral tijd: minder herhaalde vragen, snellere reacties en aanvragen die ook 's avonds binnenkomen.</p>
-<p>Harde bedragen zijn lastig te geven zonder je situatie te kennen, want een simpele FAQ-bot is iets heel anders dan een bot die met je systemen praat. De doorlopende kosten zitten vooral in het taalmodel dat de antwoorden genereert, en die schalen met gebruik. De opbrengst zit aan de andere kant: een vraag die de bot om elf uur 's avonds beantwoordt is een mailtje dat jij de volgende ochtend niet hoeft te typen, en soms een aanvraag die anders was afgehaakt. We zetten die afweging liever in een gesprek dan als kaal getal op de site.</p>
-<h2 class="kr-h2">Waar moet je op letten bij het <span class="accent">bouwen</span>?</h2>
-<p>Bij het bouwen van een AI-chatbot let je vooral op waar hij zijn antwoorden vandaan haalt, wat er gebeurt als hij iets niet weet, en hoe hij overdraagt aan een mens. Een bot die alleen put uit jouw eigen content en eerlijk doorverwijst bij twijfel, is betrouwbaarder dan een bot die altijd een antwoord forceert.</p>
-<p>De grootste valkuil is een bot die gaat verzinnen. Dat voorkom je door hem strak te koppelen aan je eigen informatie en duidelijk te maken dat hij doorverwijst zodra hij het niet zeker weet. Net zo belangrijk is de overdracht naar een mens: een bezoeker met een echte aanvraag moet niet vastlopen in een gesprek met een bot, maar soepel bij jou terechtkomen. En houd hem actueel. Verandert je aanbod, dan moet zijn kennis mee, anders geeft hij verouderde antwoorden.</p>
-<h2 class="kr-h2">Wat gebruiken wij bij <span class="accent">Kelvantis</span>?</h2>
-<p>Wij bouwen chatbots die alleen antwoorden uit jouw eigen content en documenten, niet uit wat een model toevallig denkt te weten. Zo blijft het betrouwbaar en sluit het aan op hoe jij werkt. We bouwen ook de overdracht in: zodra een gesprek serieus wordt, komt de bezoeker bij jou terecht in plaats van vast te lopen. Geen losse hype-tool, maar iets dat past in je site en je proces. Twijfel je of het in jouw geval iets toevoegt, dan zeggen we dat eerlijk.</p>
-<h2 class="kr-h2">Conclusie</h2>
-<p>Een AI-chatbot is geen wondermiddel, maar voor een bedrijf dat veel dezelfde vragen krijgt is het een van de snelste manieren om tijd terug te winnen. De winst zit in herhaling: hoe meer vragen zich herhalen, hoe meer een bot oplevert. Twijfel je of het bij jou past, kijk dan eerst naar wat er nu binnenkomt.</p>
-<p>Wil je weten of een chatbot in jouw situatie iets toevoegt? Bekijk hoe we een <a href="/ai-implementatie/">AI-chatbot laten bouwen</a> die op jouw eigen content draait, of plan een gratis strategiegesprek.</p>
+{{ body_html }}
           </div>
         </div>
       </div>
@@ -331,21 +211,15 @@
         <div class="container">
           <p class="section-label" data-reveal="stamp"><span class="sl-num">§</span> / FAQ</p>
           <div class="faq-head" data-reveal="up">
-            <h2 id="faq-title">Veelgestelde vragen over <span class="accent">AI-chatbots</span></h2>
+            <h2 id="faq-title">{{ faq_title_html }}</h2>
           </div>
           <div class="faq-list" data-reveal-group>
+{%- for item in faq %}
             <details data-reveal="up" class="faq-item">
-              <summary>Wat is het verschil tussen een AI-chatbot en een gewone chatbot? <span class="pm" aria-hidden="true"></span></summary>
-              <div class="faq-answer"><p>Een gewone chatbot werkt met vaste knoppen en vooraf ingetypte antwoorden, en loopt vast bij vragen buiten dat lijstje. Een AI-chatbot begrijpt gewone taal en stelt antwoorden samen uit je eigen content. Daardoor kan hij ook vragen aan die je niet één voor één hebt voorbereid, en verwijst hij door als hij iets niet weet.</p></div>
+              <summary>{{ item.vraag }} <span class="pm" aria-hidden="true"></span></summary>
+              <div class="faq-answer"><p>{{ item.antwoord }}</p></div>
             </details>
-            <details data-reveal="up" class="faq-item">
-              <summary>Kan een AI-chatbot verkeerde antwoorden geven? <span class="pm" aria-hidden="true"></span></summary>
-              <div class="faq-answer"><p>Dat kan, als hij niet goed is opgezet. Een bot die mag putten uit alles wat een taalmodel denkt te weten, gaat soms gokken. Daarom koppelen we hem strak aan je eigen informatie en laten we hem doorverwijzen naar een mens zodra hij het niet zeker weet. Zo blijven de antwoorden betrouwbaar.</p></div>
-            </details>
-            <details data-reveal="up" class="faq-item">
-              <summary>Hoe lang duurt het om een AI-chatbot te bouwen? <span class="pm" aria-hidden="true"></span></summary>
-              <div class="faq-answer"><p>Dat hangt af van hoe slim hij moet zijn en op hoeveel content hij getraind wordt. Een eenvoudige FAQ-bot staat sneller dan een bot die met je systemen praat. We bekijken in het strategiegesprek wat past bij je situatie en geven dan een realistische inschatting.</p></div>
-            </details>
+{%- endfor %}
           </div>
         </div>
       </section>
@@ -354,14 +228,18 @@
       <div class="kr-article">
         <div class="container">
           <div class="kr-foot">
+{%- if sources %}
+            <!-- 1. Bronnen -->
+            <p class="kr-sources">Bronnen: {{ sources }}</p>
+{%- endif %}
 
             <!-- Auteursblok (E-E-A-T) -->
             <div class="kr-author" data-reveal="up">
-              <img class="kr-author-avatar" src="/Kjell.jpg" alt="Kjell Kuijpers, oprichter van Kelvantis" width="800" height="1000" loading="lazy" decoding="async">
+              <img class="kr-author-avatar" src="/Kjell.jpg" alt="{{ author }}, oprichter van Kelvantis" width="800" height="1000" loading="lazy" decoding="async">
               <div>
-                <p class="kr-author-name">Kjell Kuijpers</p>
+                <p class="kr-author-name">{{ author }}</p>
                 <p class="kr-author-role">Oprichter &amp; AI-strateeg · Kelvantis</p>
-                <p class="kr-author-bio">Kjell bouwt voor B2B-bedrijven AI-chatbots die op hun eigen content draaien en handwerk overnemen. Hij doet zelf de strategie en de uitvoering. <a href="https://www.linkedin.com/in/kjellkuijpers/" rel="noopener" target="_blank">Volg hem op LinkedIn</a>.</p>
+                <p class="kr-author-bio">{{ author_bio }} <a href="https://www.linkedin.com/in/kjellkuijpers/" rel="noopener" target="_blank">Volg hem op LinkedIn</a>.</p>
               </div>
             </div>
 
@@ -369,34 +247,15 @@
             <div class="kr-readalso" data-reveal="up">
               <p class="kr-readalso-label">Lees ook</p>
               <div class="kr-readalso-grid" data-reveal-group>
-                <a data-reveal="pop" class="kr-readcard kr-readcard--pillar" href="/ai-implementatie/">
+{%- for card in related %}
+                <a data-reveal="pop" class="kr-readcard{% if card.pillar %} kr-readcard--pillar{% endif %}" href="{{ card.url }}">
                   <span>
-                    <span class="rc-cat">AI-implementatie</span>
-                    <span class="rc-title">Bekijk onze AI-implementatieaanpak</span>
+                    <span class="rc-cat">{{ card.cat }}</span>
+                    <span class="rc-title">{{ card.title }}</span>
                   </span>
                   <span class="rc-arrow" aria-hidden="true">→</span>
                 </a>
-                <a data-reveal="pop" class="kr-readcard" href="/blog/n8n-vs-make/">
-                  <span>
-                    <span class="rc-cat">Automatisering</span>
-                    <span class="rc-title">n8n vs Make: welke automatiseringstool past bij jouw bedrijf?</span>
-                  </span>
-                  <span class="rc-arrow" aria-hidden="true">→</span>
-                </a>
-                <a data-reveal="pop" class="kr-readcard" href="/blog/webflow-vs-wordpress/">
-                  <span>
-                    <span class="rc-cat">Websites</span>
-                    <span class="rc-title">Webflow vs WordPress: waarmee bouw je je website?</span>
-                  </span>
-                  <span class="rc-arrow" aria-hidden="true">→</span>
-                </a>
-                <a data-reveal="pop" class="kr-readcard" href="/blog/wat-is-generative-engine-optimization/">
-                  <span>
-                    <span class="rc-cat">GEO &amp; AEO</span>
-                    <span class="rc-title">Wat is generative engine optimization?</span>
-                  </span>
-                  <span class="rc-arrow" aria-hidden="true">→</span>
-                </a>
+{%- endfor %}
               </div>
             </div>
           </div>
@@ -406,14 +265,14 @@
       <!-- ================= SLOT-CTA (oranje accent) ================= -->
       <section class="section s-signal" aria-labelledby="cta-title">
         <div class="container cta cta--lean">
-          <p class="cta-label eyebrow">Klaar voor een chatbot?</p>
-          <h2 class="cta-title" id="cta-title">Voegt een AI-chatbot iets toe in <span class="soft">jouw situatie?</span></h2>
-          <p class="cta-sub">We kijken in een gesprek mee naar de vragen die nu binnenkomen en zeggen eerlijk of een chatbot bij jou loont. Op je eigen content, met overdracht naar een mens.</p>
+          <p class="cta-label eyebrow">{{ cta_label }}</p>
+          <h2 class="cta-title" id="cta-title">{{ cta_title_html }}</h2>
+          <p class="cta-sub">{{ cta_sub }}</p>
           <div class="cta-actions">
-            <a class="btn btn--on-signal" href="/ai-implementatie/">AI-implementatie bekijken <span class="arr">→</span></a>
-            <a class="btn btn--on-signal" href="/contact/">Gratis gesprek plannen <span class="arr">→</span></a>
+            <a class="btn btn--on-signal" href="{{ cta_primary_url }}">{{ cta_primary_label }} <span class="arr">→</span></a>
+            <a class="btn btn--on-signal" href="{{ cta_secondary_url }}">{{ cta_secondary_label }} <span class="arr">→</span></a>
           </div>
-          <p class="cta-trust">Gratis · Geen verplichtingen · Reactie binnen 24 uur</p>
+          <p class="cta-trust">{{ cta_trust }}</p>
         </div>
       </section>
     </article>

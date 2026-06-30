@@ -2,6 +2,10 @@
 node_modules/
 package-lock.json
 
+# Python (lokale blog-generator)
+__pycache__/
+*.pyc
+
 # Dev server
 serve.mjs
 
@@ -32,7 +36,8 @@ temporary/
 
 # Vercel deployment
 .vercel/
-.vercelignore
+# .vercelignore wordt WEL gecommit: Vercel leest het uit de repo om
+# scripts/, blog-src/ en blog-template.html uit de deploy te houden.
 
 # Screenshots (dev testing)
 temporary screenshots/
