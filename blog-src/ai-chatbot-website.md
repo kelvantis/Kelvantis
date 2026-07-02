@@ -41,13 +41,11 @@ related:
     url: "/ai-implementatie/"
     pillar: true
   - cat: "Automatisering"
-    title: "Bekijk onze workflow-automatisering"
-    url: "/workflow-automatisering/"
-    pillar: true
+    title: "n8n vs Make: welke automatiseringstool past bij jouw bedrijf?"
+    url: "/blog/n8n-vs-make/"
   - cat: "Websites"
-    title: "Zo bouwen wij websites die converteren"
-    url: "/website-laten-maken/"
-    pillar: true
+    title: "Webflow vs WordPress: waarmee bouw je je website?"
+    url: "/blog/webflow-vs-wordpress/"
   - cat: "GEO & AEO"
     title: "Wat is generative engine optimization?"
     url: "/blog/wat-is-generative-engine-optimization/"
