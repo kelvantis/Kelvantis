@@ -28,7 +28,9 @@ De build faalt hard bij:
 | `slug` | ja | mapnaam onder `/blog/`, bepaalt canonical + trailing slash |
 | `meta_title` | ja | `<title>` + OG/Twitter-titel, doelterm vooraan, ~60 tekens |
 | `h1` | ja | zichtbare H1; markeer het accent met `==tekst==` |
-| `description` | ja | meta description, OG/Twitter-description en JSON-LD-description |
+| `description` | ja | meta description; ook OG/Twitter/JSON-LD-description tenzij hieronder overschreven |
+| `og_description` | nee | OG- en JSON-LD-description; default `description` |
+| `twitter_description` | nee | Twitter-card-description (bv. korter); default `description` |
 | `deck` | ja | onderkop onder de H1 (`.kr-deck`) |
 | `date_published` | ja | ISO-datum, bv. `"2026-04-08"` |
 | `date_modified` | ja | ISO-datum |
@@ -49,7 +51,7 @@ De build faalt hard bij:
 | `ad` | nee | tussentijdse dienst-CTA: `{ text, button, url }`; nodig zodra de body `[[ad]]` bevat |
 | `pillar_url` / `pillar_anchor` | nee | documenteren de contextuele pijler-link (die zelf in de body staat) |
 | `og_image` | nee | OG/Twitter-afbeelding; default `og-image.png` van de site |
-| `sources` | nee | bronnenregel boven het auteursblok (`Bronnen: …`) |
+| `sources` | nee | bronnenregel boven het auteursblok (`Bronnen: …`); mag ruwe HTML bevatten (bv. `<a>`-links) |
 | `author` | nee | default `Kjell Kuijpers` |
 
 Vaste waarden (navbar, footer, auteur-schema, Organization, e-mail, oprichtingsjaar

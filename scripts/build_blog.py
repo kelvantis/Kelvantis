@@ -124,7 +124,7 @@ def build_jsonld(meta: dict, canonical: str, headline: str) -> tuple[str, str, s
         "@type": "BlogPosting",
         "@id": f"{canonical}#article",
         "headline": headline,
-        "description": meta["description"],
+        "description": meta["_og_description"],
         "image": og_image,
         "inLanguage": "nl",
         "datePublished": meta["date_published"],
@@ -228,6 +228,12 @@ def build_one(path: Path, env: Environment) -> Path:
         og_image = f"{SITE}/{og_image.lstrip('/')}"
     meta["_og_image"] = og_image
 
+    # Descriptions: meta description kan afwijken van OG en Twitter (bv. korter
+    # voor de Twitter-card). Beide vallen terug op de hoofd-description.
+    og_description = meta.get("og_description", meta["description"])
+    twitter_description = meta.get("twitter_description", meta["description"])
+    meta["_og_description"] = og_description
+
     headline = strip_markers(meta["h1"])
     jsonld_article, jsonld_breadcrumb, jsonld_faq = build_jsonld(
         meta, canonical, headline
@@ -237,6 +243,8 @@ def build_one(path: Path, env: Environment) -> Path:
         "slug": slug,
         "meta_title": meta["meta_title"],
         "description": meta["description"],
+        "og_description": og_description,
+        "twitter_description": twitter_description,
         "canonical": canonical,
         "og_image": og_image,
         "date_published": meta["date_published"],
@@ -253,7 +261,7 @@ def build_one(path: Path, env: Environment) -> Path:
         "faq_title_html": inline_html(meta["faq_title"]),
         "body_html": Markup(render_body(body_md, meta.get("ad"))),
         "faq": meta["faq"],
-        "sources": meta.get("sources"),
+        "sources": Markup(meta["sources"]) if meta.get("sources") else None,
         "author_bio": meta["author_bio"],
         "related": meta["related"],
         "cta_label": meta["cta_label"],
