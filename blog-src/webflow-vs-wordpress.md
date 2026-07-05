@@ -1,11 +1,11 @@
 ---
 slug: webflow-vs-wordpress
 meta_title: "Webflow vs WordPress: welk platform kies je in 2026? | Kelvantis"
-h1: "Webflow vs WordPress: ==welk platform== kies je?"
+h1: "Webflow vs WordPress: ==welk platform== kies je? [2026]"
 description: "Webflow of WordPress voor je zakelijke website? We zetten ze nuchter naast elkaar op onderhoud, performance, uitbreidbaarheid en vindbaarheid."
 deck: "We zetten Webflow en WordPress nuchter naast elkaar op onderhoud, performance, uitbreidbaarheid en vindbaarheid, zodat je weet welk platform bij jouw situatie past."
 date_published: "2026-04-15"
-date_modified: "2026-06-25"
+date_modified: "2026-07-05"
 cluster: "Websites"
 founded_year: 2026
 reading_minutes: 5
