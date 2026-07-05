@@ -1,5 +1,18 @@
 {
   "trailingSlash": true,
+  "redirects": [
+    { "source": "/tongeren", "destination": "/workflow-automatisering/", "statusCode": 301 },
+    { "source": "/lanaken", "destination": "/website-laten-maken/", "statusCode": 301 },
+    { "source": "/werkwijze", "destination": "/over-ons/", "statusCode": 301 },
+    { "source": "/belgie", "destination": "/limburg/", "statusCode": 301 },
+    { "source": "/diensten/website-laten-maken", "destination": "/website-laten-maken/", "statusCode": 301 },
+    { "source": "/diensten/workflow-automatisering", "destination": "/workflow-automatisering/", "statusCode": 301 },
+    { "source": "/diensten/ai-implementatie", "destination": "/ai-implementatie/", "statusCode": 301 },
+    { "source": "/diensten/geo-aeo", "destination": "/geo-aeo/", "statusCode": 301 },
+    { "source": "/diensten/seo", "destination": "/geo-aeo/", "statusCode": 301 },
+    { "source": "/pakketten", "destination": "/contact/", "statusCode": 301 },
+    { "source": "/blog/wat-is-geo-aeo", "destination": "/blog/wat-is-generative-engine-optimization/", "statusCode": 301 }
+  ],
   "headers": [
     {
       "source": "/(.*)",
