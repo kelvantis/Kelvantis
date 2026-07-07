@@ -3,8 +3,10 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <!-- Site-brede JS: zet de .js-class voor scroll-reveal (synchroon in de head tegen FOUC). Zonder JS blijft alles gewoon zichtbaar. -->
-  <script src="/js/site.js"></script>
+  <!-- Anti-FOUC bootstrap: zet de .js-class vóór de eerste paint (CSP: sha256-hash in vercel.json).
+       De rest van de site-JS laadt met defer. Zonder JS blijft alles gewoon zichtbaar. -->
+  <script>document.documentElement.classList.add('js');</script>
+  <script src="/js/site.js" defer></script>
 
   <title>GEO &amp; AEO bureau · Generative Engine Optimization | Kelvantis</title>
   <meta name="description" content="GEO &amp; AEO bureau Kelvantis zorgt dat je gevonden wordt in ChatGPT, Perplexity en Google AI Overviews. Generative engine optimization en geo optimalisatie voor B2B. Plan een gratis strategiegesprek.">
@@ -15,7 +17,7 @@
   <link rel="alternate" hreflang="x-default" href="https://kelvantis.com/geo-aeo/">
 
   <link rel="icon" type="image/svg+xml" href="/favicon.svg">
-  <link rel="apple-touch-icon" href="/favicon.svg">
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png">
 
   <!-- Open Graph -->
   <meta property="og:type" content="website">
@@ -35,10 +37,9 @@
   <meta name="twitter:description" content="Gevonden en geciteerd worden in ChatGPT, Perplexity, Gemini en Google AI Overviews. Generative engine optimization voor B2B.">
   <meta name="twitter:image" content="https://kelvantis.com/og-image.png">
 
-  <!-- Fonts -->
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght,SOFT,WONK@0,9..144,400..700,0..100,0..1;1,9..144,400..700,0..100,0..1&family=JetBrains+Mono:wght@400;500&family=Inter+Tight:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <!-- Fonts: self-hosted, zie @font-face bovenin styles.css -->
+  <link rel="preload" href="/fonts/fraunces-var.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="/fonts/inter-tight-var.woff2" as="font" type="font/woff2" crossorigin>
 
   <link rel="stylesheet" href="/styles.css">
   <style>

@@ -3,11 +3,12 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <!-- Site-brede JS (extern, zodat CSP script-src op 'self' kan). Synchroon in head:
-       zet .js-class vóór eerste paint (voorkomt FOUC van reveal-elementen). -->
-  <script src="/js/site.js"></script>
+  <!-- Anti-FOUC bootstrap: zet de .js-class vóór de eerste paint (CSP: sha256-hash in vercel.json).
+       De rest van de site-JS laadt met defer. Zonder JS blijft alles gewoon zichtbaar. -->
+  <script>document.documentElement.classList.add('js');</script>
+  <script src="/js/site.js" defer></script>
 
-  <title>n8n vs Make: welke automatiseringstool past bij jouw bedrijf? [2026] | Kelvantis</title>
+  <title>n8n vs Make: welke tool past bij jouw bedrijf? [2026] | Kelvantis</title>
   <meta name="description" content="n8n vs Make eerlijk vergeleken op prijs, gebruiksgemak, schaalbaarheid en techniek. Ontdek welke workflow-automatiseringstool past bij jouw volume, privacy-eisen en kennis.">
   <meta name="robots" content="index, follow">
 
@@ -16,12 +17,12 @@
   <link rel="alternate" hreflang="x-default" href="https://kelvantis.com/blog/n8n-vs-make/">
 
   <link rel="icon" type="image/svg+xml" href="/favicon.svg">
-  <link rel="apple-touch-icon" href="/favicon.svg">
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png">
 
   <!-- Open Graph -->
   <meta property="og:type" content="article">
   <meta property="og:url" content="https://kelvantis.com/blog/n8n-vs-make/">
-  <meta property="og:title" content="n8n vs Make: welke automatiseringstool past bij jouw bedrijf? [2026] | Kelvantis">
+  <meta property="og:title" content="n8n vs Make: welke tool past bij jouw bedrijf? [2026] | Kelvantis">
   <meta property="og:description" content="n8n vs Make eerlijk vergeleken op prijs, gebruiksgemak, schaalbaarheid en techniek. Welke past bij jouw volume, privacy-eisen en kennis?">
   <meta property="og:image" content="https://kelvantis.com/og-image.png">
   <meta property="og:locale" content="nl_NL">
@@ -32,14 +33,13 @@
 
   <!-- Twitter Card -->
   <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="n8n vs Make: welke automatiseringstool past bij jouw bedrijf? [2026] | Kelvantis">
+  <meta name="twitter:title" content="n8n vs Make: welke tool past bij jouw bedrijf? [2026] | Kelvantis">
   <meta name="twitter:description" content="n8n vs Make eerlijk vergeleken op prijs, gebruiksgemak, schaalbaarheid en techniek.">
   <meta name="twitter:image" content="https://kelvantis.com/og-image.png">
 
-  <!-- Fonts -->
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght,SOFT,WONK@0,9..144,400..700,0..100,0..1;1,9..144,400..700,0..100,0..1&family=JetBrains+Mono:wght@400;500&family=Inter+Tight:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <!-- Fonts: self-hosted, zie @font-face bovenin styles.css -->
+  <link rel="preload" href="/fonts/fraunces-var.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="/fonts/inter-tight-var.woff2" as="font" type="font/woff2" crossorigin>
 
   <link rel="stylesheet" href="/styles.css">
 

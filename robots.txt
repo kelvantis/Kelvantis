@@ -2,7 +2,6 @@
 
 User-agent: *
 Allow: /
-Disallow: /_components/
 
 # --- AI- en zoek-/ophaalbots expliciet toegestaan (GEO/AEO) ---
 User-agent: GPTBot

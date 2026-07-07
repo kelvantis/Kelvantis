@@ -3,10 +3,12 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <!-- Site-brede JS: zet de .js-class voor scroll-reveal (synchroon in de head tegen FOUC). Zonder JS blijft alles gewoon zichtbaar. -->
-  <script src="/js/site.js"></script>
+  <!-- Anti-FOUC bootstrap: zet de .js-class vóór de eerste paint (CSP: sha256-hash in vercel.json).
+       De rest van de site-JS laadt met defer. Zonder JS blijft alles gewoon zichtbaar. -->
+  <script>document.documentElement.classList.add('js');</script>
+  <script src="/js/site.js" defer></script>
 
-  <title>Blog &amp; kennisbank · GEO/AEO, automatisering, AI &amp; webdesign | Kelvantis</title>
+  <title>Blog &amp; kennisbank over GEO, AI &amp; automatisering | Kelvantis</title>
   <meta name="description" content="De kennisbank van Kelvantis: praktische stukken over vindbaarheid in Google en AI, automatisering en conversiegerichte websites. Geschreven om toe te passen.">
   <meta name="robots" content="index, follow">
 
@@ -15,7 +17,7 @@
   <link rel="alternate" hreflang="x-default" href="https://kelvantis.com/blog/">
 
   <link rel="icon" type="image/svg+xml" href="/favicon.svg">
-  <link rel="apple-touch-icon" href="/favicon.svg">
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png">
 
   <!-- Open Graph -->
   <meta property="og:type" content="website">
@@ -42,14 +44,14 @@
     "@type": "WebPage",
     "@id": "https://kelvantis.com/blog/#webpage",
     "url": "https://kelvantis.com/blog/",
-    "name": "Blog & kennisbank · GEO/AEO, automatisering, AI & webdesign | Kelvantis",
+    "name": "Blog & kennisbank over GEO, AI & automatisering | Kelvantis",
     "description": "De kennisbank van Kelvantis met praktische stukken over vindbaarheid in Google en AI, automatisering en conversiegerichte websites.",
     "inLanguage": "nl",
     "isPartOf": { "@id": "https://kelvantis.com/#website" },
     "about": { "@id": "https://kelvantis.com/#organization" },
     "primaryImageOfPage": "https://kelvantis.com/og-image.png",
     "datePublished": "2026-06-11",
-    "dateModified": "2026-06-11",
+    "dateModified": "2026-07-07",
     "speakable": {
       "@type": "SpeakableSpecification",
       "cssSelector": [".hero-sub"]
@@ -119,23 +121,13 @@
   }
   </script>
 
-  <!-- Fonts -->
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght,SOFT,WONK@0,9..144,400..700,0..100,0..1;1,9..144,400..700,0..100,0..1&family=JetBrains+Mono:wght@400;500&family=Inter+Tight:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <!-- Fonts: self-hosted, zie @font-face bovenin styles.css -->
+  <link rel="preload" href="/fonts/fraunces-var.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="/fonts/inter-tight-var.woff2" as="font" type="font/woff2" crossorigin>
 
   <link rel="stylesheet" href="/styles.css">
 
   <style>
-    /* Hulpklasse: screenreader-only (geen globale .sr-only in styles.css) */
-    .sr-only {
-      position: absolute !important;
-      width: 1px; height: 1px;
-      padding: 0; margin: -1px;
-      overflow: hidden; clip: rect(0, 0, 0, 0);
-      white-space: nowrap; border: 0;
-    }
-
     /* ── Hero: twee koloms (tekst links, robotje rechts) ── */
     .hero--blog .hero-cols {
       grid-column: 1 / -1;

@@ -3,8 +3,10 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <!-- Site-brede JS: zet de .js-class voor scroll-reveal (synchroon in de head tegen FOUC). Zonder JS blijft alles gewoon zichtbaar. -->
-  <script src="/js/site.js"></script>
+  <!-- Anti-FOUC bootstrap: zet de .js-class vóór de eerste paint (CSP: sha256-hash in vercel.json).
+       De rest van de site-JS laadt met defer. Zonder JS blijft alles gewoon zichtbaar. -->
+  <script>document.documentElement.classList.add('js');</script>
+  <script src="/js/site.js" defer></script>
 
   <title>Kelvantis | Webdesign · GEO/AEO · AI-automatisering voor B2B</title>
   <meta name="description" content="Kelvantis bouwt conversiegerichte websites, GEO/AEO en AI-automatisering voor B2B in Nederland en België. Plan een gratis strategiegesprek.">
@@ -15,7 +17,7 @@
   <link rel="alternate" hreflang="x-default" href="https://kelvantis.com/">
 
   <link rel="icon" type="image/svg+xml" href="/favicon.svg">
-  <link rel="apple-touch-icon" href="/favicon.svg">
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png">
 
   <!-- Open Graph -->
   <meta property="og:type" content="website">
@@ -35,10 +37,9 @@
   <meta name="twitter:description" content="Conversiegerichte websites, GEO/AEO en AI-automatisering voor B2B in Nederland en België.">
   <meta name="twitter:image" content="https://kelvantis.com/og-image.png">
 
-  <!-- Fonts -->
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght,SOFT,WONK@0,9..144,400..700,0..100,0..1;1,9..144,400..700,0..100,0..1&family=JetBrains+Mono:wght@400;500&family=Inter+Tight:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <!-- Fonts: self-hosted, zie @font-face bovenin styles.css -->
+  <link rel="preload" href="/fonts/fraunces-var.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="/fonts/inter-tight-var.woff2" as="font" type="font/woff2" crossorigin>
 
   <link rel="stylesheet" href="/styles.css">
 
@@ -349,7 +350,7 @@
     <section class="section s-cream" aria-labelledby="problemen-title">
       <div class="container">
         <p class="section-label" data-reveal="stamp"><span class="sl-num">§ 01</span> / Herken je dit?</p>
-        <h2 id="problemen-title" class="sr-only" style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)">Herken je dit?</h2>
+        <h2 id="problemen-title" class="sr-only">Herken je dit?</h2>
         <div class="problems-grid" data-reveal-group>
           <article data-reveal="up" class="problem">
             <div class="pnum">01</div>
@@ -426,7 +427,7 @@
     <!-- ================= STATS ================= -->
     <section class="section s-paper" aria-labelledby="stats-title">
       <div class="container">
-        <h2 id="stats-title" class="sr-only" style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)">Wat het oplevert</h2>
+        <h2 id="stats-title" class="sr-only">Wat het oplevert</h2>
         <div class="stats-grid" data-reveal-group>
           <div data-reveal="up" class="stat">
             <div class="stat-value">+40%</div>
@@ -664,7 +665,7 @@
             <p class="entity-body">We combineren websites, GEO/AEO-strategieën en workflow-automatisering in één samenhangend geheel. In plaats van losse deeldiensten leveren we een geïntegreerd systeem waarin elk onderdeel het ander versterkt.</p>
           </div>
           <figure class="portrait" data-reveal="up">
-            <img src="/Kjell.jpg" alt="Kjell Kuijpers, oprichter van Kelvantis" loading="lazy" decoding="async">
+            <img src="/Kjell.jpg" alt="Kjell Kuijpers, oprichter van Kelvantis" width="800" height="1000" loading="lazy" decoding="async">
             <figcaption>Oprichter · Kelvantis</figcaption>
           </figure>
         </div>

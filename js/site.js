@@ -1,21 +1,19 @@
 /* Kelvantis — site-brede JavaScript.
  *
  * Geëxternaliseerd uit de inline <script>-blokken zodat de Content-Security-Policy
- * script-src op 'self' kan staan (geen 'unsafe-inline', geen hashes).
+ * script-src strikt blijft: 'self' plus één sha256-hash voor de anti-FOUC bootstrap
+ * (geen 'unsafe-inline').
  *
  * Eén bestand, sitebreed geladen. Elk onderdeel is feature-guarded: het checkt of
  * de relevante elementen bestaan en doet niets (geen error) op pagina's waar ze
  * ontbreken. Zo is dit bestand veilig op elke pagina.
  *
- * LET OP — laadwijze: dit bestand wordt SYNCHROON in <head> geladen (geen defer).
- * De .js-class moet vóór de eerste paint op <html> staan, omdat de CSS reveal-
- * elementen verbergt via `.js [data-reveal] { opacity: 0 }` e.d. Zou de class via
- * een defer-script ná de eerste paint gezet worden, dan flitsen above-the-fold
- * reveals even zichtbaar (FOUC). De DOM-afhankelijke logica draait daarom in
- * DOMContentLoaded — net als de oude inline blokken die onderaan <body> stonden.
+ * LET OP — laadwijze: dit bestand wordt met DEFER geladen. De .js-class wordt
+ * gezet door een piepklein inline bootstrap-script in <head> (whitelisted via een
+ * sha256-hash in de CSP, zie vercel.json), zodat de class vóór de eerste paint op
+ * <html> staat en above-the-fold reveals niet flitsen (FOUC). De DOM-afhankelijke
+ * logica draait in DOMContentLoaded; defer-scripts draaien daar gegarandeerd vóór.
  */
-
-document.documentElement.classList.add('js');
 
 document.addEventListener('DOMContentLoaded', function () {
 

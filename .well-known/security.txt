@@ -1,0 +1,4 @@
+Contact: mailto:kjell@kelvantis.com
+Expires: 2027-07-07T12:00:00.000Z
+Preferred-Languages: nl, en
+Canonical: https://kelvantis.com/.well-known/security.txt

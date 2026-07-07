@@ -1,6 +1,7 @@
 # Kelvantis
 
-> B2B-bureau uit Maastricht (opgericht in 2024 door Kjell Kuijpers) dat conversiegerichte
+> B2B-bureau uit Maastricht (opgericht in 2026 door Kjell Kuijpers, actief in online
+> marketing sinds 2024) dat conversiegerichte
 > websites, GEO/AEO-strategieën en workflow-automatisering combineert in één samenhangend
 > systeem. Werkgebied: Nederland en België, met focus op (Belgisch) Limburg en de regio Luik.
 > Doelgroep: B2B, MKB en ZZP, van eenpitter tot bedrijven met honderd man personeel.
@@ -16,6 +17,13 @@
 2. Systeem ontwerp: helder plan met exacte tools en verwachte resultaten.
 3. Bouwen & koppelen: website, AI, chatbot, automations en CRM naadloos verbonden.
 4. Live & schaalbaar: monitoren, optimaliseren en meeschalen.
+
+## Kennisbank
+- Wat is Generative Engine Optimization (GEO)? Definitie, werking en verschil met SEO (https://kelvantis.com/blog/wat-is-generative-engine-optimization/)
+- AI-chatbot voor je website: wanneer loont het? Kosten, use-cases en valkuilen (https://kelvantis.com/blog/ai-chatbot-website/)
+- Webflow vs WordPress: welk platform kies je in 2026? (https://kelvantis.com/blog/webflow-vs-wordpress/)
+- n8n vs Make: welke automatiseringstool past bij jouw bedrijf? (https://kelvantis.com/blog/n8n-vs-make/)
+- Veelgestelde vragen over werkwijze, prijzen en levertijd (https://kelvantis.com/faq/)
 
 ## Contact
 - E-mail: kjell@kelvantis.com

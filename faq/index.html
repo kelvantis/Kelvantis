@@ -3,8 +3,10 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <!-- Site-brede JS: zet de .js-class voor scroll-reveal (synchroon in de head tegen FOUC). Zonder JS blijft alles gewoon zichtbaar. -->
-  <script src="/js/site.js"></script>
+  <!-- Anti-FOUC bootstrap: zet de .js-class vóór de eerste paint (CSP: sha256-hash in vercel.json).
+       De rest van de site-JS laadt met defer. Zonder JS blijft alles gewoon zichtbaar. -->
+  <script>document.documentElement.classList.add('js');</script>
+  <script src="/js/site.js" defer></script>
 
   <title>Veelgestelde vragen | Kelvantis</title>
   <meta name="description" content="Antwoorden op de meestgestelde vragen over Kelvantis: websites, workflow-automatisering, AI-implementatie, GEO/AEO, werkwijze en prijzen. Voor B2B in Nederland en België.">
@@ -15,7 +17,7 @@
   <link rel="alternate" hreflang="x-default" href="https://kelvantis.com/faq/">
 
   <link rel="icon" type="image/svg+xml" href="/favicon.svg">
-  <link rel="apple-touch-icon" href="/favicon.svg">
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png">
 
   <!-- Open Graph -->
   <meta property="og:type" content="website">
@@ -35,10 +37,9 @@
   <meta name="twitter:description" content="Antwoorden over websites, automatisering, AI, GEO/AEO, werkwijze en prijzen. Voor B2B in NL en BE.">
   <meta name="twitter:image" content="https://kelvantis.com/og-image.png">
 
-  <!-- Fonts -->
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght,SOFT,WONK@0,9..144,400..700,0..100,0..1;1,9..144,400..700,0..100,0..1&family=JetBrains+Mono:wght@400;500&family=Inter+Tight:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <!-- Fonts: self-hosted, zie @font-face bovenin styles.css -->
+  <link rel="preload" href="/fonts/fraunces-var.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="/fonts/inter-tight-var.woff2" as="font" type="font/woff2" crossorigin>
 
   <link rel="stylesheet" href="/styles.css">
 
@@ -51,7 +52,7 @@
     "inLanguage": "nl",
     "isPartOf": { "@id": "https://kelvantis.com/#website" },
     "mainEntity": [
-      { "@type": "Question", "name": "Wat is Kelvantis?", "acceptedAnswer": { "@type": "Answer", "text": "Kelvantis is een B2B-bureau uit Maastricht, opgericht in 2024 door Kjell Kuijpers. We combineren conversiegerichte websites, workflow-automatisering, AI-implementatie en GEO/AEO in één samenhangend systeem. We werken voor opdrachtgevers in Nederland en België, van eenpitter en startup tot bedrijven met rond de honderd man personeel." } },
+      { "@type": "Question", "name": "Wat is Kelvantis?", "acceptedAnswer": { "@type": "Answer", "text": "Kelvantis is een B2B-bureau uit Maastricht, opgericht in 2026 door Kjell Kuijpers. We combineren conversiegerichte websites, workflow-automatisering, AI-implementatie en GEO/AEO in één samenhangend systeem. We werken voor opdrachtgevers in Nederland en België, van eenpitter en startup tot bedrijven met rond de honderd man personeel." } },
       { "@type": "Question", "name": "Voor wie is Kelvantis geschikt?", "acceptedAnswer": { "@type": "Answer", "text": "Kelvantis is geschikt voor B2B-bedrijven, MKB en ZZP in Nederland en België die hun website willen laten converteren, beter vindbaar willen worden in Google en AI-zoekmachines, of repetitief werk willen automatiseren. We werken zowel met gevestigde bedrijven als met mensen die net beginnen." } },
       { "@type": "Question", "name": "Werk ik direct met de oprichter?", "acceptedAnswer": { "@type": "Answer", "text": "Ja, je werkt rechtstreeks met Kjell Kuijpers. Geen accountmanager, geen doorsluis naar een junior-team. Hij doet zelf de strategie en de uitvoering, dus de persoon met wie je het plan bespreekt is ook degene die het bouwt. Korte lijnen, snelle beslissingen." } },
       { "@type": "Question", "name": "In welke regio werken jullie?", "acceptedAnswer": { "@type": "Answer", "text": "We werken vanuit Maastricht voor heel Nederland en België, volledig op afstand. Onze focus ligt op Nederlands en Belgisch Limburg en de regio rond Luik, maar de samenwerking verloopt online, dus je locatie maakt voor het traject niet uit; alles wordt online gebouwd en opgeleverd." } },
@@ -98,7 +99,7 @@
     "about": { "@id": "https://kelvantis.com/#organization" },
     "primaryImageOfPage": "https://kelvantis.com/og-image.png",
     "datePublished": "2026-06-14",
-    "dateModified": "2026-06-14",
+    "dateModified": "2026-07-07",
     "speakable": {
       "@type": "SpeakableSpecification",
       "cssSelector": [".faq-answer"]
@@ -243,7 +244,7 @@
               <div class="faq-list" data-reveal-group>
                 <details data-reveal="up" class="faq-item">
                   <summary><span class="faq-num">01</span><span class="faq-q">Wat is Kelvantis?</span><span class="pm" aria-hidden="true"></span></summary>
-                  <div class="faq-answer"><p>Kelvantis is een B2B-bureau uit Maastricht, opgericht in 2024 door Kjell Kuijpers. We combineren conversiegerichte websites, workflow-automatisering, AI-implementatie en GEO/AEO in één samenhangend systeem. We werken voor opdrachtgevers in Nederland en België, van eenpitter en startup tot bedrijven met rond de honderd man personeel.</p></div>
+                  <div class="faq-answer"><p>Kelvantis is een B2B-bureau uit Maastricht, opgericht in 2026 door Kjell Kuijpers. We combineren conversiegerichte websites, workflow-automatisering, AI-implementatie en GEO/AEO in één samenhangend systeem. We werken voor opdrachtgevers in Nederland en België, van eenpitter en startup tot bedrijven met rond de honderd man personeel.</p></div>
                 </details>
                 <details data-reveal="up" class="faq-item">
                   <summary><span class="faq-num">02</span><span class="faq-q">Voor wie is Kelvantis geschikt?</span><span class="pm" aria-hidden="true"></span></summary>

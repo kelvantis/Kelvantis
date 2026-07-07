@@ -1,6 +1,6 @@
 ---
 slug: n8n-vs-make
-meta_title: "n8n vs Make: welke automatiseringstool past bij jouw bedrijf? [2026] | Kelvantis"
+meta_title: "n8n vs Make: welke tool past bij jouw bedrijf? [2026] | Kelvantis"
 h1: "n8n vs Make: welke ==automatiseringstool== past bij jouw bedrijf? [2026]"
 description: "n8n vs Make eerlijk vergeleken op prijs, gebruiksgemak, schaalbaarheid en techniek. Ontdek welke workflow-automatiseringstool past bij jouw volume, privacy-eisen en kennis."
 og_description: "n8n vs Make eerlijk vergeleken op prijs, gebruiksgemak, schaalbaarheid en techniek. Welke past bij jouw volume, privacy-eisen en kennis?"

@@ -3,8 +3,10 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <!-- Site-brede JS: zet de .js-class voor scroll-reveal (synchroon in de head tegen FOUC). Zonder JS blijft alles gewoon zichtbaar. -->
-  <script src="/js/site.js"></script>
+  <!-- Anti-FOUC bootstrap: zet de .js-class vóór de eerste paint (CSP: sha256-hash in vercel.json).
+       De rest van de site-JS laadt met defer. Zonder JS blijft alles gewoon zichtbaar. -->
+  <script>document.documentElement.classList.add('js');</script>
+  <script src="/js/site.js" defer></script>
 
   <title>Wat is Generative Engine Optimization (GEO)? | Kelvantis</title>
   <meta name="description" content="Wat is Generative Engine Optimization (GEO)? De complete uitleg over hoe je gevonden en geciteerd wordt in ChatGPT, Perplexity, Gemini en Google AI Overviews, en waarom GEO een aparte discipline is naast SEO.">
@@ -15,7 +17,7 @@
   <link rel="alternate" hreflang="x-default" href="https://kelvantis.com/blog/wat-is-generative-engine-optimization/">
 
   <link rel="icon" type="image/svg+xml" href="/favicon.svg">
-  <link rel="apple-touch-icon" href="/favicon.svg">
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png">
 
   <!-- Open Graph -->
   <meta property="og:type" content="article">
@@ -35,10 +37,9 @@
   <meta name="twitter:description" content="Hoe je gevonden en geciteerd wordt in ChatGPT, Perplexity, Gemini en Google AI Overviews, en waarom GEO een aparte discipline is naast SEO.">
   <meta name="twitter:image" content="https://kelvantis.com/og-wat-is-generative-engine-optimization.png">
 
-  <!-- Fonts -->
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght,SOFT,WONK@0,9..144,400..700,0..100,0..1;1,9..144,400..700,0..100,0..1&family=JetBrains+Mono:wght@400;500&family=Inter+Tight:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <!-- Fonts: self-hosted, zie @font-face bovenin styles.css -->
+  <link rel="preload" href="/fonts/fraunces-var.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="/fonts/inter-tight-var.woff2" as="font" type="font/woff2" crossorigin>
 
   <link rel="stylesheet" href="/styles.css">
 
@@ -53,7 +54,7 @@
     "image": "https://kelvantis.com/og-wat-is-generative-engine-optimization.png",
     "inLanguage": "nl",
     "datePublished": "2026-06-02",
-    "dateModified": "2026-06-14",
+    "dateModified": "2026-07-07",
     "mainEntityOfPage": { "@id": "https://kelvantis.com/blog/wat-is-generative-engine-optimization/" },
     "isPartOf": { "@id": "https://kelvantis.com/#website" },
     "author": {
@@ -290,7 +291,7 @@
 
             <p class="kr-wordmark">De Kelvantis Courant</p>
             <p class="kr-edition">
-              <span>Opgericht 2024 · Maastricht</span>
+              <span>Opgericht 2026 · Maastricht</span>
               <span>2 juni 2026</span>
             </p>
           </div>
@@ -304,7 +305,7 @@
             <span class="kr-kicker" data-reveal="stamp">Katern · GEO &amp; AEO</span>
             <h1 class="kr-h1">Wat is <span class="accent">Generative Engine Optimization</span> (GEO)?</h1>
             <p class="kr-deck">De complete uitleg over hoe je gevonden wordt in ChatGPT, Perplexity, Gemini en Google AI Overviews, en waarom dat een aparte discipline is naast SEO.</p>
-            <p class="kr-dateline">Kjell Kuijpers · 2 juni 2026 · Bijgewerkt 14 juni 2026 · 13 min lezen</p>
+            <p class="kr-dateline">Kjell Kuijpers · 2 juni 2026 · Bijgewerkt 7 juli 2026 · 13 min lezen</p>
           </header>
 
           <!-- In het kort (TL;DR, speakable) -->
