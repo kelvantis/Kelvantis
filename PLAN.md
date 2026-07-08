@@ -65,10 +65,10 @@
 - Nieuwe ideeën tijdens het bouwen → onderaan dit bestand in "Parkeerlijst", niet uitvoeren.
 
 ## Notities
+- Meting /bedankt/ (check sessie 4): er hangt géén analytics of conversiemeting aan /bedankt/ of aan de rest van de site — bewuste keuze, de privacypagina belooft expliciet "geen analytics-trackers". Er is dus ook geen KPI-event nodig bij bonnetje-succes op /contact/; een event toevoegen zou de privacybelofte breken. Wil je ooit meten, dan eerst privacybeleid + CSP herzien (aparte beslissing).
 - Sessie 3 — actie voor Kjell: de e-mailbevestiging in bonnetje-stijl staat klaar in `docs/email-bevestiging-bonnetje.html`. Plakken in Formspree → formulier xwvweodo → Settings → Autoresponse (custom HTML). Dit kan niet vanuit de repo; tot die tijd krijgt de afzender de standaard Formspree-bevestiging (of geen).
 - Lokale verificatie (sessie 3 e.v.): testserver is `npx serve -l 8123` vanuit de repo-root. De eerder gebruikte `python -m http.server` bleek flaky (sporadisch deels geladen CSS → valse meetuitslagen in sessie 1 en 2); niet meer gebruiken voor metingen.
 - 360px-overflow /over-ons/ (sessie 1): op de Vercel-deploy (kelvantis.com) 6× gemeten, scrollWidth stabiel 360 en founder-foto correct begrensd op 300px. De sporadische 848px-meting was een artefact van de lokale python-testserver (CSS-race), geen sitefout. Afgesloten.
 
 ## Parkeerlijst
-- Prijsconsistentie: /website-laten-maken/ noemt nu "vanaf € 1.500"; de FAQ op /limburg/ (incl. JSON-LD) zegt nog "we noemen geen koud getal". Copy gelijktrekken in een losse copy-fix.
 - Vercel serveert alles in de repo-root publiek: `DESIGN.md`, `PLAN.md` en `kelvantis-signature-referentie.html` zijn dus bereikbaar via kelvantis.com. Overwegen: uitsluiten van deploy (`.vercelignore`) — de referentie-HTML gebruikt bovendien Google Fonts CDN (alleen demo, mag niet in productiepagina's).
