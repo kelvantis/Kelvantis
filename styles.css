@@ -82,6 +82,10 @@
   /* ── Entrance-animatielaag ── */
   --ease-soft:  cubic-bezier(0.22, 1, 0.36, 1);   /* rustige, nette uitloop */
   --ease-stamp: cubic-bezier(0.34, 1.4, 0.64, 1); /* lichte overshoot: stickers/pop */
+  --ease-mech:  cubic-bezier(0.7, 0, 0.2, 1);     /* mechanisch: feeds, tellers */
+  --t-press: 120ms;   /* press-mechaniek */
+  --t-stamp: 220ms;   /* stempel-landing */
+  --t-feed:  420ms;   /* papier-doorvoer */
   --reveal-dur:   600ms;
   --reveal-shift: 18px;
   --reveal-step:  80ms;                           /* stagger-stap binnen een groep */
@@ -275,8 +279,8 @@ h1, h2, h3, h4 {
 /* ---------- Focus ---------- */
 :focus-visible {
   outline: 2px solid var(--signal);
-  outline-offset: 3px;
-  border-radius: 3px;
+  outline-offset: 2px;
+  border-radius: 2px;
 }
 
 /* ---------- Screenreader-only ---------- */
@@ -312,6 +316,7 @@ h1, h2, h3, h4 {
 .js .stagger.in-view > *:nth-child(6) { animation-delay: 350ms; }
 
 @media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
   .js .reveal,
   .js .stagger > * { opacity: 1 !important; }
   .js .reveal.in-view,

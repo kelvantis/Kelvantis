@@ -1,0 +1,412 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Kelvantis — Signature-componenten (referentie-implementatie)</title>
+<!-- DEMO ONLY: in productie fonts self-hosten (woff2), geen Google CDN (AVG/CSP). -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,500;0,9..144,600;1,9..144,500;1,9..144,600&family=Inter+Tight:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+/* ============================================================
+   KELVANTIS SIGNATURE-COMPONENTEN — referentie-implementatie
+   Bron van waarheid: DESIGN.md. Kopieer componenten 1-op-1.
+   ============================================================ */
+:root{
+  --paper:#F7F2E8; --paper-soft:#F1EADC; --paper-deep:#E8DFCB; --cream:#FDFAF3;
+  --ink:#1F1814; --ink-soft:#5A4F46; --ink-faint:#8E8275;
+  --rule:#DDD2BC; --rule-strong:#C8BCA0;
+  --signal:#FF4D2E; --signal-warm:#F26A3D; --signal-deep:#C8331C; --moss:#6B7355;
+  --dark:#1F1814; --on-dark:#FDFAF3; --on-dark-soft:rgba(253,250,243,.62);
+  --font-display:'Fraunces',Georgia,serif;
+  --font-body:'Inter Tight',system-ui,sans-serif;
+  --font-mono:'JetBrains Mono',ui-monospace,monospace;
+  --border-ink:2px solid var(--ink);
+  --shadow-hard:4px 4px 0 var(--ink);
+  --shadow-hard-sm:3px 3px 0 var(--ink);
+  --shadow-hard-lg:6px 6px 0 var(--ink);
+  --r-sm:4px; --r-md:8px; --r-lg:10px; --r-pill:999px;
+  --maxw:1080px; --pad:48px;
+  --ease-soft:cubic-bezier(.22,1,.36,1);
+  --ease-stamp:cubic-bezier(.34,1.4,.64,1);
+  --ease-mech:cubic-bezier(.7,0,.2,1);
+  --t-press:120ms; --t-stamp:220ms; --t-feed:420ms;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  margin:0; background:var(--paper); color:var(--ink);
+  font-family:var(--font-body); font-size:17px; line-height:1.55;
+}
+main{max-width:var(--maxw); margin:0 auto; padding:0 24px}
+section{padding:72px 0; border-bottom:1px solid var(--rule)}
+h1,h2{font-family:var(--font-display); font-weight:600; line-height:1.02; letter-spacing:-.02em; margin:.4em 0}
+h1{font-size:clamp(40px,6vw,72px)}
+h2{font-size:clamp(28px,4vw,44px)}
+p{color:var(--ink-soft); max-width:62ch}
+.accent{font-style:italic; color:var(--signal)}
+.accent-aa{font-style:italic; color:var(--signal-deep)}
+
+/* Inkt-focusring (kwaliteitsvloer) */
+:focus-visible{outline:2px solid var(--signal); outline-offset:2px; border-radius:2px}
+
+/* ---------- Mono-systeemstem ---------- */
+.mono-label{
+  font-family:var(--font-mono); font-size:11px; font-weight:500;
+  text-transform:uppercase; letter-spacing:.13em; color:var(--ink-faint);
+}
+.mono-note{font-family:var(--font-mono); font-size:11px; letter-spacing:.06em; color:var(--ink-faint)}
+
+/* ---------- Sticker ---------- */
+.sticker{
+  display:inline-block; background:var(--ink); color:var(--cream);
+  font-family:var(--font-mono); font-size:11px; font-weight:500;
+  text-transform:uppercase; letter-spacing:.13em;
+  padding:7px 14px; border-radius:3px; transform:rotate(-2deg);
+}
+.sticker .num{color:var(--signal)}
+.sticker.tilt-r{transform:rotate(1.5deg)}
+
+/* ---------- Knoppen + press-mechaniek ---------- */
+.btn{
+  display:inline-block; font-family:var(--font-body); font-weight:600; font-size:14px;
+  text-transform:uppercase; letter-spacing:.04em; text-decoration:none; cursor:pointer;
+  padding:14px 24px; border:var(--border-ink); border-radius:var(--r-sm);
+  box-shadow:var(--shadow-hard); background:var(--cream); color:var(--ink);
+  transition:transform var(--t-press) var(--ease-soft), box-shadow var(--t-press) var(--ease-soft);
+}
+.btn:hover{transform:translate(2px,2px); box-shadow:2px 2px 0 var(--ink)}
+.btn:active{transform:translate(4px,4px); box-shadow:none}
+.btn-primary{background:var(--signal); color:#fff}
+
+/* ---------- Kaart ---------- */
+.card{
+  background:var(--cream); border:var(--border-ink); border-radius:var(--r-md);
+  box-shadow:var(--shadow-hard); padding:28px;
+}
+
+/* ============================================================
+   WET 1 — DE STEMPEL (enige entrance-animatie)
+   Gebruik: voeg .stamp toe; JS zet .is-stamped (IntersectionObserver
+   of handmatig). Stagger via inline --stagger.
+   ============================================================ */
+.stamp{opacity:0; transform:scale(1.14)}
+.stamp.tilted{transform:scale(1.14) rotate(-2deg)}
+.stamp.tilted.tilt-r{transform:scale(1.14) rotate(1.5deg)}
+.is-stamped{
+  animation:stamp-land var(--t-stamp) var(--ease-stamp) forwards;
+  animation-delay:var(--stagger,0ms);
+}
+@keyframes stamp-land{
+  0%{opacity:0; transform:scale(1.14) rotate(var(--tilt,0deg))}
+  60%{opacity:1}
+  100%{opacity:1; transform:scale(1) rotate(var(--tilt,0deg))}
+}
+.stamp.tilted{--tilt:-2deg}
+.stamp.tilted.tilt-r{--tilt:1.5deg}
+/* Inktdruk-flits voor zware elementen (optioneel): */
+.stamp-heavy.is-stamped{animation:stamp-land var(--t-stamp) var(--ease-stamp) forwards, ink-press var(--t-stamp) var(--ease-stamp) forwards}
+@keyframes ink-press{0%{box-shadow:6px 6px 0 var(--ink)}100%{box-shadow:4px 4px 0 var(--ink)}}
+
+/* ============================================================
+   WET 2 — HET BONNETJE (universeel output-formaat)
+   ============================================================ */
+.receipt{
+  width:min(360px,100%); background:var(--cream);
+  border:var(--border-ink); border-bottom:none; border-radius:var(--r-sm) var(--r-sm) 0 0;
+  box-shadow:var(--shadow-hard); font-family:var(--font-mono); font-size:12.5px;
+  color:var(--ink); padding:20px 20px 0; position:relative;
+}
+.receipt::after{ /* perforatierand */
+  content:""; display:block; height:12px; margin:0 -20px;
+  background:var(--cream); border-left:var(--border-ink); border-right:var(--border-ink);
+  clip-path:polygon(0 0,100% 0,100% 45%,96% 100%,92% 45%,88% 100%,84% 45%,80% 100%,76% 45%,72% 100%,68% 45%,64% 100%,60% 45%,56% 100%,52% 45%,48% 100%,44% 45%,40% 100%,36% 45%,32% 100%,28% 45%,24% 100%,20% 45%,16% 100%,12% 45%,8% 100%,4% 45%,0 100%);
+}
+.receipt-head{text-align:center; padding-bottom:10px; border-bottom:1px dashed var(--rule-strong); margin-bottom:10px}
+.receipt-head strong{letter-spacing:.18em; font-weight:700}
+.receipt-line{display:flex; align-items:baseline; gap:8px; padding:3px 0}
+.receipt-line .dots{flex:1; border-bottom:1px dotted var(--rule-strong); transform:translateY(-3px)}
+.receipt-total{border-top:3px double var(--ink); margin-top:10px; padding-top:8px; font-weight:700}
+.receipt .status-ok{color:var(--signal-deep)}
+/* Print-animatie: regels van boven naar beneden */
+.receipt.printing .receipt-row{opacity:0; transform:translateY(-4px)}
+.receipt.printing .receipt-row.printed{
+  animation:print-row 140ms var(--ease-mech) forwards;
+}
+@keyframes print-row{to{opacity:1; transform:translateY(0)}}
+/* Stempel op bonnetje */
+.receipt-stampmark{
+  display:inline-block; margin:10px 0 16px; padding:6px 12px;
+  border:2px solid var(--signal-deep); color:var(--signal-deep);
+  font-weight:700; letter-spacing:.14em; border-radius:3px; transform:rotate(-3deg);
+}
+
+/* ============================================================
+   WET 3 — FRAUNCES SPREEKT, MONO ANTWOORDT (+ Ink→Signal morph)
+   ============================================================ */
+.morph{display:inline-block; white-space:nowrap}
+.morph .ch{display:inline-block; font-family:var(--font-display); font-style:italic; transition:none}
+.morph .ch.flipped{font-family:var(--font-mono); font-style:normal; font-size:.82em; color:var(--signal-deep); font-weight:700}
+.dialog-proof{margin-top:14px}
+
+/* ============================================================
+   WET 4 — DE FEED (enige transitie)
+   ============================================================ */
+.feed-stage{position:relative; overflow:hidden}
+.feed-panel{transition:none}
+.feed-out{animation:feed-out var(--t-feed) var(--ease-mech) forwards}
+.feed-in{animation:feed-in var(--t-feed) var(--ease-mech) forwards}
+@keyframes feed-out{to{opacity:0; transform:translateX(-24px)}}
+@keyframes feed-in{from{opacity:0; transform:translateX(32px)}to{opacity:1; transform:translateX(0)}}
+.feed-hidden{display:none}
+/* Doorvoer-tandjes bovenaan het feed-podium (decoratief, subtiel) */
+.feed-track{display:flex; gap:10px; margin-bottom:14px}
+.feed-track i{width:8px; height:8px; border:2px solid var(--rule-strong); border-radius:50%}
+
+/* ---------- Live leadflow-kaart ---------- */
+.flow-card{max-width:520px}
+.flow-head{display:flex; align-items:center; gap:10px; padding-bottom:12px; border-bottom:1px solid var(--rule)}
+.dot{width:8px; height:8px; border-radius:50%; background:var(--signal); flex:none}
+.dot.pulse{animation:pulse 1.6s var(--ease-soft) infinite}
+@keyframes pulse{0%,100%{box-shadow:0 0 0 0 rgba(255,77,46,.5)}50%{box-shadow:0 0 0 6px rgba(255,77,46,0)}}
+.flow-events{list-style:none; margin:0; padding:0; font-family:var(--font-mono); font-size:12px}
+.flow-events li{display:flex; gap:12px; padding:9px 0; border-bottom:1px dashed var(--rule)}
+.flow-events .t{color:var(--ink-faint); flex:none}
+.flow-events .ok{color:var(--signal-deep); font-weight:700; margin-left:auto}
+.flow-events li.new{animation:print-row 160ms var(--ease-mech) both}
+
+/* ---------- demo-chrome ---------- */
+.demo-bar{display:flex; flex-wrap:wrap; gap:12px; align-items:center; margin-top:22px}
+.grid-2{display:grid; grid-template-columns:1fr 1fr; gap:40px; align-items:start}
+@media (max-width:820px){.grid-2{grid-template-columns:1fr}}
+header.site{padding:56px 0 8px}
+footer.site{padding:48px 0 72px}
+.law-list{font-family:var(--font-mono); font-size:12px; line-height:2; color:var(--ink-soft); padding-left:0; list-style:none}
+.law-list b{color:var(--ink)}
+
+/* ============================================================
+   KWALITEITSVLOER — reduced motion: alles statisch & zichtbaar
+   ============================================================ */
+@media (prefers-reduced-motion:reduce){
+  html{scroll-behavior:auto}
+  .stamp,.stamp.tilted{opacity:1; transform:scale(1) rotate(var(--tilt,0deg)); animation:none!important}
+  .receipt.printing .receipt-row{opacity:1; transform:none; animation:none!important}
+  .feed-out,.feed-in{animation:none!important; opacity:1; transform:none}
+  .dot.pulse{animation:none}
+  .flow-events li.new{animation:none}
+  .btn{transition:none}
+}
+/* Zonder JS: alles zichtbaar */
+html:not(.js) .stamp{opacity:1; transform:none}
+html:not(.js) .receipt-row{opacity:1; transform:none}
+</style>
+</head>
+<body>
+<script>document.documentElement.classList.add('js')</script>
+
+<main>
+<header class="site">
+  <span class="sticker stamp tilted"><span class="num">§ 00</span>&nbsp;/ REFERENTIE-IMPLEMENTATIE</span>
+  <h1 class="stamp" style="--stagger:120ms">De vier <span class="accent">wetten</span>,<br>werkend.</h1>
+  <p>Dit bestand is de bron van waarheid naast <strong>DESIGN.md</strong>. Elke component hieronder is productieklaar gedrag: kopieer de CSS/JS 1-op-1 in plaats van opnieuw te interpreteren. Reduced-motion en no-JS zijn afgedekt.</p>
+</header>
+
+<!-- ============ WET 1 ============ -->
+<section id="wet1">
+  <span class="sticker tilt-r stamp tilted tilt-r"><span class="num">WET 1</span>&nbsp;/ DE STEMPEL</span>
+  <h2 class="stamp" style="--stagger:100ms">Eén entrance. <span class="accent">Altijd</span> deze.</h2>
+  <p>Scale 1.14 → 1 met overshoot (<code class="mono-note">--ease-stamp</code>, 220ms). Groepen staggeren met 70–80ms. Er bestaat geen fade-in, geen slide-in.</p>
+  <div class="demo-bar" id="stampDemo">
+    <span class="sticker stamp tilted">GEEN HYPE</span>
+    <span class="sticker tilt-r stamp tilted tilt-r" style="--stagger:75ms">ALLEEN GROEI</span>
+    <span class="card stamp stamp-heavy" style="--stagger:150ms; padding:14px 22px; font-family:var(--font-display); font-weight:600; font-size:22px">€ 4.950</span>
+  </div>
+  <div class="demo-bar">
+    <button class="btn" type="button" onclick="replayStamps('#stampDemo')">Speel opnieuw af</button>
+    <span class="mono-note">gedrag op site: IntersectionObserver, één keer per element</span>
+  </div>
+</section>
+
+<!-- ============ WET 2 ============ -->
+<section id="wet2">
+  <span class="sticker stamp tilted"><span class="num">WET 2</span>&nbsp;/ HET BONNETJE</span>
+  <div class="grid-2" style="margin-top:18px">
+    <div>
+      <h2 class="stamp">Het systeem <span class="accent">print</span> zijn antwoord.</h2>
+      <p>Elke output — prijsopbouw, formulier-bevestiging, configurator-resultaat — is een bonnetje: mono, gestippelde leaders, dubbele rule voor het totaal, perforatierand, afsluitende stempel.</p>
+      <p class="mono-note">regels printen top-down (90–140ms/regel) · stempel landt als laatste via wet 1</p>
+      <div class="demo-bar">
+        <button class="btn btn-primary" type="button" onclick="printReceipt()">Print het bonnetje</button>
+      </div>
+    </div>
+    <div>
+      <div class="receipt printing" id="receipt" aria-live="polite">
+        <div class="receipt-row receipt-head">
+          <strong>* KELVANTIS *</strong><br>
+          <span class="mono-note">PRIJSOPBOUW · PAKKET GROEI</span><br>
+          <span class="mono-note" id="receiptDate">—</span>
+        </div>
+        <div class="receipt-row receipt-line"><span>Conversiegerichte website</span><span class="dots"></span><span>€ 3.200</span></div>
+        <div class="receipt-row receipt-line"><span>Workflow-koppeling (n8n)</span><span class="dots"></span><span>€ 950</span></div>
+        <div class="receipt-row receipt-line"><span>GEO/AEO-basisinrichting</span><span class="dots"></span><span>€ 800</span></div>
+        <div class="receipt-row receipt-line"><span>Levertijd</span><span class="dots"></span><span>4 weken, vast</span></div>
+        <div class="receipt-row receipt-line receipt-total"><span>TOTAAL, EENMALIG</span><span class="dots"></span><span>€ 4.950</span></div>
+        <div class="receipt-row receipt-line"><span class="status-ok">✓ vaste prijs</span><span class="dots"></span><span class="status-ok">✓ geen uurtje-factuurtje</span></div>
+        <div class="receipt-row"><span class="receipt-stampmark stamp tilted">GEEN HYPE</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ WET 3 ============ -->
+<section id="wet3">
+  <span class="sticker tilt-r stamp tilted tilt-r"><span class="num">WET 3</span>&nbsp;/ DE DIALOOG</span>
+  <h2 class="stamp">Fraunces spreekt.<br>Van inkt naar <span class="morph" id="morphWord" aria-label="signaal">signaal</span>.</h2>
+  <p>De mens belooft (Fraunces), het systeem bevestigt (Mono). De morph laat een woord teken-voor-teken omklappen van inkt naar systeemtekst — de merkbelofte zonder uitleg. Spaarzaam inzetten: maximaal één morph per pagina, in de hero.</p>
+  <div class="dialog-proof mono-note">⏳ systeem: belofte geregistreerd · bron vereist bij cijfers · reactie &lt; 24u</div>
+  <div class="demo-bar">
+    <button class="btn" type="button" onclick="runMorph()">Speel morph af</button>
+  </div>
+</section>
+
+<!-- ============ WET 4 ============ -->
+<section id="wet4">
+  <span class="sticker stamp tilted"><span class="num">WET 4</span>&nbsp;/ DE FEED</span>
+  <h2 class="stamp">Wissels als papier <span class="accent">door de machine</span>.</h2>
+  <p>Horizontale doorvoer (uit: −24px, in: vanaf +32px, 420ms, <code class="mono-note">--ease-mech</code>). Voor paginawissels: View Transitions API met deze klassen als fallback. Hieronder als state-wissel (prijzen-toggle).</p>
+  <div class="feed-track" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i></div>
+  <div class="feed-stage">
+    <div class="feed-panel card" id="panelA" style="max-width:520px">
+      <span class="mono-label">EENMALIG</span>
+      <h2 style="margin:.2em 0">€ 4.950</h2>
+      <p style="margin:0">Website + koppelingen, vaste prijs, vaste levertijd.</p>
+    </div>
+    <div class="feed-panel card feed-hidden" id="panelB" style="max-width:520px">
+      <span class="mono-label">MAANDELIJKS</span>
+      <h2 style="margin:.2em 0">€ 450 <span class="mono-note">/mnd</span></h2>
+      <p style="margin:0">Monitoring, optimalisatie en doorbouwen op het systeem.</p>
+    </div>
+  </div>
+  <div class="demo-bar">
+    <button class="btn" type="button" id="feedBtn" onclick="feedSwap()">Wissel naar maandelijks</button>
+  </div>
+</section>
+
+<!-- ============ LIVE LEADFLOW ============ -->
+<section id="leadflow">
+  <span class="sticker tilt-r stamp tilted tilt-r"><span class="num">§ 05</span>&nbsp;/ LIVE-GEDRAG</span>
+  <h2 class="stamp">"Live" betekent: het <span class="accent">tikt</span> echt.</h2>
+  <p>De hero-leadflow draait door: elke ±8s een nieuw event, geprint volgens wet 2, timestamps in mono. Demo-data altijd zichtbaar gelabeld — geen verzonnen klanten.</p>
+  <div class="card flow-card">
+    <div class="flow-head">
+      <span class="dot pulse" aria-hidden="true"></span>
+      <span class="mono-label" style="color:var(--ink)">KELVANTIS · LIVE</span>
+      <span class="mono-note" style="margin-left:auto">KLANT: VOORBEELD-B2B · <b>DEMO</b></span>
+    </div>
+    <ul class="flow-events" id="flowEvents"></ul>
+  </div>
+</section>
+
+<footer class="site">
+  <span class="sticker stamp tilted">SAMENVATTING</span>
+  <ul class="law-list" style="margin-top:18px">
+    <li><b>WET 1</b> — alles komt binnen als stempel; niets fadet of slidet.</li>
+    <li><b>WET 2</b> — elke systeemoutput is een bonnetje.</li>
+    <li><b>WET 3</b> — Fraunces spreekt, Mono antwoordt; elke sectie heeft beide stemmen.</li>
+    <li><b>WET 4</b> — wissels zijn horizontale doorvoer, nooit crossfade.</li>
+    <li><b>VLOER</b> — reduced-motion statisch · werkt zonder JS · inkt-focusring · AA-contrast · demo-data gelabeld.</li>
+  </ul>
+</footer>
+</main>
+
+<script>
+/* ================= WET 1 — stempel via IntersectionObserver ================= */
+const prefersReduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
+const io = new IntersectionObserver((entries)=>{
+  for(const e of entries){ if(e.isIntersecting){ e.target.classList.add('is-stamped'); io.unobserve(e.target);} }
+},{threshold:.35});
+document.querySelectorAll('.stamp').forEach(el=>io.observe(el));
+
+function replayStamps(sel){
+  document.querySelectorAll(sel+' .stamp').forEach(el=>{
+    el.classList.remove('is-stamped'); void el.offsetWidth; el.classList.add('is-stamped');
+  });
+}
+
+/* ================= WET 2 — bonnetje printen ================= */
+const receipt = document.getElementById('receipt');
+const rows = [...receipt.querySelectorAll('.receipt-row')];
+document.getElementById('receiptDate').textContent =
+  new Date().toLocaleDateString('nl-NL',{day:'2-digit',month:'2-digit',year:'numeric'}) + ' · REF 2026-0043';
+
+function printReceipt(){
+  if(prefersReduced){ rows.forEach(r=>r.classList.add('printed')); return; }
+  rows.forEach(r=>{r.classList.remove('printed'); const s=r.querySelector('.stamp'); if(s) s.classList.remove('is-stamped');});
+  rows.forEach((r,i)=>{
+    setTimeout(()=>{
+      r.classList.add('printed');
+      const s=r.querySelector('.stamp'); if(s){ void s.offsetWidth; s.classList.add('is-stamped'); }
+    }, 120*i + 60);
+  });
+}
+setTimeout(printReceipt, 600); /* print één keer bij laden */
+
+/* ================= WET 3 — ink → signal morph ================= */
+const morphEl = document.getElementById('morphWord');
+const word = morphEl.textContent.trim();
+morphEl.textContent='';
+[...word].forEach(c=>{ const s=document.createElement('span'); s.className='ch'; s.textContent=c; morphEl.appendChild(s); });
+morphEl.querySelectorAll('.ch').forEach(ch=>ch.classList.add('flippable'));
+function runMorph(){
+  const chars=[...morphEl.querySelectorAll('.ch')];
+  chars.forEach(c=>c.classList.remove('flipped'));
+  if(prefersReduced){ chars.forEach(c=>c.classList.add('flipped')); return; }
+  chars.forEach((c,i)=> setTimeout(()=>c.classList.add('flipped'), 90*i + 300));
+}
+setTimeout(runMorph, 1200);
+
+/* ================= WET 4 — feed-wissel ================= */
+let showingA = true, feeding = false;
+function feedSwap(){
+  if(feeding) return; feeding = true;
+  const out = document.getElementById(showingA?'panelA':'panelB');
+  const inn = document.getElementById(showingA?'panelB':'panelA');
+  const btn = document.getElementById('feedBtn');
+  const done = ()=>{
+    out.classList.add('feed-hidden'); out.classList.remove('feed-out');
+    inn.classList.remove('feed-hidden'); inn.classList.add('feed-in');
+    inn.addEventListener('animationend', ()=>{ inn.classList.remove('feed-in'); feeding=false; }, {once:true});
+    showingA = !showingA;
+    btn.textContent = showingA ? 'Wissel naar maandelijks' : 'Wissel naar eenmalig';
+    if(prefersReduced) feeding=false;
+  };
+  if(prefersReduced){ done(); return; }
+  out.classList.add('feed-out');
+  out.addEventListener('animationend', done, {once:true});
+}
+
+/* ================= Live leadflow (demo-data, gelabeld) ================= */
+const flow = document.getElementById('flowEvents');
+const script = [
+  ['lead ontvangen · formulier website','✓'],
+  ['lead gekwalificeerd · score 87/100','✓'],
+  ['offerte gegenereerd en verzonden','✓'],
+  ['opvolgmail ingepland · +2 dagen','✓'],
+  ['gespreksverzoek in agenda gezet','✓'],
+  ['CRM bijgewerkt · status: warm','✓'],
+];
+let idx=0;
+function fmtTime(d){ return d.toLocaleTimeString('nl-NL',{hour:'2-digit',minute:'2-digit',second:'2-digit'}); }
+function pushEvent(){
+  const li=document.createElement('li'); li.className='new';
+  const [msg,ok]=script[idx%script.length]; idx++;
+  li.innerHTML = `<span class="t">${fmtTime(new Date())}</span><span>${msg}</span><span class="ok">${ok}</span>`;
+  flow.prepend(li);
+  while(flow.children.length>5) flow.lastElementChild.remove();
+}
+pushEvent(); pushEvent(); pushEvent();
+if(!prefersReduced) setInterval(pushEvent, 8000);
+</script>
+</body>
+</html>
