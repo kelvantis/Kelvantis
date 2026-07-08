@@ -65,6 +65,7 @@
 - Nieuwe ideeën tijdens het bouwen → onderaan dit bestand in "Parkeerlijst", niet uitvoeren.
 
 ## Notities
+- Lokale verificatie (sessie 3 e.v.): testserver is `npx serve -l 8123` vanuit de repo-root. De eerder gebruikte `python -m http.server` bleek flaky (sporadisch deels geladen CSS → valse meetuitslagen in sessie 1 en 2); niet meer gebruiken voor metingen.
 - 360px-overflow /over-ons/ (sessie 1): op de Vercel-deploy (kelvantis.com) 6× gemeten, scrollWidth stabiel 360 en founder-foto correct begrensd op 300px. De sporadische 848px-meting was een artefact van de lokale python-testserver (CSS-race), geen sitefout. Afgesloten.
 
 ## Parkeerlijst
