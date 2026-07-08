@@ -122,6 +122,38 @@ document.addEventListener('DOMContentLoaded', function () {
     els.forEach(function (el) { io.observe(el); });
   })();
 
+  /* --- WET 2: het bonnetje print bij in-view, één keer (zie DESIGN.md §2).
+        Gedrag uit kelvantis-signature-referentie.html. De HTML staat volledig
+        zichtbaar in de bron (no-JS-veilig); .printing wordt hier pas gezet,
+        vlak vóór het printen. Reduced-motion of geen IntersectionObserver:
+        bonnetje blijft direct volledig geprint. No-opt zonder .receipt. --- */
+  (function () {
+    var receipts = document.querySelectorAll('.receipt');
+    if (!receipts.length) return;
+    // datumregel: echte printdatum (geen verzonnen ref-nummers)
+    document.querySelectorAll('.receipt .receipt-date').forEach(function (el) {
+      el.textContent = new Date().toLocaleDateString('nl-NL', { day: '2-digit', month: '2-digit', year: 'numeric' });
+    });
+    var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (reduce || !('IntersectionObserver' in window)) return; // eindstaat staat al in de HTML
+    function printReceipt(r) {
+      r.querySelectorAll('.receipt-row').forEach(function (row, i) {
+        setTimeout(function () {
+          row.classList.add('printed');
+          var s = row.querySelector('.stamp');
+          if (s) { void s.offsetWidth; s.classList.add('is-stamped'); }
+        }, 120 * i + 60);
+      });
+    }
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (e) {
+        if (!e.isIntersecting) return;
+        printReceipt(e.target); io.unobserve(e.target);
+      });
+    }, { threshold: 0.35 });
+    receipts.forEach(function (r) { r.classList.add('printing'); io.observe(r); });
+  })();
+
   /* --- FAQ scroll-spy: markeer in de sidebar welke categorie in beeld is. Alleen op
         /faq/ (degradeert netjes). No-opt waar geen .faq-cat bestaat. --- */
   (function () {
