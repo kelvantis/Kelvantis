@@ -438,6 +438,9 @@ h1, h2, h3, h4 {
 /* Zonder JS: alles zichtbaar */
 html:not(.js) .receipt-row { opacity: 1; transform: none; }
 html:not(.js) .receipt .stamp { opacity: 1; }
+/* Contactflow: het formulier heeft display:grid, dus het hidden-attribuut
+   (UA-stylesheet) verliest daarvan — expliciet herstellen. */
+.contact-form[hidden] { display: none; }
 
 /* =========================================================================
    NAVBAR: floating pill

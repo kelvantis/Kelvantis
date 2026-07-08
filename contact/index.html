@@ -292,6 +292,24 @@
 
               <p class="contact-privacy">Je gegevens worden alleen gebruikt om te reageren op je bericht. Zie ons <a href="/privacy/">privacybeleid</a>.</p>
             </form>
+
+            <!-- Bevestigings-bonnetje (WET 2): puur presentatie ná een geslaagde
+                 verzending via fetch (js/site.js). Zonder JS blijft dit hidden en
+                 loopt de verzending via de normale POST → /bedankt/. -->
+            <div class="receipt" id="contact-receipt" data-receipt="manual" aria-live="polite" tabindex="-1" hidden>
+              <div class="receipt-row receipt-head">
+                <strong>* KELVANTIS *</strong><br>
+                <span class="receipt-note">AANVRAAG ONTVANGEN</span><br>
+                <span class="receipt-note" id="cr-datum">—</span>
+              </div>
+              <div class="receipt-row receipt-line"><span>Naam</span><span class="receipt-dots"></span><span id="cr-naam">—</span></div>
+              <div class="receipt-row receipt-line"><span>Onderwerp</span><span class="receipt-dots"></span><span id="cr-onderwerp">—</span></div>
+              <div class="receipt-row receipt-line"><span>Referentie</span><span class="receipt-dots"></span><span id="cr-ref">—</span></div>
+              <div class="receipt-row receipt-line receipt-total"><span>STATUS</span><span class="receipt-dots"></span><span>in behandeling</span></div>
+              <div class="receipt-row receipt-line"><span class="status-ok">✓ bericht binnen</span><span class="receipt-dots"></span><span class="status-ok">✓ je hoort van ons</span></div>
+              <div class="receipt-row"><span class="receipt-note">reactie binnen 24 uur op werkdagen · je hoeft verder niets te doen</span></div>
+              <div class="receipt-row"><span class="receipt-stampmark stamp">ONTVANGEN · REACTIE &lt; 24 UUR</span></div>
+            </div>
           </div>
 
         </div>

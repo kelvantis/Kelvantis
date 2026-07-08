@@ -122,13 +122,27 @@ document.addEventListener('DOMContentLoaded', function () {
     els.forEach(function (el) { io.observe(el); });
   })();
 
+  /* --- WET 2 helper: print de regels van een bonnetje top-down; de afsluitende
+        stempel (nested .stamp) landt via WET 1 (stamp-land). Gedeeld door het
+        in-view-bonnetje en de contactflow. --- */
+  function kvReceiptPrintRows(r) {
+    r.querySelectorAll('.receipt-row').forEach(function (row, i) {
+      setTimeout(function () {
+        row.classList.add('printed');
+        var s = row.querySelector('.stamp');
+        if (s) { void s.offsetWidth; s.classList.add('is-stamped'); }
+      }, 120 * i + 60);
+    });
+  }
+
   /* --- WET 2: het bonnetje print bij in-view, één keer (zie DESIGN.md §2).
         Gedrag uit kelvantis-signature-referentie.html. De HTML staat volledig
         zichtbaar in de bron (no-JS-veilig); .printing wordt hier pas gezet,
         vlak vóór het printen. Reduced-motion of geen IntersectionObserver:
-        bonnetje blijft direct volledig geprint. No-opt zonder .receipt. --- */
+        bonnetje blijft direct volledig geprint. Bonnetjes met
+        data-receipt="manual" (contactflow) worden hier overgeslagen. --- */
   (function () {
-    var receipts = document.querySelectorAll('.receipt');
+    var receipts = document.querySelectorAll('.receipt:not([data-receipt="manual"])');
     if (!receipts.length) return;
     // datumregel: echte printdatum (geen verzonnen ref-nummers)
     document.querySelectorAll('.receipt .receipt-date').forEach(function (el) {
@@ -136,22 +150,70 @@ document.addEventListener('DOMContentLoaded', function () {
     });
     var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     if (reduce || !('IntersectionObserver' in window)) return; // eindstaat staat al in de HTML
-    function printReceipt(r) {
-      r.querySelectorAll('.receipt-row').forEach(function (row, i) {
-        setTimeout(function () {
-          row.classList.add('printed');
-          var s = row.querySelector('.stamp');
-          if (s) { void s.offsetWidth; s.classList.add('is-stamped'); }
-        }, 120 * i + 60);
-      });
-    }
     var io = new IntersectionObserver(function (entries) {
       entries.forEach(function (e) {
         if (!e.isIntersecting) return;
-        printReceipt(e.target); io.unobserve(e.target);
+        kvReceiptPrintRows(e.target); io.unobserve(e.target);
       });
     }, { threshold: 0.35 });
     receipts.forEach(function (r) { r.classList.add('printing'); io.observe(r); });
+  })();
+
+  /* --- Contactflow (PLAN sessie 3): bonnetje na succesvolle verzending.
+        HARDE EIS — nooit dataverlies: de normale POST-route (Formspree,
+        _next → /bedankt/) blijft volledig intact en is het pad zonder JS.
+        Dit blok probeert de verzending via fetch; ALLEEN bij een geslaagde
+        respons wordt het bonnetje getoond. Bij elke twijfel (netwerkfout,
+        niet-2xx, ontbrekende APIs) valt het terug op de native submit.
+        AVG: POST-body, geen data in de URL; het bonnetje is client-side. --- */
+  (function () {
+    var form = document.querySelector('.contact-form');
+    var receipt = document.getElementById('contact-receipt');
+    if (!form || !receipt || !window.fetch || !window.FormData) return;
+    var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    var fallback = false, busy = false;
+
+    function p2(n) { n = String(n); return n.length < 2 ? '0' + n : n; }
+    function set(id, val) { var el = document.getElementById(id); if (el) el.textContent = val; }
+
+    function showReceipt(data) {
+      var now = new Date();
+      set('cr-datum', now.toLocaleDateString('nl-NL', { day: '2-digit', month: '2-digit', year: 'numeric' }) +
+        ' · ' + now.toLocaleTimeString('nl-NL', { hour: '2-digit', minute: '2-digit' }));
+      set('cr-naam', (String(data.get('naam') || '').trim() || '—').slice(0, 60));
+      set('cr-onderwerp', String(data.get('onderwerp') || '—'));
+      // referentie afgeleid van het echte verzendmoment (geen verzonnen nummers)
+      set('cr-ref', 'REF ' + now.getFullYear() + p2(now.getMonth() + 1) + p2(now.getDate()) + '-' + p2(now.getHours()) + p2(now.getMinutes()));
+      form.hidden = true;
+      receipt.hidden = false;
+      if (!reduce) { receipt.classList.add('printing'); void receipt.offsetWidth; kvReceiptPrintRows(receipt); }
+      // favicon → vinkje (bevestiging in het tabblad)
+      var icon = document.querySelector('link[rel="icon"]');
+      if (icon) icon.setAttribute('href', '/favicon-check.svg');
+      receipt.focus({ preventScroll: true });
+      receipt.scrollIntoView({ block: 'nearest', behavior: reduce ? 'auto' : 'smooth' });
+    }
+
+    form.addEventListener('submit', function (e) {
+      if (fallback) return;            // terugvalpoging: native route, niet meer onderscheppen
+      e.preventDefault();
+      if (busy) return;                // dubbelklik-bescherming
+      busy = true;
+      var btn = form.querySelector('.contact-submit');
+      if (btn) { btn.disabled = true; btn.textContent = 'Versturen…'; }
+      var data = new FormData(form);
+      fetch(form.action, { method: 'POST', body: data, headers: { 'Accept': 'application/json' } })
+        .then(function (res) {
+          if (!res.ok) throw new Error('status ' + res.status);
+          showReceipt(data);
+        })
+        .catch(function () {
+          // geen dataverlies: alsnog de normale verzendroute (POST → /bedankt/)
+          fallback = true; busy = false;
+          if (btn) btn.disabled = false;
+          form.submit();
+        });
+    });
   })();
 
   /* --- FAQ scroll-spy: markeer in de sidebar welke categorie in beeld is. Alleen op

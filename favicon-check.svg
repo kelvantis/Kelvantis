@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024" width="1024" height="1024">
+  <rect width="1024" height="1024" rx="224" fill="#F7F2E8"/>
+  <!-- vinkje in merkstijl: harde ink-offset-schaduw onder signal -->
+  <path d="M240 540 L448 748 L800 336" fill="none" stroke="#1F1814" stroke-width="118" stroke-linecap="round" stroke-linejoin="round" transform="translate(26 26)"/>
+  <path d="M240 540 L448 748 L800 336" fill="none" stroke="#FF4D2E" stroke-width="118" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>
