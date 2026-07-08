@@ -426,7 +426,10 @@ h1, h2, h3, h4 {
 }
 .receipt .stamp { opacity: 0; }
 .receipt .stamp.is-stamped { animation: stamp-land var(--t-stamp) var(--ease-stamp) forwards; }
-.prijs-col .receipt { margin: 26px 0 30px; }
+/* Prijssectie: bonnetje als visueel anker in de rechterkolom, robot eronder. */
+.prijs-anker { display: flex; flex-direction: column; align-items: center; gap: 10px; }
+.prijs-anker .receipt { width: min(400px, 100%); font-size: 13.5px; }
+.prijs-anker .prijs-art { max-width: 230px; }
 
 @media (prefers-reduced-motion: reduce) {
   .receipt.printing .receipt-row { opacity: 1 !important; transform: none !important; animation: none !important; }
