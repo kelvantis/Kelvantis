@@ -74,6 +74,7 @@ Alles wat binnenkomt, **stempelt**. Badges, sectiekoppen, prijzen, bevestigingen
 - Optioneel 1 frame "inktdruk": box-shadow flitst van `--shadow-hard-lg` naar `--shadow-hard`.
 - **Verboden:** fade-only, slide-in van links/rechts, blur-in, zoom-out. Er bestaat maar één entrance.
 - Stagger bij groepen: 70–80ms.
+- **Uitzondering — teken-animaties:** een stroke-animatie die data tekent (zoals de hero-grafieklijn via `stroke-dashoffset`) is geen entrance maar het systeem dat zichtbaar werkt; die mag. Een fade die ondergeschikt is aan zo'n teken-animatie (het vlak dat onder de getekende lijn vult) mag mee, maar nooit als zelfstandige entrance van content.
 
 ### WET 2 — Het Bonnetje (universeel output-formaat)
 Elke output van "het systeem" is een geprint bonnetje: prijsopbouw, formulier-bevestiging, leadflow-events, blogmeta, configurator-resultaat.
