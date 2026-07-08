@@ -69,4 +69,5 @@
 - 360px-overflow /over-ons/ (sessie 1): op de Vercel-deploy (kelvantis.com) 6× gemeten, scrollWidth stabiel 360 en founder-foto correct begrensd op 300px. De sporadische 848px-meting was een artefact van de lokale python-testserver (CSS-race), geen sitefout. Afgesloten.
 
 ## Parkeerlijst
+- Prijsconsistentie: /website-laten-maken/ noemt nu "vanaf € 1.500"; de FAQ op /limburg/ (incl. JSON-LD) zegt nog "we noemen geen koud getal". Copy gelijktrekken in een losse copy-fix.
 - Vercel serveert alles in de repo-root publiek: `DESIGN.md`, `PLAN.md` en `kelvantis-signature-referentie.html` zijn dus bereikbaar via kelvantis.com. Overwegen: uitsluiten van deploy (`.vercelignore`) — de referentie-HTML gebruikt bovendien Google Fonts CDN (alleen demo, mag niet in productiepagina's).
