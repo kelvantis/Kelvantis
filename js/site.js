@@ -216,6 +216,89 @@ document.addEventListener('DOMContentLoaded', function () {
     });
   })();
 
+  /* --- Hero-leadflow (PLAN sessie 4): demo-events die echt ticken. Alleen op
+        de homepage (#flowEvents). Generieke systeemstappen — geen klantnamen,
+        geen resultaatclaims; het DEMO-label staat permanent in de kaartkop.
+        Met JS: echte tijdstempels, elke 8s een nieuw event (print via WET 2).
+        Reduced-motion: 3 statische events met echte tijden, geen interval.
+        Zonder JS: de statische eindstaat uit de HTML. --- */
+  (function () {
+    var flow = document.getElementById('flowEvents');
+    if (!flow) return;
+    var script = [
+      ['lead ontvangen · formulier website', '✓'],
+      ['lead gekwalificeerd · criteria gecheckt', '✓'],
+      ['offerte gegenereerd en verzonden', '✓'],
+      ['opvolgmail ingepland · +2 dagen', '✓'],
+      ['gespreksverzoek in agenda gezet', '✓'],
+      ['CRM bijgewerkt · status: warm', '✓']
+    ];
+    var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    var idx = 0;
+    function fmtTime(d) { return d.toLocaleTimeString('nl-NL', { hour: '2-digit', minute: '2-digit', second: '2-digit' }); }
+    function pushEvent(animate) {
+      var li = document.createElement('li');
+      if (animate) li.className = 'new';
+      var msg = script[idx % script.length]; idx++;
+      var t = document.createElement('span'); t.className = 't'; t.textContent = fmtTime(new Date());
+      var m = document.createElement('span'); m.textContent = msg[0];
+      var ok = document.createElement('span'); ok.className = 'ok'; ok.textContent = msg[1];
+      li.appendChild(t); li.appendChild(m); li.appendChild(ok);
+      flow.insertBefore(li, flow.firstChild);
+      while (flow.children.length > 4) flow.removeChild(flow.lastElementChild);
+    }
+    // vervang de statische no-JS-eindstaat door drie events met echte tijden
+    flow.textContent = '';
+    pushEvent(false); pushEvent(false); pushEvent(false);
+    if (!reduce) setInterval(function () { pushEvent(true); }, 8000);
+  })();
+
+  /* --- Mechanische tellers (PLAN sessie 4): de statistieken tellen stapsgewijs
+        op — discrete ticks (14 stappen), geen soepele lerp; pacing is een
+        benadering van --ease-mech. De eindwaarde is exact de bestaande,
+        gebronde tekst uit de HTML — dit is puur presentatie, geen nieuw
+        cijfer. Reduced-motion of geen IntersectionObserver: tekst blijft
+        gewoon staan (eindwaarde). --- */
+  (function () {
+    var values = document.querySelectorAll('.stat-value');
+    if (!values.length) return;
+    var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (reduce || !('IntersectionObserver' in window)) return;
+    var STEPS = 14, DUR = 900;
+    function ease(t) { // in-out, mechanisch aanvoelend door de discrete stappen
+      return t < 0.5 ? 2 * t * t : 1 - Math.pow(-2 * t + 2, 2) / 2;
+    }
+    function fmt(n, dec) {
+      return dec > 0 ? n.toFixed(dec).replace('.', ',') : String(Math.round(n));
+    }
+    function startCount(el) {
+      var original = el.textContent;
+      var re = /\d+(?:,\d+)?/g;
+      if (!re.test(original)) return;
+      el.classList.add('counting');
+      for (var k = 1; k <= STEPS; k++) {
+        (function (k) {
+          setTimeout(function () {
+            if (k === STEPS) { el.textContent = original; el.classList.remove('counting'); return; }
+            var p = ease(k / STEPS);
+            el.textContent = original.replace(/\d+(?:,\d+)?/g, function (tok) {
+              var dec = tok.indexOf(',') > -1 ? tok.split(',')[1].length : 0;
+              var target = parseFloat(tok.replace(',', '.'));
+              return fmt(target * p, dec);
+            });
+          }, Math.round(k * (DUR / STEPS)));
+        })(k);
+      }
+    }
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (e) {
+        if (!e.isIntersecting) return;
+        startCount(e.target); io.unobserve(e.target);
+      });
+    }, { threshold: 0.6 });
+    values.forEach(function (el) { io.observe(el); });
+  })();
+
   /* --- FAQ scroll-spy: markeer in de sidebar welke categorie in beeld is. Alleen op
         /faq/ (degradeert netjes). No-opt waar geen .faq-cat bestaat. --- */
   (function () {

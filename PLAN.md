@@ -67,7 +67,7 @@
 ## Notities
 - Meting /bedankt/ (check sessie 4): er hangt géén analytics of conversiemeting aan /bedankt/ of aan de rest van de site — bewuste keuze, de privacypagina belooft expliciet "geen analytics-trackers". Er is dus ook geen KPI-event nodig bij bonnetje-succes op /contact/; een event toevoegen zou de privacybelofte breken. Wil je ooit meten, dan eerst privacybeleid + CSP herzien (aparte beslissing).
 - Sessie 3 — actie voor Kjell: de e-mailbevestiging in bonnetje-stijl staat klaar in `docs/email-bevestiging-bonnetje.html`. Plakken in Formspree → formulier xwvweodo → Settings → Autoresponse (custom HTML). Dit kan niet vanuit de repo; tot die tijd krijgt de afzender de standaard Formspree-bevestiging (of geen).
-- Lokale verificatie (sessie 3 e.v.): testserver is `npx serve -l 8123` vanuit de repo-root. De eerder gebruikte `python -m http.server` bleek flaky (sporadisch deels geladen CSS → valse meetuitslagen in sessie 1 en 2); niet meer gebruiken voor metingen.
+- Lokale verificatie (sessie 3 e.v.): testserver is `npx serve -l 8123` vanuit de repo-root. Correctie (sessie 4): de sporadische valse metingen (848px-overflow) lagen niet aan de python-server maar aan headless Chromium dat styles.css af en toe leeg parset (0 cssRules, ±1 op 6 loads) — treedt ook met npx serve op. Sitefout uitgesloten (live Vercel 6/6 schoon). Metingen doen daarom altijd een guard vooraf: check dat `document.styleSheets` regels bevat, anders pagina herladen.
 - 360px-overflow /over-ons/ (sessie 1): op de Vercel-deploy (kelvantis.com) 6× gemeten, scrollWidth stabiel 360 en founder-foto correct begrensd op 300px. De sporadische 848px-meting was een artefact van de lokale python-testserver (CSS-race), geen sitefout. Afgesloten.
 
 ## Parkeerlijst

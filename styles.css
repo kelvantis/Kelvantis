@@ -443,6 +443,23 @@ html:not(.js) .receipt .stamp { opacity: 1; }
 .contact-form[hidden] { display: none; }
 
 /* =========================================================================
+   Hero-leadflow (sessie 4): demo-events die echt ticken. Regels uit de
+   referentie (flow-events); nieuw event print via print-row (WET 2).
+   ========================================================================= */
+.flow-events { list-style: none; margin: 14px 0 0; padding: 0; font-family: var(--font-mono); font-size: 12px; }
+.flow-events li { display: flex; gap: 12px; padding: 8px 0; border-bottom: 1px dashed var(--rule); }
+.flow-events .t { color: var(--ink-faint); flex: none; }
+.flow-events .ok { color: var(--signal-deep); font-weight: 700; margin-left: auto; }
+.flow-events li.new { animation: print-row 160ms var(--ease-mech) both; }
+
+/* Mechanische tellers: vaste cijferbreedte tijdens het tellen (geen gesprong). */
+.stat-value.counting { font-variant-numeric: tabular-nums; }
+
+@media (prefers-reduced-motion: reduce) {
+  .flow-events li.new { animation: none; }
+}
+
+/* =========================================================================
    NAVBAR: floating pill
    ========================================================================= */
 .nav {

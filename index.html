@@ -284,11 +284,11 @@
         </div>
 
         <!-- Dashboard (CSS-only, illustratief) -->
-        <div class="dash" data-reveal="right" role="img" aria-label="Voorbeeld-dashboard van een B2B-klant: 2.847 bezoekers (+12%), 4,2% conversie (+0,8%), 119 leads (+18%), met een opgaande grafiek van januari tot juni.">
+        <div class="dash" data-reveal="right" role="img" aria-label="Voorbeeld-dashboard van een B2B-klant: 2.847 bezoekers (+12%), 4,2% conversie (+0,8%), 119 leads (+18%), met een opgaande grafiek van januari tot juni en een demo-leadflow met systeemstappen.">
           <div class="dash-top">
             <span class="win-dots" aria-hidden="true"><i></i><i></i><i></i></span>
             <span class="live"><span class="live-dot" aria-hidden="true"></span> Kelvantis · Live</span>
-            <span class="dash-client">Klant: voorbeeld B2B</span>
+            <span class="dash-client">Klant: voorbeeld B2B · <b>DEMO</b></span>
           </div>
 
           <div class="dash-kpis">
@@ -334,6 +334,15 @@
               </g>
             </svg>
           </div>
+
+          <!-- Demo-leadflow: generieke systeemstappen, geen klantnamen of resultaatclaims.
+               Zonder JS: deze statische eindstaat (tijden onbekend, dus "—").
+               Met JS: echte tijdstempels + elke ±8s een nieuw event (js/site.js). -->
+          <ul class="flow-events" id="flowEvents">
+            <li><span class="t">—</span><span>offerte gegenereerd en verzonden</span><span class="ok">✓</span></li>
+            <li><span class="t">—</span><span>lead gekwalificeerd · criteria gecheckt</span><span class="ok">✓</span></li>
+            <li><span class="t">—</span><span>lead ontvangen · formulier website</span><span class="ok">✓</span></li>
+          </ul>
 
           <!-- Burst sticker -->
           <div class="burst" data-reveal="stamp" aria-hidden="true">
