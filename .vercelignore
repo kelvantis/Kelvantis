@@ -3,3 +3,8 @@
 scripts/
 blog-src/
 blog-template.html
+
+# Interne stuurbestanden (design-systeem): nooit mee naar de deploy.
+DESIGN.md
+PLAN.md
+kelvantis-signature-referentie.html
