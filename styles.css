@@ -86,8 +86,6 @@
   --t-press: 120ms;   /* press-mechaniek */
   --t-stamp: 220ms;   /* stempel-landing */
   --t-feed:  420ms;   /* papier-doorvoer */
-  --reveal-dur:   600ms;
-  --reveal-shift: 18px;
   --reveal-step:  80ms;                           /* stagger-stap binnen een groep */
   --shadow-hard-dark: 4px 4px 0 var(--on-dark);   /* cream-variant hard shadow op s-dark */
 }
@@ -293,20 +291,25 @@ h1, h2, h3, h4 {
 }
 
 /* =========================================================================
-   SCROLL-REVEAL (subtiel, één keer): animatie i.p.v. transition,
-   zodat de hover-transitions van de kaarten ongemoeid blijven.
+   WET 1 — DE STEMPEL (enige entrance-animatie, zie DESIGN.md §2).
+   Eén gedeelde keyframe voor beide reveal-systemen: scale 1.14 → 1 met
+   overshoot (--ease-stamp, --t-stamp). Tilt blijft behouden via --rot.
+   Animatie i.p.v. transition, zodat hover-transitions ongemoeid blijven.
    Zonder .js-class (geen JS) blijft alles gewoon zichtbaar.
    ========================================================================= */
-@keyframes reveal-up {
-  from { opacity: 0; transform: translateY(16px); }
-  to   { opacity: 1; transform: translateY(0); }
+@keyframes stamp-land {
+  0%   { opacity: 0; transform: scale(1.14) rotate(var(--rot, 0deg)); }
+  60%  { opacity: 1; }
+  100% { opacity: 1; transform: scale(1) rotate(var(--rot, 0deg)); }
 }
+
+/* — Systeem A (legacy): .reveal/.stagger, gebruikt op /privacy/, /voorwaarden/, /bedankt/ — */
 .js .reveal,
 .js .stagger > * { opacity: 0; }
 .js .reveal.in-view,
 .js .stagger.in-view > * {
   opacity: 1;
-  animation: reveal-up 0.5s ease-out backwards;
+  animation: stamp-land var(--t-stamp) var(--ease-stamp) backwards;
 }
 /* kleine stagger voor opeenvolgende kaarten */
 .js .stagger.in-view > *:nth-child(2) { animation-delay: 70ms; }
@@ -324,11 +327,12 @@ h1, h2, h3, h4 {
 }
 
 /* =========================================================================
-   ENTRANCE-REVEAL v2 (data-reveal): rijkere laag bovenop de legacy-reveal.
-   Varianten via attribuut, group-stagger via JS (--reveal-delay), en een
-   reveal-done eindtoestand die de animatie weghaalt zodat transform weer
-   vrij is voor de hover/active-mechaniek van kaarten en knoppen.
-   Eigen keyframe-namespace (rv-*) zodat de legacy reveal-up onaangeroerd blijft.
+   Systeem B (data-reveal): zelfde stempel-gedrag, met group-stagger via JS
+   (--reveal-delay) en een reveal-done eindtoestand die de animatie weghaalt
+   zodat transform weer vrij is voor de hover/active-mechaniek van kaarten en
+   knoppen. De variant-hooks (up/left/right/stamp/pop) blijven in de HTML
+   bestaan, maar er is één entrance: de stempel (WET 1). Alleen "pop" houdt
+   een eigen keyframe voor de inktdruk (schaduw drukt eruit) op kaarten.
    ========================================================================= */
 
 /* Verborgen begintoestand alleen mét JS. Zonder JS: alles meteen zichtbaar. */
@@ -336,20 +340,10 @@ h1, h2, h3, h4 {
 
 /* Reveal als CSS-animatie (geen transition: botst niet met hover-transitions). */
 .js [data-reveal].is-visible {
-  animation: rv-up var(--reveal-dur) var(--ease-soft) var(--reveal-delay, 0ms) forwards;
+  animation: stamp-land var(--t-stamp) var(--ease-stamp) var(--reveal-delay, 0ms) forwards;
   will-change: transform, opacity;
 }
-.js [data-reveal="left"].is-visible  { animation-name: rv-left; }
-.js [data-reveal="right"].is-visible { animation-name: rv-right; }
-.js [data-reveal="stamp"].is-visible {
-  animation-name: rv-stamp;
-  animation-duration: 420ms;
-  animation-timing-function: var(--ease-stamp);
-}
-.js [data-reveal="pop"].is-visible {
-  animation-name: rv-pop;
-  animation-timing-function: var(--ease-stamp);
-}
+.js [data-reveal="pop"].is-visible { animation-name: rv-pop; }
 /* pop eindigt op de ruststand-schaduw van de kaart (anders flikkert hij bij reveal-done). */
 .js .dienst-card[data-reveal="pop"] { --pop-shadow: 4px 4px 0 var(--on-dark); }
 .js .lead-post[data-reveal="pop"]   { --pop-shadow: var(--shadow-hard-lg); }
@@ -357,27 +351,11 @@ h1, h2, h3, h4 {
 /* Na afloop: eindtoestand statisch, animatie weg, GEEN transform → hover vrij. */
 .js [data-reveal].reveal-done { opacity: 1; animation: none; will-change: auto; }
 
-@keyframes rv-up {
-  from { opacity: 0; transform: translateY(var(--reveal-shift)); }
-  to   { opacity: 1; transform: none; }
-}
-@keyframes rv-left {
-  from { opacity: 0; transform: translateX(-24px); }
-  to   { opacity: 1; transform: none; }
-}
-@keyframes rv-right {
-  from { opacity: 0; transform: translateX(24px); }
-  to   { opacity: 1; transform: none; }
-}
-/* Sticker stempelt in; tilt (rotatie) blijft behouden via --rot. */
-@keyframes rv-stamp {
-  from { opacity: 0; transform: rotate(var(--rot, 0deg)) scale(1.14); }
-  to   { opacity: 1; transform: rotate(var(--rot, 0deg)) scale(1); }
-}
-/* Kaart komt plat binnen en drukt de harde schaduw eruit (eindschaduw = ruststand). */
+/* Kaart stempelt in en drukt de harde schaduw eruit (inktdruk, eindschaduw = ruststand). */
 @keyframes rv-pop {
-  from { opacity: 0; transform: translate(4px, 4px); box-shadow: 0 0 0 0 transparent; }
-  to   { opacity: 1; transform: none;               box-shadow: var(--pop-shadow, var(--shadow-hard)); }
+  0%   { opacity: 0; transform: scale(1.14); box-shadow: 0 0 0 0 transparent; }
+  60%  { opacity: 1; }
+  100% { opacity: 1; transform: scale(1); box-shadow: var(--pop-shadow, var(--shadow-hard)); }
 }
 
 /* Signature over-ons: founder-foto valt in (up) en de -lg schaduw drukt eruit. */
