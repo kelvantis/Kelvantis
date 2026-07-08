@@ -65,5 +65,4 @@
 - Nieuwe ideeën tijdens het bouwen → onderaan dit bestand in "Parkeerlijst", niet uitvoeren.
 
 ## Parkeerlijst
-- Contentfout /over-ons/: "in 2024 van start" moet 2026 zijn (elders op de site, o.a. /projecten/ en de footer-copyright, staat 2026). Aparte copy-fix, geen designsessie.
 - Vercel serveert alles in de repo-root publiek: `DESIGN.md`, `PLAN.md` en `kelvantis-signature-referentie.html` zijn dus bereikbaar via kelvantis.com. Overwegen: uitsluiten van deploy (`.vercelignore`) — de referentie-HTML gebruikt bovendien Google Fonts CDN (alleen demo, mag niet in productiepagina's).
