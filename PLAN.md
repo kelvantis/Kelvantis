@@ -61,6 +61,7 @@
 
 ## Vaste afspraken
 - Kleine PR's; per sessie max. één component live.
+- Een lege of indirecte meting is een blokkerend signaal — het onderdeel is pas af als beide kanten van een gedrag direct bewezen zijn (bijv. uitgaand én inkomend, verzenden én tonen). Niet wegverklaren als testartefact zonder tegenbewijs (les uit de VT-freeze van sessie 5/6).
 - Na elke sessie: 1 screenshot mobiel + 1 desktop bewaren in /docs/visual-log/ (geheugen tegen stijldrift).
 - Nieuwe ideeën tijdens het bouwen → onderaan dit bestand in "Parkeerlijst", niet uitvoeren.
 
