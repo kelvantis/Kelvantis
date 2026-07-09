@@ -461,32 +461,41 @@ html:not(.js) .receipt .stamp { opacity: 1; }
 
 /* =========================================================================
    WET 4 — DE FEED (enige paginatransitie, zie DESIGN.md §2).
-   Paginawissels bewegen als papier door een machine: uitgaand −24px + fade,
-   inkomend vanaf +32px, --t-feed / --ease-mech. Implementatie: cross-document
-   View Transitions (@view-transition); de navbar krijgt een eigen snapshot-
-   groep zodat de vaste pill blijft staan terwijl het papier doorvoert.
-   Browsers zonder VT API: klasse-fallback .feed-in op <main> via js/site.js
-   (alleen inkomend — een klik wordt nooit geblokkeerd voor een exit-animatie).
-   Keyframes 1-op-1 uit kelvantis-signature-referentie.html.
+   Paginawissels bewegen als papier door een machine: inkomend vanaf +32px,
+   --t-feed / --ease-mech, via de klasse .feed-in op <main> (js/site.js,
+   alleen bij navigatie binnen de site; een klik wordt nooit geblokkeerd
+   voor een exit-animatie). Keyframes 1-op-1 uit de referentie.
+   LET OP: cross-document View Transitions (@view-transition) stond hier
+   eerst, maar bevriest de inkomende pagina permanent in Chrome (stable,
+   juli 2026; Edge werkt wél) — render-blocked, pagereveal vuurt nooit.
+   Bewust uitgeschakeld; heroverwegen zodra Chrome dit betrouwbaar doet
+   (zie PLAN.md-parkeerlijst).
    ========================================================================= */
-@view-transition { navigation: auto; }
-
 @keyframes feed-out { to { opacity: 0; transform: translateX(-24px); } }
 @keyframes feed-in { from { opacity: 0; transform: translateX(32px); } to { opacity: 1; transform: translateX(0); } }
 
-::view-transition-old(root) { animation: feed-out var(--t-feed) var(--ease-mech) both; }
-::view-transition-new(root) { animation: feed-in var(--t-feed) var(--ease-mech) both; }
-
-/* Navbar voert niet mee met het papier (identieke snapshots → staat stil). */
-.nav { view-transition-name: site-nav; }
+/* =========================================================================
+   WET 3 — Ink→Signal morph (alleen homepage-hero, één keer per sessie).
+   Het woord "handwerk" klapt teken-voor-teken om van Fraunces-italic (mens)
+   naar mono (systeem). Regels 1-op-1 uit de referentie. Zonder JS blijft het
+   woord gewoon Fraunces; breedte wordt door JS gereserveerd (geen CLS).
+   ========================================================================= */
+/* Afwijking van de referentie (inline-block op .morph en .ch): midden in een
+   zin stapelen atomic inline-blocks per teken hun box-rounding op (±1px × 8
+   tekens), waardoor de hero-regel vóór het omklappen al brak. Voor een
+   font-flip is geen inline-block nodig: gewone inline spans houden exact de
+   natuurlijke tekstbreedte (regel identiek aan vóór de morph), nowrap houdt
+   het woord onbreekbaar, en mono is smaller of gelijk aan Fraunces zodat de
+   regel tijdens het omklappen nooit hérwrapt. */
+.morph { white-space: nowrap; }
+.morph .ch { font-family: var(--font-display); font-style: italic; transition: none; }
+.morph .ch.flipped { font-family: var(--font-mono); font-style: normal; font-size: .82em; color: var(--signal-deep); font-weight: 700; }
 
 /* Klasse-fallback (state-wissels + inkomende pagina zonder VT API). */
 .feed-in { animation: feed-in var(--t-feed) var(--ease-mech) both; }
 .feed-out { animation: feed-out var(--t-feed) var(--ease-mech) forwards; }
 
 @media (prefers-reduced-motion: reduce) {
-  ::view-transition-old(root), ::view-transition-new(root),
-  ::view-transition-old(site-nav), ::view-transition-new(site-nav) { animation: none !important; }
   .feed-in, .feed-out { animation: none !important; opacity: 1; transform: none; }
 }
 

@@ -17,6 +17,12 @@
 
 document.addEventListener('DOMContentLoaded', function () {
 
+  /* Volgorde van de wetten bij binnenkomst via interne navigatie:
+     feed (WET 4, 420ms) → stempels (WET 1) → morph (WET 3). Above-the-fold-
+     stempels wachten daarom op de feed; bij directe entree is de delay 0. */
+  var kvReduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var kvFeedDelay = (!kvReduce && document.referrer && document.referrer.indexOf(location.origin + '/') === 0) ? 420 : 0;
+
   /* --- Navigatie: balk → floating pill bij scroll (>60px, rAF) + aria-sync mobiel
         menu + diensten-dropdown. (Voorheen inline op alle hoofd-/tekstpagina's.) --- */
   (function () {
@@ -92,11 +98,14 @@ document.addEventListener('DOMContentLoaded', function () {
       var i = Array.prototype.indexOf.call(items, el);
       return Math.min(i, 6) * 80; // var(--reveal-step), gecapt op 6 stappen
     }
+    var t0 = performance.now();
     var io = new IntersectionObserver(function (entries) {
       entries.forEach(function (e) {
         if (!e.isIntersecting) return;
         var el = e.target;
-        el.style.setProperty('--reveal-delay', delayFor(el) + 'ms');
+        // above-the-fold (direct bij aankomst in beeld): pas stempelen ná de feed
+        var naFeed = (performance.now() - t0 < 450) ? kvFeedDelay : 0;
+        el.style.setProperty('--reveal-delay', (delayFor(el) + naFeed) + 'ms');
         el.addEventListener('animationend', function () { el.classList.add('reveal-done'); }, { once: true });
         el.classList.add('is-visible');
         io.unobserve(el);
@@ -114,9 +123,16 @@ document.addEventListener('DOMContentLoaded', function () {
       els.forEach(function (el) { el.classList.add('in-view'); });
       return;
     }
+    var t0 = performance.now();
     var io = new IntersectionObserver(function (entries) {
       entries.forEach(function (e) {
-        if (e.isIntersecting) { e.target.classList.add('in-view'); io.unobserve(e.target); }
+        if (!e.isIntersecting) return;
+        // zelfde feed-voorrang als systeem B (alleen losse .reveal-elementen;
+        // .stagger-kinderen houden hun CSS-delays)
+        if (kvFeedDelay && performance.now() - t0 < 450 && e.target.classList.contains('reveal')) {
+          e.target.style.animationDelay = kvFeedDelay + 'ms';
+        }
+        e.target.classList.add('in-view'); io.unobserve(e.target);
       });
     }, { rootMargin: '0px 0px -10% 0px', threshold: 0.12 });
     els.forEach(function (el) { io.observe(el); });
@@ -299,14 +315,45 @@ document.addEventListener('DOMContentLoaded', function () {
     values.forEach(function (el) { io.observe(el); });
   })();
 
-  /* --- WET 4: klasse-fallback voor de feed-paginatransitie. Browsers mét
-        cross-document View Transitions (window.CSSViewTransitionRule) doen
-        alles via CSS (@view-transition). Browsers zonder krijgen hier alleen
-        de inkomende helft: <main> voert in met feed-in, uitsluitend bij
-        navigatie binnen de site (referrer-check) — nooit een uitgaande
-        animatie die een klik zou vertragen of blokkeren. --- */
+  /* --- WET 3 (PLAN sessie 6): Ink→Signal hero-morph. Eén morph, alleen in de
+        homepage-hero (#heroMorph): "handwerk" klapt teken-voor-teken (90ms) om
+        van Fraunces-italic naar mono — het systeem neemt het handwerk over.
+        Speelt één keer per sessie (sessionStorage); daarna, en bij
+        reduced-motion, direct de eindstaat (mono). Zonder JS: origineel woord
+        in Fraunces. Start ná de feed en ná de hero-stempels. Breedte wordt
+        vóór het omklappen gereserveerd zodat de regel niet verspringt. --- */
   (function () {
-    if (window.CSSViewTransitionRule) return; // echte feed via CSS actief
+    var morphEl = document.getElementById('heroMorph');
+    if (!morphEl) return;
+    var played = false;
+    try { played = sessionStorage.getItem('kv-morph') === '1'; } catch (e) {}
+    var word = morphEl.textContent;
+    morphEl.textContent = '';
+    for (var i = 0; i < word.length; i++) {
+      var s = document.createElement('span'); s.className = 'ch'; s.textContent = word.charAt(i);
+      morphEl.appendChild(s);
+    }
+    var chars = morphEl.querySelectorAll('.ch');
+    function flipAll() { for (var j = 0; j < chars.length; j++) chars[j].classList.add('flipped'); }
+    if (kvReduce || played) { flipAll(); return; }
+    try { sessionStorage.setItem('kv-morph', '1'); } catch (e) {}
+    // volgorde: feed (kvFeedDelay) → hero-stempels (±300ms) → morph
+    setTimeout(function () {
+      for (var k = 0; k < chars.length; k++) {
+        (function (k) {
+          setTimeout(function () { chars[k].classList.add('flipped'); }, 90 * k + 300);
+        })(k);
+      }
+    }, kvFeedDelay + 700);
+  })();
+
+  /* --- WET 4: de feed-paginatransitie via klassen (alle browsers). <main>
+        voert in met feed-in, uitsluitend bij navigatie binnen de site
+        (referrer-check) — nooit een uitgaande animatie die een klik zou
+        vertragen of blokkeren. Cross-document View Transitions is bewust
+        uitgeschakeld: Chrome (stable, juli 2026) bevriest daarmee de
+        inkomende pagina permanent (zie styles.css / PLAN.md). --- */
+  (function () {
     var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     if (reduce) return;
     var main = document.getElementById('main');
