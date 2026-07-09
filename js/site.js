@@ -299,6 +299,24 @@ document.addEventListener('DOMContentLoaded', function () {
     values.forEach(function (el) { io.observe(el); });
   })();
 
+  /* --- WET 4: klasse-fallback voor de feed-paginatransitie. Browsers mét
+        cross-document View Transitions (window.CSSViewTransitionRule) doen
+        alles via CSS (@view-transition). Browsers zonder krijgen hier alleen
+        de inkomende helft: <main> voert in met feed-in, uitsluitend bij
+        navigatie binnen de site (referrer-check) — nooit een uitgaande
+        animatie die een klik zou vertragen of blokkeren. --- */
+  (function () {
+    if (window.CSSViewTransitionRule) return; // echte feed via CSS actief
+    var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (reduce) return;
+    var main = document.getElementById('main');
+    if (!main) return;
+    var ref = document.referrer;
+    if (!ref || ref.indexOf(location.origin + '/') !== 0) return; // directe entree: geen transitie
+    main.classList.add('feed-in');
+    main.addEventListener('animationend', function () { main.classList.remove('feed-in'); }, { once: true });
+  })();
+
   /* --- FAQ scroll-spy: markeer in de sidebar welke categorie in beeld is. Alleen op
         /faq/ (degradeert netjes). No-opt waar geen .faq-cat bestaat. --- */
   (function () {

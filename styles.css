@@ -460,6 +460,37 @@ html:not(.js) .receipt .stamp { opacity: 1; }
 }
 
 /* =========================================================================
+   WET 4 — DE FEED (enige paginatransitie, zie DESIGN.md §2).
+   Paginawissels bewegen als papier door een machine: uitgaand −24px + fade,
+   inkomend vanaf +32px, --t-feed / --ease-mech. Implementatie: cross-document
+   View Transitions (@view-transition); de navbar krijgt een eigen snapshot-
+   groep zodat de vaste pill blijft staan terwijl het papier doorvoert.
+   Browsers zonder VT API: klasse-fallback .feed-in op <main> via js/site.js
+   (alleen inkomend — een klik wordt nooit geblokkeerd voor een exit-animatie).
+   Keyframes 1-op-1 uit kelvantis-signature-referentie.html.
+   ========================================================================= */
+@view-transition { navigation: auto; }
+
+@keyframes feed-out { to { opacity: 0; transform: translateX(-24px); } }
+@keyframes feed-in { from { opacity: 0; transform: translateX(32px); } to { opacity: 1; transform: translateX(0); } }
+
+::view-transition-old(root) { animation: feed-out var(--t-feed) var(--ease-mech) both; }
+::view-transition-new(root) { animation: feed-in var(--t-feed) var(--ease-mech) both; }
+
+/* Navbar voert niet mee met het papier (identieke snapshots → staat stil). */
+.nav { view-transition-name: site-nav; }
+
+/* Klasse-fallback (state-wissels + inkomende pagina zonder VT API). */
+.feed-in { animation: feed-in var(--t-feed) var(--ease-mech) both; }
+.feed-out { animation: feed-out var(--t-feed) var(--ease-mech) forwards; }
+
+@media (prefers-reduced-motion: reduce) {
+  ::view-transition-old(root), ::view-transition-new(root),
+  ::view-transition-old(site-nav), ::view-transition-new(site-nav) { animation: none !important; }
+  .feed-in, .feed-out { animation: none !important; opacity: 1; transform: none; }
+}
+
+/* =========================================================================
    NAVBAR: floating pill
    ========================================================================= */
 .nav {
