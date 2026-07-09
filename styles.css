@@ -457,10 +457,42 @@ h1, h2, h3, h4 {
 @media (prefers-reduced-motion: reduce) {
   .receipt.printing .receipt-row { opacity: 1 !important; transform: none !important; animation: none !important; }
   .receipt .stamp { opacity: 1 !important; animation: none !important; }
+  .hype-stamp { animation: none !important; opacity: 1; transform: rotate(var(--rot)); }
 }
 /* Zonder JS: alles zichtbaar */
 html:not(.js) .receipt-row { opacity: 1; transform: none; }
 html:not(.js) .receipt .stamp { opacity: 1; }
+
+/* 404-storingsrapport: gecentreerd in de compacte hero. */
+.receipt--center { margin: 26px auto 30px; text-align: left; }
+#p404-pad { overflow-wrap: anywhere; max-width: 55%; text-align: right; }
+
+/* =========================================================================
+   Karakter & vangnet (PLAN sessie 7)
+   ========================================================================= */
+/* Easter egg: typ "hype" → stempel GEEN HYPE landt via WET 1 (stamp-land).
+   Blokkeert niets: pointer-events none, geen scroll-lock, aria-hidden. */
+.hype-stamp {
+  position: fixed; inset: 0; margin: auto;
+  width: max-content; height: max-content; max-width: 92vw;
+  z-index: 200; pointer-events: none;
+  font-family: var(--font-mono); font-weight: 700;
+  font-size: clamp(26px, 6vw, 64px); letter-spacing: .14em; text-transform: uppercase;
+  color: var(--signal-deep); background: var(--cream);
+  border: 4px solid var(--signal-deep); border-radius: 6px;
+  padding: 18px 34px; box-shadow: var(--shadow-hard-lg);
+  --rot: -6deg;
+  opacity: 0;
+  animation: stamp-land var(--t-stamp) var(--ease-stamp) forwards;
+}
+
+/* Selectie-highlight: signaal-inkt (ink op signal = 5,3:1, AA). */
+::selection { background: var(--signal); color: var(--ink); }
+
+/* Scrollbar-accent: inkt-duim op papier. Bewust geen signal (verbod 4.3:
+   oranje is nooit decoratie); scrollbar-color verandert geen geometrie
+   en werkt zonder JS. */
+html { scrollbar-color: var(--ink) var(--paper); }
 /* Contactflow: het formulier heeft display:grid, dus het hidden-attribuut
    (UA-stylesheet) verliest daarvan — expliciet herstellen. */
 .contact-form[hidden] { display: none; }

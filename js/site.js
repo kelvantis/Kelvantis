@@ -364,6 +364,55 @@ document.addEventListener('DOMContentLoaded', function () {
     main.addEventListener('animationend', function () { main.classList.remove('feed-in'); }, { once: true });
   })();
 
+  /* --- 404-storingsrapport (PLAN sessie 7): vul het gevraagde pad in op het
+        bonnetje. Alleen op de 404-pagina (#p404-pad); client-side, niets in
+        de URL of naar buiten. Zonder JS blijft er een em-dash staan. --- */
+  (function () {
+    var el = document.getElementById('p404-pad');
+    if (!el) return;
+    var pad = location.pathname || '—';
+    el.textContent = pad.length > 34 ? pad.slice(0, 33) + '…' : pad;
+  })();
+
+  /* --- Easter egg (PLAN sessie 7): typ "hype" → stempel GEEN HYPE landt via
+        WET 1. Eén keer per sessie (sessionStorage); verdwijnt na 1,5s of met
+        Escape. KRITIEK: toetsen in input/textarea/select/contenteditable
+        worden volledig genegeerd — typen in het contactformulier kan dit
+        nooit triggeren. Het stempel blokkeert niets (pointer-events none,
+        aria-hidden, geen scroll-lock). --- */
+  (function () {
+    try { if (sessionStorage.getItem('kv-hype') === '1') return; } catch (e) {}
+    var buf = '', stamp = null, timer = null;
+    function isTyping(t) {
+      return t && (t.tagName === 'INPUT' || t.tagName === 'TEXTAREA' || t.tagName === 'SELECT' || t.isContentEditable);
+    }
+    function dismiss() {
+      if (stamp) { stamp.parentNode && stamp.parentNode.removeChild(stamp); stamp = null; }
+      if (timer) { clearTimeout(timer); timer = null; }
+      document.removeEventListener('keydown', onEsc);
+    }
+    function onEsc(e) { if (e.key === 'Escape') dismiss(); }
+    function show() {
+      document.removeEventListener('keydown', onKey);
+      try { sessionStorage.setItem('kv-hype', '1'); } catch (e) {}
+      stamp = document.createElement('div');
+      stamp.className = 'hype-stamp';
+      stamp.setAttribute('aria-hidden', 'true');
+      stamp.textContent = 'GEEN HYPE';
+      document.body.appendChild(stamp);
+      document.addEventListener('keydown', onEsc);
+      timer = setTimeout(dismiss, 1500);
+    }
+    function onKey(e) {
+      if (isTyping(e.target)) { buf = ''; return; }
+      if (e.key && e.key.length === 1) {
+        buf = (buf + e.key.toLowerCase()).slice(-4);
+        if (buf === 'hype') show();
+      }
+    }
+    document.addEventListener('keydown', onKey);
+  })();
+
   /* --- FAQ scroll-spy: markeer in de sidebar welke categorie in beeld is. Alleen op
         /faq/ (degradeert netjes). No-opt waar geen .faq-cat bestaat. --- */
   (function () {
