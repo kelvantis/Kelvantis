@@ -1567,8 +1567,8 @@ html { scrollbar-color: var(--ink) var(--paper); }
   border-radius: var(--r-md);
   padding: 18px 16px;
 }
-.faq-nav-title { font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--ink-soft); margin: 4px 6px 14px; }   /* leesbaar label: AA */
-.faq-nav ul { list-style: none; display: flex; flex-direction: column; gap: 4px; }
+.faq-nav-title { font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--ink-soft); margin: 4px 12px 14px; }   /* leesbaar label: AA; 12px = padding-left van .faq-cat-link → kop lijnt met de links */
+.faq-nav ul { list-style: none; padding: 0; display: flex; flex-direction: column; gap: 4px; }   /* padding 0: UA-default padding-inline-start schoof de lijst ~40px op */
 .faq-cat-link {
   display: flex; align-items: center; gap: 12px;
   padding: 9px 12px; border-radius: var(--r-sm);
