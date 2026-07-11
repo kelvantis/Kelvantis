@@ -411,61 +411,32 @@ h1, h2, h3, h4 {
 }
 
 /* =========================================================================
-   WET 2 — HET BONNETJE (universeel output-formaat, zie DESIGN.md §2).
-   Gedrag 1-op-1 uit kelvantis-signature-referentie.html: regels printen
-   top-down (print-row, --ease-mech, ~120ms/regel), de afsluitende stempel
-   landt als laatste via WET 1 (stamp-land). Leader heet hier .receipt-dots
-   (referentie: .dots) omdat de site al een globale .dots kent (hero-meta).
-   Zonder JS of met reduced-motion: bonnetje volledig geprint zichtbaar.
+   Info-kaarten (sessie 9): gewone kaarten in de huisstijl voor prijsopbouw,
+   case-cijfers, contactbevestiging en 404 — het bonnetje-concept (WET 2)
+   is vervallen, zie DESIGN.md §2 "Vervallen". Bouwt op de bestaande .card.
    ========================================================================= */
-.receipt {
-  width: min(360px, 100%); background: var(--cream);
-  border: var(--border-ink); border-bottom: none; border-radius: var(--r-sm) var(--r-sm) 0 0;
-  box-shadow: var(--shadow-hard); font-family: var(--font-mono); font-size: 12.5px;
-  color: var(--ink); padding: 20px 20px 0; position: relative;
+.info-card { width: min(400px, 100%); }
+.info-card .ic-label {
+  font-family: var(--font-mono); font-size: 11px; font-weight: 500;
+  text-transform: uppercase; letter-spacing: .13em; color: var(--ink-soft);
 }
-.receipt::after { /* perforatierand */
-  content: ""; display: block; height: 12px; margin: 0 -20px;
-  background: var(--cream); border-left: var(--border-ink); border-right: var(--border-ink);
-  clip-path: polygon(0 0,100% 0,100% 45%,96% 100%,92% 45%,88% 100%,84% 45%,80% 100%,76% 45%,72% 100%,68% 45%,64% 100%,60% 45%,56% 100%,52% 45%,48% 100%,44% 45%,40% 100%,36% 45%,32% 100%,28% 45%,24% 100%,20% 45%,16% 100%,12% 45%,8% 100%,4% 45%,0 100%);
+.info-card ul { list-style: none; margin: 14px 0 0; padding: 0; display: grid; gap: 10px; }
+.info-card li { display: flex; gap: 10px; align-items: baseline; }
+.info-card .ic-check { color: var(--signal-deep); font-weight: 700; flex: none; }
+.info-card .ic-prijs {
+  font-family: var(--font-display); font-weight: 600; font-size: 30px;
+  letter-spacing: -0.01em; line-height: 1.1; margin-top: 18px;
 }
-.receipt-head { text-align: center; padding-bottom: 10px; border-bottom: 1px dashed var(--rule-strong); margin-bottom: 10px; }
-.receipt-head strong { letter-spacing: .18em; font-weight: 700; }
-.receipt-note { font-size: 11px; letter-spacing: .06em; color: var(--ink-faint); }
-.receipt-line { display: flex; align-items: baseline; gap: 8px; padding: 3px 0; }
-.receipt-line .receipt-dots { flex: 1; border-bottom: 1px dotted var(--rule-strong); transform: translateY(-3px); }
-.receipt-total { border-top: 3px double var(--ink); margin-top: 10px; padding-top: 8px; font-weight: 700; }
-.receipt .status-ok { color: var(--signal-deep); }
-/* Print-animatie: regels van boven naar beneden */
-.receipt.printing .receipt-row { opacity: 0; transform: translateY(-4px); }
-.receipt.printing .receipt-row.printed { animation: print-row 140ms var(--ease-mech) forwards; }
-@keyframes print-row { to { opacity: 1; transform: translateY(0); } }
-/* Stempel op het bonnetje: landt als laatste via WET 1 (stamp-land + --rot) */
-.receipt-stampmark {
-  display: inline-block; margin: 10px 0 16px; padding: 6px 12px;
-  border: 2px solid var(--signal-deep); color: var(--signal-deep);
-  font-weight: 700; letter-spacing: .14em; border-radius: 3px;
-  --rot: -3deg; transform: rotate(var(--rot));
-}
-.receipt .stamp { opacity: 0; }
-.receipt .stamp.is-stamped { animation: stamp-land var(--t-stamp) var(--ease-stamp) forwards; }
-/* Prijssectie: bonnetje als visueel anker in de rechterkolom, robot eronder. */
+.info-card .ic-voetnoot { font-family: var(--font-mono); font-size: 11px; letter-spacing: .06em; color: var(--ink-soft); margin-top: 10px; }
+.info-card--center { margin: 26px auto 30px; text-align: left; }
+
+/* Prijssectie: kaart als visueel anker in de rechterkolom, robot eronder. */
 .prijs-anker { display: flex; flex-direction: column; align-items: center; gap: 10px; }
-.prijs-anker .receipt { width: min(400px, 100%); font-size: 13.5px; }
 .prijs-anker .prijs-art { max-width: 230px; }
 
 @media (prefers-reduced-motion: reduce) {
-  .receipt.printing .receipt-row { opacity: 1 !important; transform: none !important; animation: none !important; }
-  .receipt .stamp { opacity: 1 !important; animation: none !important; }
   .hype-stamp { animation: none !important; opacity: 1; transform: rotate(var(--rot)); }
 }
-/* Zonder JS: alles zichtbaar */
-html:not(.js) .receipt-row { opacity: 1; transform: none; }
-html:not(.js) .receipt .stamp { opacity: 1; }
-
-/* 404-storingsrapport: gecentreerd in de compacte hero. */
-.receipt--center { margin: 26px auto 30px; text-align: left; }
-#p404-pad { overflow-wrap: anywhere; max-width: 55%; text-align: right; }
 
 /* =========================================================================
    Karakter & vangnet (PLAN sessie 7)
@@ -497,22 +468,8 @@ html { scrollbar-color: var(--ink) var(--paper); }
    (UA-stylesheet) verliest daarvan — expliciet herstellen. */
 .contact-form[hidden] { display: none; }
 
-/* =========================================================================
-   Hero-leadflow (sessie 4): demo-events die echt ticken. Regels uit de
-   referentie (flow-events); nieuw event print via print-row (WET 2).
-   ========================================================================= */
-.flow-events { list-style: none; margin: 14px 0 0; padding: 0; font-family: var(--font-mono); font-size: 12px; }
-.flow-events li { display: flex; gap: 12px; padding: 8px 0; border-bottom: 1px dashed var(--rule); }
-.flow-events .t { color: var(--ink-faint); flex: none; }
-.flow-events .ok { color: var(--signal-deep); font-weight: 700; margin-left: auto; }
-.flow-events li.new { animation: print-row 160ms var(--ease-mech) both; }
-
 /* Mechanische tellers: vaste cijferbreedte tijdens het tellen (geen gesprong). */
 .stat-value.counting { font-variant-numeric: tabular-nums; }
-
-@media (prefers-reduced-motion: reduce) {
-  .flow-events li.new { animation: none; }
-}
 
 /* =========================================================================
    WET 4 — DE FEED (enige paginatransitie, zie DESIGN.md §2).
@@ -528,23 +485,6 @@ html { scrollbar-color: var(--ink) var(--paper); }
    ========================================================================= */
 @keyframes feed-out { to { opacity: 0; transform: translateX(-24px); } }
 @keyframes feed-in { from { opacity: 0; transform: translateX(32px); } to { opacity: 1; transform: translateX(0); } }
-
-/* =========================================================================
-   WET 3 — Ink→Signal morph (alleen homepage-hero, één keer per sessie).
-   Het woord "handwerk" klapt teken-voor-teken om van Fraunces-italic (mens)
-   naar mono (systeem). Regels 1-op-1 uit de referentie. Zonder JS blijft het
-   woord gewoon Fraunces; breedte wordt door JS gereserveerd (geen CLS).
-   ========================================================================= */
-/* Afwijking van de referentie (inline-block op .morph en .ch): midden in een
-   zin stapelen atomic inline-blocks per teken hun box-rounding op (±1px × 8
-   tekens), waardoor de hero-regel vóór het omklappen al brak. Voor een
-   font-flip is geen inline-block nodig: gewone inline spans houden exact de
-   natuurlijke tekstbreedte (regel identiek aan vóór de morph), nowrap houdt
-   het woord onbreekbaar, en mono is smaller of gelijk aan Fraunces zodat de
-   regel tijdens het omklappen nooit hérwrapt. */
-.morph { white-space: nowrap; }
-.morph .ch { font-family: var(--font-display); font-style: italic; transition: none; }
-.morph .ch.flipped { font-family: var(--font-mono); font-style: normal; font-size: .82em; color: var(--signal-deep); font-weight: 700; }
 
 /* Klasse-fallback (state-wissels + inkomende pagina zonder VT API). */
 .feed-in { animation: feed-in var(--t-feed) var(--ease-mech) both; }

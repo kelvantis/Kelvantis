@@ -101,24 +101,16 @@
           <h1 class="hero-title" id="hero-title">Papier<span class="accent">storing.</span></h1>
           <p class="hero-sub">Het papier is hier vastgelopen: deze pagina bestaat niet (meer) of is verhuisd. De rest van het systeem draait gewoon door.</p>
 
-          <!-- Storingsrapport (WET 2): het systeem print zijn eigen foutmelding.
-               Zonder JS volledig zichtbaar; pad en datum vult js/site.js in. -->
-          <div class="receipt receipt--center" aria-live="polite">
-            <div class="receipt-row receipt-head">
-              <strong>* KELVANTIS *</strong><br>
-              <span class="receipt-note">STORINGSRAPPORT</span><br>
-              <span class="receipt-note receipt-date">—</span>
+          <!-- Simpele foutkaart (het bonnetje-concept is vervallen, sessie 9). -->
+          <div class="card info-card info-card--center">
+            <span class="ic-label">Foutcode 404</span>
+            <p style="margin-top:10px">Deze pagina bestaat niet (meer). De rest van de site doet het gewoon.</p>
+            <div class="cta-row" style="margin-top:16px">
+              <a class="btn btn--primary" href="/">Storing verhelpen <span class="arr">→</span></a>
             </div>
-            <div class="receipt-row receipt-line"><span>Gevraagde pagina</span><span class="receipt-dots"></span><span id="p404-pad">—</span></div>
-            <div class="receipt-row receipt-line"><span>Status</span><span class="receipt-dots"></span><span>404</span></div>
-            <div class="receipt-row receipt-line"><span>Oorzaak</span><span class="receipt-dots"></span><span>papier vastgelopen</span></div>
-            <div class="receipt-row receipt-line receipt-total"><span>DIAGNOSE</span><span class="receipt-dots"></span><span>pagina bestaat niet</span></div>
-            <div class="receipt-row receipt-line"><span class="status-ok">✓ systeem draait door</span><span class="receipt-dots"></span><span class="status-ok">✓ niets aan de hand</span></div>
-            <div class="receipt-row"><span class="receipt-stampmark stamp">PAPIERSTORING</span></div>
           </div>
 
           <div class="hero-actions" style="justify-content:center">
-            <a class="btn btn--primary" href="/">Storing verhelpen <span class="arr">→</span></a>
             <a class="btn btn--ghost" href="/contact/">Neem contact op <span class="arr">→</span></a>
           </div>
         </div>

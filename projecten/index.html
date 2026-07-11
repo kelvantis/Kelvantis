@@ -62,7 +62,7 @@
       "@type": "WebSite",
       "name": "kelvantis.com",
       "url": "https://kelvantis.com/",
-      "description": "Case 1 in de werkplaats: deze website zelf. Statische HTML op Vercel, self-hosted fonts, nul trackers; kerncijfers zelf gemeten op 9 juli 2026 (methode op de pagina vermeld)."
+      "description": "Case 1 in de werkplaats: deze website zelf. Laadt in ongeveer een seconde (ook op mobiel), gebruikt geen trackers of cookies en is in drie weken gebouwd en live gezet; zelf gemeten op 11 juli 2026."
     }
   }
   </script>
@@ -254,36 +254,22 @@
             </div>
             <p class="prijs-intro" data-reveal="up">Drie dingen die deze case laat zien:</p>
             <ul class="factor-list" data-reveal-group>
-              <li data-reveal="up"><span class="factor-n">01</span><div><strong>Snelheid is geen belofte maar een meting:</strong> Lighthouse en Core Web Vitals van de live site, mediaan van vijf runs.</div></li>
-              <li data-reveal="up"><span class="factor-n">02</span><div><strong>Privacy by design:</strong> nul trackers en nul third-party requests — meetbaar, en vastgelegd in ons <a href="/privacy/">privacybeleid</a>.</div></li>
-              <li data-reveal="up"><span class="factor-n">03</span><div><strong>Verbeteren op bewijs:</strong> de font-fix van juli 2026 bracht de layout-shift op de homepage van 0,049 naar 0,0015 — vóór en ná gemeten met dezelfde methode.</div></li>
+              <li data-reveal="up"><span class="factor-n">01</span><div><strong>Snelheid is geen belofte maar een meting:</strong> we meten de laadtijd van de live site zelf, en zetten de uitkomst hier neer.</div></li>
+              <li data-reveal="up"><span class="factor-n">02</span><div><strong>Privacy by design:</strong> geen trackers en geen cookies — meetbaar, en vastgelegd in ons <a href="/privacy/">privacybeleid</a>.</div></li>
+              <li data-reveal="up"><span class="factor-n">03</span><div><strong>Verbeteren op bewijs:</strong> elke verbetering meten we vóór en ná met dezelfde methode, anders telt hij niet.</div></li>
             </ul>
-            <p class="prijs-foot" data-reveal="up">Verouderde cijfers zijn erger dan geen cijfers: dit rapport wordt elk kwartaal opnieuw gemeten.</p>
+            <p class="prijs-foot" data-reveal="up">Verouderde cijfers zijn erger dan geen cijfers: deze case wordt elk kwartaal opnieuw gemeten.</p>
           </div>
 
           <div class="prijs-anker">
-            <div class="receipt" aria-live="polite">
-              <div class="receipt-row receipt-head">
-                <strong>* KELVANTIS *</strong><br>
-                <span class="receipt-note">MEETRAPPORT · CASE 01 · KELVANTIS.COM</span><br>
-                <span class="receipt-note">gemeten 09-07-2026</span>
-              </div>
-              <div class="receipt-row receipt-line"><span>Lighthouse performance¹</span><span class="receipt-dots"></span><span>94/100</span></div>
-              <div class="receipt-row receipt-line"><span>Toegankelijkheid¹</span><span class="receipt-dots"></span><span>94/100</span></div>
-              <div class="receipt-row receipt-line"><span>Best practices · SEO¹</span><span class="receipt-dots"></span><span>100 · 100</span></div>
-              <div class="receipt-row receipt-line"><span>LCP¹ (mobiel gesimuleerd)</span><span class="receipt-dots"></span><span>2,8 s</span></div>
-              <div class="receipt-row receipt-line"><span>CLS¹</span><span class="receipt-dots"></span><span>0,02</span></div>
-              <div class="receipt-row receipt-line"><span>Homepage² gewicht · requests</span><span class="receipt-dots"></span><span>379 kB · 7</span></div>
-              <div class="receipt-row receipt-line"><span>Trackers²</span><span class="receipt-dots"></span><span>0</span></div>
-              <div class="receipt-row receipt-line"><span>Font-fix³ CLS vóór → ná</span><span class="receipt-dots"></span><span>0,049 → 0,0015</span></div>
-              <div class="receipt-row receipt-line"><span>Proces⁴</span><span class="receipt-dots"></span><span>47 commits · 9 sessies</span></div>
-              <div class="receipt-row receipt-line receipt-total"><span>STACK</span><span class="receipt-dots"></span><span>statische HTML · Vercel</span></div>
-              <div class="receipt-row receipt-line"><span class="status-ok">✓ zelf gemeten</span><span class="receipt-dots"></span><span class="status-ok">✓ reproduceerbaar</span></div>
-              <div class="receipt-row"><span class="receipt-note">¹ Lighthouse 13.4, mediaan van 5 runs op https://kelvantis.com/, mobiele emulatie met throttling, 09-07-2026</span></div>
-              <div class="receipt-row"><span class="receipt-note">² transferSize-som en requesttelling homepage, 3 identieke runs (Chromium), 0 third-party requests, 09-07-2026</span></div>
-              <div class="receipt-row"><span class="receipt-note">³ layout-shift-observer op de homepage-hero met 500 ms vertraagde fonts, 3 runs vóór/ná de font-metrics-overrides</span></div>
-              <div class="receipt-row"><span class="receipt-note">⁴ git-geschiedenis 20 juni – 9 juli 2026, sessies 0–8 van het signature-plan</span></div>
-              <div class="receipt-row"><span class="receipt-stampmark stamp">GEMETEN · GEEN HYPE</span></div>
+            <div class="card info-card">
+              <span class="ic-label">Case 01 · kelvantis.com</span>
+              <ul>
+                <li><span class="ic-check" aria-hidden="true">✓</span><span>Laadt in ~1 seconde, ook op mobiel</span></li>
+                <li><span class="ic-check" aria-hidden="true">✓</span><span>Geen trackers of cookies</span></li>
+                <li><span class="ic-check" aria-hidden="true">✓</span><span>Gebouwd en live in 3 weken</span></li>
+              </ul>
+              <p class="ic-voetnoot">zelf gemeten op 11-07-2026 · methode en ruwe cijfers in de git-geschiedenis van deze site</p>
             </div>
           </div>
         </div>

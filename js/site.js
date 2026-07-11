@@ -138,76 +138,32 @@ document.addEventListener('DOMContentLoaded', function () {
     els.forEach(function (el) { io.observe(el); });
   })();
 
-  /* --- WET 2 helper: print de regels van een bonnetje top-down; de afsluitende
-        stempel (nested .stamp) landt via WET 1 (stamp-land). Gedeeld door het
-        in-view-bonnetje en de contactflow. --- */
-  function kvReceiptPrintRows(r) {
-    r.querySelectorAll('.receipt-row').forEach(function (row, i) {
-      setTimeout(function () {
-        row.classList.add('printed');
-        var s = row.querySelector('.stamp');
-        if (s) { void s.offsetWidth; s.classList.add('is-stamped'); }
-      }, 120 * i + 60);
-    });
-  }
-
-  /* --- WET 2: het bonnetje print bij in-view, één keer (zie DESIGN.md §2).
-        Gedrag uit kelvantis-signature-referentie.html. De HTML staat volledig
-        zichtbaar in de bron (no-JS-veilig); .printing wordt hier pas gezet,
-        vlak vóór het printen. Reduced-motion of geen IntersectionObserver:
-        bonnetje blijft direct volledig geprint. Bonnetjes met
-        data-receipt="manual" (contactflow) worden hier overgeslagen. --- */
-  (function () {
-    var receipts = document.querySelectorAll('.receipt:not([data-receipt="manual"])');
-    if (!receipts.length) return;
-    // datumregel: echte printdatum (geen verzonnen ref-nummers)
-    document.querySelectorAll('.receipt .receipt-date').forEach(function (el) {
-      el.textContent = new Date().toLocaleDateString('nl-NL', { day: '2-digit', month: '2-digit', year: 'numeric' });
-    });
-    var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    if (reduce || !('IntersectionObserver' in window)) return; // eindstaat staat al in de HTML
-    var io = new IntersectionObserver(function (entries) {
-      entries.forEach(function (e) {
-        if (!e.isIntersecting) return;
-        kvReceiptPrintRows(e.target); io.unobserve(e.target);
-      });
-    }, { threshold: 0.35 });
-    receipts.forEach(function (r) { r.classList.add('printing'); io.observe(r); });
-  })();
-
-  /* --- Contactflow (PLAN sessie 3): bonnetje na succesvolle verzending.
+  /* --- Contactflow (PLAN sessie 3, vorm herzien in sessie 9): bevestigings-
+        kaart na succesvolle verzending.
         HARDE EIS — nooit dataverlies: de normale POST-route (Formspree,
         _next → /bedankt/) blijft volledig intact en is het pad zonder JS.
         Dit blok probeert de verzending via fetch; ALLEEN bij een geslaagde
-        respons wordt het bonnetje getoond. Bij elke twijfel (netwerkfout,
+        respons wordt de kaart getoond. Bij elke twijfel (netwerkfout,
         niet-2xx, ontbrekende APIs) valt het terug op de native submit.
-        AVG: POST-body, geen data in de URL; het bonnetje is client-side. --- */
+        AVG: POST-body, geen data in de URL; de kaart is client-side. --- */
   (function () {
     var form = document.querySelector('.contact-form');
-    var receipt = document.getElementById('contact-receipt');
-    if (!form || !receipt || !window.fetch || !window.FormData) return;
+    var kaart = document.getElementById('contact-bevestiging');
+    if (!form || !kaart || !window.fetch || !window.FormData) return;
     var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     var fallback = false, busy = false;
 
-    function p2(n) { n = String(n); return n.length < 2 ? '0' + n : n; }
-    function set(id, val) { var el = document.getElementById(id); if (el) el.textContent = val; }
-
-    function showReceipt(data) {
-      var now = new Date();
-      set('cr-datum', now.toLocaleDateString('nl-NL', { day: '2-digit', month: '2-digit', year: 'numeric' }) +
-        ' · ' + now.toLocaleTimeString('nl-NL', { hour: '2-digit', minute: '2-digit' }));
-      set('cr-naam', (String(data.get('naam') || '').trim() || '—').slice(0, 60));
-      set('cr-onderwerp', String(data.get('onderwerp') || '—'));
-      // referentie afgeleid van het echte verzendmoment (geen verzonnen nummers)
-      set('cr-ref', 'REF ' + now.getFullYear() + p2(now.getMonth() + 1) + p2(now.getDate()) + '-' + p2(now.getHours()) + p2(now.getMinutes()));
+    function showCard(data) {
+      var naamEl = document.getElementById('cb-naam');
+      var naam = (String(data.get('naam') || '').trim() || '').slice(0, 60);
+      if (naamEl && naam) naamEl.textContent = 'Bedankt, ' + naam + '.';
       form.hidden = true;
-      receipt.hidden = false;
-      if (!reduce) { receipt.classList.add('printing'); void receipt.offsetWidth; kvReceiptPrintRows(receipt); }
+      kaart.hidden = false;
       // favicon → vinkje (bevestiging in het tabblad)
       var icon = document.querySelector('link[rel="icon"]');
       if (icon) icon.setAttribute('href', '/favicon-check.svg');
-      receipt.focus({ preventScroll: true });
-      receipt.scrollIntoView({ block: 'nearest', behavior: reduce ? 'auto' : 'smooth' });
+      kaart.focus({ preventScroll: true });
+      kaart.scrollIntoView({ block: 'nearest', behavior: reduce ? 'auto' : 'smooth' });
     }
 
     form.addEventListener('submit', function (e) {
@@ -221,7 +177,7 @@ document.addEventListener('DOMContentLoaded', function () {
       fetch(form.action, { method: 'POST', body: data, headers: { 'Accept': 'application/json' } })
         .then(function (res) {
           if (!res.ok) throw new Error('status ' + res.status);
-          showReceipt(data);
+          showCard(data);
         })
         .catch(function () {
           // geen dataverlies: alsnog de normale verzendroute (POST → /bedankt/)
@@ -230,43 +186,6 @@ document.addEventListener('DOMContentLoaded', function () {
           form.submit();
         });
     });
-  })();
-
-  /* --- Hero-leadflow (PLAN sessie 4): demo-events die echt ticken. Alleen op
-        de homepage (#flowEvents). Generieke systeemstappen — geen klantnamen,
-        geen resultaatclaims; het DEMO-label staat permanent in de kaartkop.
-        Met JS: echte tijdstempels, elke 8s een nieuw event (print via WET 2).
-        Reduced-motion: 3 statische events met echte tijden, geen interval.
-        Zonder JS: de statische eindstaat uit de HTML. --- */
-  (function () {
-    var flow = document.getElementById('flowEvents');
-    if (!flow) return;
-    var script = [
-      ['lead ontvangen · formulier website', '✓'],
-      ['lead gekwalificeerd · criteria gecheckt', '✓'],
-      ['offerte gegenereerd en verzonden', '✓'],
-      ['opvolgmail ingepland · +2 dagen', '✓'],
-      ['gespreksverzoek in agenda gezet', '✓'],
-      ['CRM bijgewerkt · status: warm', '✓']
-    ];
-    var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    var idx = 0;
-    function fmtTime(d) { return d.toLocaleTimeString('nl-NL', { hour: '2-digit', minute: '2-digit', second: '2-digit' }); }
-    function pushEvent(animate) {
-      var li = document.createElement('li');
-      if (animate) li.className = 'new';
-      var msg = script[idx % script.length]; idx++;
-      var t = document.createElement('span'); t.className = 't'; t.textContent = fmtTime(new Date());
-      var m = document.createElement('span'); m.textContent = msg[0];
-      var ok = document.createElement('span'); ok.className = 'ok'; ok.textContent = msg[1];
-      li.appendChild(t); li.appendChild(m); li.appendChild(ok);
-      flow.insertBefore(li, flow.firstChild);
-      while (flow.children.length > 4) flow.removeChild(flow.lastElementChild);
-    }
-    // vervang de statische no-JS-eindstaat door drie events met echte tijden
-    flow.textContent = '';
-    pushEvent(false); pushEvent(false); pushEvent(false);
-    if (!reduce) setInterval(function () { pushEvent(true); }, 8000);
   })();
 
   /* --- Mechanische tellers (PLAN sessie 4): de statistieken tellen stapsgewijs
@@ -315,38 +234,6 @@ document.addEventListener('DOMContentLoaded', function () {
     values.forEach(function (el) { io.observe(el); });
   })();
 
-  /* --- WET 3 (PLAN sessie 6): Ink→Signal hero-morph. Eén morph, alleen in de
-        homepage-hero (#heroMorph): "handwerk" klapt teken-voor-teken (90ms) om
-        van Fraunces-italic naar mono — het systeem neemt het handwerk over.
-        Speelt één keer per sessie (sessionStorage); daarna, en bij
-        reduced-motion, direct de eindstaat (mono). Zonder JS: origineel woord
-        in Fraunces. Start ná de feed en ná de hero-stempels. Breedte wordt
-        vóór het omklappen gereserveerd zodat de regel niet verspringt. --- */
-  (function () {
-    var morphEl = document.getElementById('heroMorph');
-    if (!morphEl) return;
-    var played = false;
-    try { played = sessionStorage.getItem('kv-morph') === '1'; } catch (e) {}
-    var word = morphEl.textContent;
-    morphEl.textContent = '';
-    for (var i = 0; i < word.length; i++) {
-      var s = document.createElement('span'); s.className = 'ch'; s.textContent = word.charAt(i);
-      morphEl.appendChild(s);
-    }
-    var chars = morphEl.querySelectorAll('.ch');
-    function flipAll() { for (var j = 0; j < chars.length; j++) chars[j].classList.add('flipped'); }
-    if (kvReduce || played) { flipAll(); return; }
-    try { sessionStorage.setItem('kv-morph', '1'); } catch (e) {}
-    // volgorde: feed (kvFeedDelay) → hero-stempels (±300ms) → morph
-    setTimeout(function () {
-      for (var k = 0; k < chars.length; k++) {
-        (function (k) {
-          setTimeout(function () { chars[k].classList.add('flipped'); }, 90 * k + 300);
-        })(k);
-      }
-    }, kvFeedDelay + 700);
-  })();
-
   /* --- WET 4: de feed-paginatransitie via klassen (alle browsers). <main>
         voert in met feed-in, uitsluitend bij navigatie binnen de site
         (referrer-check) — nooit een uitgaande animatie die een klik zou
@@ -362,16 +249,6 @@ document.addEventListener('DOMContentLoaded', function () {
     if (!ref || ref.indexOf(location.origin + '/') !== 0) return; // directe entree: geen transitie
     main.classList.add('feed-in');
     main.addEventListener('animationend', function () { main.classList.remove('feed-in'); }, { once: true });
-  })();
-
-  /* --- 404-storingsrapport (PLAN sessie 7): vul het gevraagde pad in op het
-        bonnetje. Alleen op de 404-pagina (#p404-pad); client-side, niets in
-        de URL of naar buiten. Zonder JS blijft er een em-dash staan. --- */
-  (function () {
-    var el = document.getElementById('p404-pad');
-    if (!el) return;
-    var pad = location.pathname || '—';
-    el.textContent = pad.length > 34 ? pad.slice(0, 33) + '…' : pad;
   })();
 
   /* --- Easter egg (PLAN sessie 7): typ "hype" → stempel GEEN HYPE landt via
