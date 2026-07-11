@@ -55,7 +55,10 @@
 
 ## Sessie 9 — Correctieronde na livegebruik (uitgevoerd 11 juli 2026)
 Conversie en leesbaarheid winnen van conceptueel design. WET 2 (bonnetje) volledig vervallen en de Ink→Signal-morph geschrapt (zie DESIGN.md §2 "Vervallen"); hero-leadflow verwijderd (dash-label "Live" → "Voorbeeld", vloer-conform); alle vier bonnetjes vervangen door gewone info-kaarten; FAQ-categorieindex uitgelijnd; /privacy/ → /privacybeleid/ en /voorwaarden/ → /algemene-voorwaarden/ met 301's. Case-kaart /projecten/ nu in mensentaal — laadtijd-claim gedekt door verse meting (11-07-2026: mediaan 0,3 s LCP/load over 5 runs, mobiele viewport, zonder lab-throttling; eerste koude aanvraag 3,0 s).
-**Open:** oprichterstekst homepage §04 + /over-ons/ — wacht op exacte tekst van Kjell (losse micro-commit). Sessie 10 (samenvoegen workflow + AI) krijgt een eigen plan.
+**Open:** oprichterstekst homepage §04 + /over-ons/ — wacht op exacte tekst van Kjell (losse micro-commit).
+
+## BOUWSTOP (per 11 juli 2026)
+Na de oprichterstekst-commit en de live-verificatie van de 301's/404 geldt een **bouwstop**: geen sessie 10, geen samenvoeging van workflow-automatisering + AI-implementatie, geen nieuwe componenten. Er komt eerst een designbeslissing van de oprichter. Alleen nog: contentfixes op expliciet verzoek en de kwartaalherijking (oktober 2026, agenda-afspraak Kjell).
 
 ## Later (aparte projecten, elk met eigen plansessie)
 - **Configurator** "bouw je systeem" met live meeprintend bonnetje (prijs + levertijd).
