@@ -91,13 +91,13 @@
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://kelvantis.com/privacy/</loc>
+    <loc>https://kelvantis.com/privacybeleid/</loc>
     <lastmod>2026-06-15</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.3</priority>
   </url>
   <url>
-    <loc>https://kelvantis.com/voorwaarden/</loc>
+    <loc>https://kelvantis.com/algemene-voorwaarden/</loc>
     <lastmod>2026-06-15</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.3</priority>

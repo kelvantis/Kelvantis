@@ -115,7 +115,7 @@ document.addEventListener('DOMContentLoaded', function () {
   })();
 
   /* --- Scroll-reveal (systeem A): .reveal/.stagger → .in-view. Eén keer infaden + licht
-        omhoog. Gebruikt op /privacy/ en /voorwaarden/. No-opt waar die classes ontbreken. --- */
+        omhoog. Gebruikt op /privacybeleid/ en /algemene-voorwaarden/. No-opt waar die classes ontbreken. --- */
   (function () {
     var els = document.querySelectorAll('.reveal, .stagger');
     var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;

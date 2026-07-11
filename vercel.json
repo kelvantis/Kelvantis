@@ -11,7 +11,9 @@
     { "source": "/diensten/geo-aeo/", "destination": "/geo-aeo/", "statusCode": 301 },
     { "source": "/diensten/seo/", "destination": "/geo-aeo/", "statusCode": 301 },
     { "source": "/pakketten/", "destination": "/contact/", "statusCode": 301 },
-    { "source": "/blog/wat-is-geo-aeo/", "destination": "/blog/wat-is-generative-engine-optimization/", "statusCode": 301 }
+    { "source": "/blog/wat-is-geo-aeo/", "destination": "/blog/wat-is-generative-engine-optimization/", "statusCode": 301 },
+    { "source": "/privacy/", "destination": "/privacybeleid/", "statusCode": 301 },
+    { "source": "/voorwaarden/", "destination": "/algemene-voorwaarden/", "statusCode": 301 }
   ],
   "headers": [
     {
