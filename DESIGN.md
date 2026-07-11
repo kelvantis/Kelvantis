@@ -16,7 +16,7 @@ Merkessentie: geen hype, wel bewijs. De site vertelt niet dat het systeem werkt 
   --paper: #F7F2E8;        /* standaard pagina-achtergrond */
   --paper-soft: #F1EADC;
   --paper-deep: #E8DFCB;
-  --cream: #FDFAF3;        /* kaarten, nav, formulieren, bonnetjes */
+  --cream: #FDFAF3;        /* kaarten, nav, formulieren */
 
   /* Ink (tekst/borders) */
   --ink: #1F1814;          /* koppen, borders, schaduwen; ook dark-sectie bg */
@@ -63,7 +63,7 @@ Fonts self-hosted (woff2, variable). **Geen Google Fonts CDN in productie** (AVG
 
 ---
 
-## 2. De vier signature-wetten
+## 2. De signature-wetten
 
 Dit zijn de enige plekken waar de site "durft". Al het andere blijft rustig.
 
@@ -76,17 +76,10 @@ Alles wat binnenkomt, **stempelt**. Badges, sectiekoppen, prijzen, bevestigingen
 - Stagger bij groepen: 70–80ms.
 - **Uitzondering — teken-animaties:** een stroke-animatie die data tekent (zoals de hero-grafieklijn via `stroke-dashoffset`) is geen entrance maar het systeem dat zichtbaar werkt; die mag. Een fade die ondergeschikt is aan zo'n teken-animatie (het vlak dat onder de getekende lijn vult) mag mee, maar nooit als zelfstandige entrance van content.
 
-### WET 2 — Het Bonnetje (universeel output-formaat)
-Elke output van "het systeem" is een geprint bonnetje: prijsopbouw, formulier-bevestiging, leadflow-events, blogmeta, configurator-resultaat.
-- Anatomie: `--cream` bg, `--border-ink`, `--shadow-hard`, **zigzag-perforatierand onder** (clip-path), inhoud volledig in `--font-mono`.
-- Kop: `* KELVANTIS *` gecentreerd + datum/regel-id. Regels: label links, waarde rechts, gestippelde leader ertussen. Totaal/conclusie boven een dubbele rule.
-- Print-animatie: regels verschijnen van boven naar beneden (max-height/clip reveal, `--ease-mech`), 90–140ms per regel. Afsluitende stempel ("BEVESTIGD", "GEEN HYPE", prijs) landt als laatste via WET 1.
-- Eén bonnetje per view. Het is een moment, geen behang.
-
 ### WET 3 — Fraunces spreekt, Mono antwoordt (dialoogregel)
 Typografie is een gesprek tussen mens en machine:
 - **Fraunces** = de mens: koppen, beloftes, verhaal. Accentwoord: `font-style: italic; color: var(--signal)` (op licht in lopende tekst: `--signal-deep`).
-- **JetBrains Mono** = het systeem: labels, meta, data, statussen, bonnetjes, timestamps, bronvermeldingen. Altijd 11–12px, uppercase, letter-spacing 0.12–0.14em (behalve in bonnetjes: normale case toegestaan).
+- **JetBrains Mono** = het systeem: labels, meta, data, statussen, timestamps, bronvermeldingen. Altijd 11–12px, uppercase, letter-spacing 0.12–0.14em (in datablokken/kaartmeta: normale case toegestaan).
 - **Inter Tight** = neutrale drager (body). Nooit voor kop óf systeemtekst.
 - Regel: elke sectie bevat beide stemmen. Een Fraunces-belofte zonder mono-bewijsregel eronder is onaf; een mono-datablok zonder menselijke kop is kil.
 
@@ -95,6 +88,10 @@ Pagina- en state-wissels bewegen als papier door een machine: horizontale doorvo
 - Uitgaand: content schuift `translateX(-24px)` + fade uit; inkomend: van `translateX(32px)` naar 0. Duur `--t-feed`, easing `--ease-mech`. Implementatie: View Transitions API met klasse-fallback.
 - **Verboden:** crossfade, verticale slides, scale-transities.
 - Binnen een pagina geldt de feed voor tab-/stapwissels (bijv. prijzen-toggle, configurator-stappen).
+
+### Vervallen (niet terugbouwen)
+- **WET 2 — Het Bonnetje** (sessie 9, juli 2026): het bonnetje-concept (perforatierand, mono-regels met leaders, print-animatie, stempelmark) is in productie getest en volledig afgevoerd wegens leesbaarheid en begrijpelijkheid — conversie en leesbaarheid winnen van conceptueel design. Systeemoutput (prijzen, bevestigingen, cases, foutmeldingen) wordt een **gewone kaart in de bestaande huisstijl** met een mono-metaregel waar passend. Geen enkele toekomstige sessie bouwt het bonnetje terug; ook geen "bonnetje-light".
+- **Ink→Signal-morph** (sessie 9, juli 2026): het teken-voor-teken omklappen van een herowoord naar mono is afgevoerd. De dialoogregel van WET 3 (Fraunces spreekt, Mono antwoordt) blijft onverkort van kracht — alleen de morph-animatie vervalt.
 
 ---
 
@@ -124,7 +121,7 @@ Pagina- en state-wissels bewegen als papier door een machine: horizontale doorvo
 
 ## 5. Kwaliteitsvloer (elke PR)
 
-- [ ] `prefers-reduced-motion: reduce`: álle beweging uit, eindstaat direct zichtbaar (stempel = gewoon zichtbaar; bonnetje = volledig geprint; feed = directe wissel; tellers = eindwaarde).
+- [ ] `prefers-reduced-motion: reduce`: álle beweging uit, eindstaat direct zichtbaar (stempel = gewoon zichtbaar; feed = directe wissel; tellers = eindwaarde).
 - [ ] Werkt zonder JS: content zichtbaar en bruikbaar (progressive enhancement; animaties zijn opt-in via JS-klasse `.js`).
 - [ ] Toetsenbord: zichtbare focusring — 2px `--signal` outline met 2px offset ("inkt-focusring"), nooit `outline: none` zonder vervanging.
 - [ ] Contrast AA: oranje lopende tekst op licht = `--signal-deep`; witte tekst op `--signal` alleen voor korte knop-/koplabels.
@@ -138,7 +135,7 @@ Pagina- en state-wissels bewegen als papier door een machine: horizontale doorvo
 ## 6. Definition of 10/10
 
 Een component is pas klaar als:
-1. Je hem herkent als Kelvantis **zonder logo** (stempel/bonnetje/dialoog/feed aanwezig waar relevant);
+1. Je hem herkent als Kelvantis **zonder logo** (stempel/dialoog/feed aanwezig waar relevant);
 2. Hij de kwaliteitsvloer haalt (§5, alle vinkjes);
 3. Er niets aan zit dat je niet kunt verantwoorden ("Chanel-regel": haal één accessoire weg vóór oplevering);
 4. Hij iets **bewijst** in plaats van beweert (demo-data gelabeld, bron vermeld, of echt live).
