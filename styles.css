@@ -751,6 +751,19 @@ html { scrollbar-color: var(--ink) var(--paper); }
 }
 .dash-chart svg { width: 100%; height: auto; }
 
+/* Voetregel onder de KPI's: bron + link naar de werkplaats */
+.dash-note {
+  margin-top: 4px;
+  padding-top: 12px;
+  border-top: 1px solid var(--rule);
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.04em;
+  color: var(--ink-soft);
+}
+.dash-note a { color: var(--ink); text-decoration: underline; text-underline-offset: 2px; text-decoration-color: var(--rule-strong); transition: text-decoration-color 0.18s ease; }
+.dash-note a:hover { text-decoration-color: var(--signal); }
+
 /* Burst sticker */
 .burst {
   position: absolute;
@@ -849,6 +862,8 @@ html { scrollbar-color: var(--ink) var(--paper); }
 .stat-label { color: var(--ink); font-size: 17px; margin: 14px 0 10px; max-width: 16em; }
 .stat-source { font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.04em; color: var(--ink-soft); }
 .stats-foot { font-family: var(--font-mono); font-size: 12px; color: var(--ink-soft); margin-top: 44px; }
+.stats-foot a { color: var(--ink); text-decoration: underline; text-underline-offset: 2px; text-decoration-color: var(--rule-strong); transition: text-decoration-color 0.18s ease; }
+.stats-foot a:hover { text-decoration-color: var(--signal); }
 
 /* =========================================================================
    AANPAK
