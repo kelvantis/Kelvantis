@@ -415,7 +415,11 @@ h1, h2, h3, h4 {
    case-cijfers, contactbevestiging en 404 — het bonnetje-concept (WET 2)
    is vervallen, zie DESIGN.md §2 "Vervallen". Bouwt op de bestaande .card.
    ========================================================================= */
-.info-card { width: min(400px, 100%); }
+.info-card {
+  width: min(400px, 100%);
+  background: var(--cream); border: var(--border-ink); border-radius: var(--r-md);
+  box-shadow: var(--shadow-hard); padding: 24px 26px;
+}
 .info-card .ic-label {
   font-family: var(--font-mono); font-size: 11px; font-weight: 500;
   text-transform: uppercase; letter-spacing: .13em; color: var(--ink-soft);

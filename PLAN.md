@@ -53,6 +53,10 @@
 - Herbouw /projecten/ als "Werkplaats": documenteer eigen systemen als cases (deze website, eigen automations) met echte, meetbare cijfers (laadtijd, bouwtijd, stack) in bonnetje-vorm.
 - DoD: nul verzonnen claims; elke meting reproduceerbaar.
 
+## Sessie 9 — Correctieronde na livegebruik (uitgevoerd 11 juli 2026)
+Conversie en leesbaarheid winnen van conceptueel design. WET 2 (bonnetje) volledig vervallen en de Ink→Signal-morph geschrapt (zie DESIGN.md §2 "Vervallen"); hero-leadflow verwijderd (dash-label "Live" → "Voorbeeld", vloer-conform); alle vier bonnetjes vervangen door gewone info-kaarten; FAQ-categorieindex uitgelijnd; /privacy/ → /privacybeleid/ en /voorwaarden/ → /algemene-voorwaarden/ met 301's. Case-kaart /projecten/ nu in mensentaal — laadtijd-claim gedekt door verse meting (11-07-2026: mediaan 0,3 s LCP/load over 5 runs, mobiele viewport, zonder lab-throttling; eerste koude aanvraag 3,0 s).
+**Open:** oprichterstekst homepage §04 + /over-ons/ — wacht op exacte tekst van Kjell (losse micro-commit). Sessie 10 (samenvoegen workflow + AI) krijgt een eigen plan.
+
 ## Later (aparte projecten, elk met eigen plansessie)
 - **Configurator** "bouw je systeem" met live meeprintend bonnetje (prijs + levertijd).
 - **Het Loket**: AI-intake die een mini-groeiplan afdrukt (gekoppeld aan eigen stack, gelabeld als gegenereerd).
