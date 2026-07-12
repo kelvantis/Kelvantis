@@ -81,6 +81,73 @@ document.addEventListener('DOMContentLoaded', function () {
     }
   })();
 
+  /* --- Roterend hero-woord (bewuste override op WET 1/§4.7, zie DESIGN.md).
+        Letter-stagger slide/fade in een oranje pill; de pill-breedte animeert
+        vloeiend mee via een verborgen meter-span. Alleen op de homepage
+        (guard op #kv-rot). reduced-motion: het eerste woord blijft statisch
+        staan (uit de HTML), geen interval. --- */
+  (function () {
+    var rot = document.getElementById('kv-rot');
+    if (!rot) return;              // pagina zonder roterende hero
+    if (kvReduce) return;          // reduced-motion: laat de statische HTML-tekst staan
+
+    var words = ['groei', 'klanten', 'omzet', 'zichtbaarheid', 'impact'];
+    var STAGGER = 28;   // ms per letter
+    var ENTER = 650;    // ms enter-duur (letter)
+    var HOLD = 2000;    // ms zichtbaar
+    var i = 0;
+
+    // Verborgen meter: meet de woordbreedte in exact de rotator-typografie
+    // zodat de pill-breedte zonder sprong animeert.
+    var cs = getComputedStyle(rot);
+    var meter = document.createElement('span');
+    meter.setAttribute('aria-hidden', 'true');
+    meter.style.cssText = 'position:absolute;visibility:hidden;white-space:pre;font-style:italic;' +
+      'font-family:' + cs.fontFamily + ';font-weight:' + cs.fontWeight + ';' +
+      'letter-spacing:' + cs.letterSpacing + ';font-size:' + cs.fontSize + ';';
+    document.body.appendChild(meter);
+    function widthOf(w) { meter.textContent = w; return Math.ceil(meter.getBoundingClientRect().width); }
+
+    function build(word) {
+      rot.style.width = widthOf(word) + 'px';
+      rot.textContent = '';
+      var chars = Array.from(word);
+      chars.forEach(function (c, k) {
+        var s = document.createElement('span');
+        s.className = 'ch';
+        s.textContent = c;
+        s.style.transitionDelay = ((chars.length - 1 - k) * STAGGER) + 'ms'; // stagger vanaf laatste letter
+        rot.appendChild(s);
+      });
+      void rot.offsetWidth; // reflow, dan naar rust
+      Array.prototype.forEach.call(rot.children, function (s) {
+        s.style.transform = 'translateY(0)';
+        s.style.opacity = 1;
+      });
+    }
+
+    function exit(cb) {
+      var kids = Array.prototype.slice.call(rot.children);
+      kids.forEach(function (s, k) {
+        s.style.transitionDelay = ((kids.length - 1 - k) * STAGGER) + 'ms';
+        s.style.transform = 'translateY(-120%)';
+        s.style.opacity = 0;
+      });
+      setTimeout(cb, ENTER + kids.length * STAGGER);
+    }
+
+    function tick() {
+      exit(function () {
+        i = (i + 1) % words.length;
+        build(words[i]);
+      });
+    }
+
+    build(words[0]);
+    setInterval(tick, HOLD + ENTER);
+    window.addEventListener('resize', function () { rot.style.width = widthOf(words[i]) + 'px'; }, { passive: true });
+  })();
+
   /* --- Scroll-reveal v2 (systeem B): [data-reveal]-varianten + group-stagger, één keer
         afspelen. Gebruikt op alle hoofdpagina's. No-opt waar geen [data-reveal] staat. --- */
   (function () {

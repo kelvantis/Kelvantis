@@ -75,6 +75,7 @@ Alles wat binnenkomt, **stempelt**. Badges, sectiekoppen, prijzen, bevestigingen
 - **Verboden:** fade-only, slide-in van links/rechts, blur-in, zoom-out. Er bestaat maar één entrance.
 - Stagger bij groepen: 70–80ms.
 - **Uitzondering — teken-animaties:** een stroke-animatie die data tekent (zoals de hero-grafieklijn via `stroke-dashoffset`) is geen entrance maar het systeem dat zichtbaar werkt; die mag. Een fade die ondergeschikt is aan zo'n teken-animatie (het vlak dat onder de getekende lijn vult) mag mee, maar nooit als zelfstandige entrance van content.
+- **Uitzondering — roterend hero-woord (homepage):** in de homepage-hero roteert één woord binnen een oranje pill ("Meer *[groei · klanten · omzet · zichtbaarheid · impact]* / Minder handwerk."). Dit is een bewuste, unieke signature-primitive — een letter-stagger slide/fade-loop met vloeiend meeschuivende pill-breedte — bedoeld als merk-uiting en conversie-anker boven de vouw. Het is de enige plek waar slide/fade én een doorlopende animatie zijn toegestaan; nergens anders na te bouwen. Onder `prefers-reduced-motion` staat het eerste woord statisch en loopt er niets. Implementatie: `.hero-stage`/`.pill`/`.ch` in `styles.css`, aangedreven door de `#kv-rot`-module in `js/site.js`.
 
 ### WET 3 — Fraunces spreekt, Mono antwoordt (dialoogregel)
 Typografie is een gesprek tussen mens en machine:
@@ -114,8 +115,10 @@ Pagina- en state-wissels bewegen als papier door een machine: horizontale doorvo
 4. Geen pure-wit/pure-zwart; geen blur, glassmorphism, gradients, paars/blauw AI-look.
 5. Geen borders < 2px op kaarten (hairlines `--rule` alleen als scheidingslijn).
 6. Geen verzonnen cijfers, testimonials of klantnamen. Demo-data is altijd zichtbaar gelabeld `VOORBEELD` / `DEMO` in mono.
-7. Geen animatie langer dan 600ms; geen animatie die interactie blokkeert.
+7. Geen animatie langer dan 600ms; geen animatie die interactie blokkeert. **Uitzondering:** het roterende hero-woord (WET 1) mag doorlopend animeren; het blokkeert geen interactie en respecteert `prefers-reduced-motion`.
 8. Geen nieuwe kleuren, fonts of schaduwstijlen zonder wijziging van dít bestand.
+
+> **Homepage-hero (juli 2026):** de vorige hero (badge "Geen hype · Alleen groei" + het "Live · zelf gemeten" dashboard) is vervangen door de gecentreerde hero met roterend woord. Het zelf-gemeten dashboard is echt bewijsmateriaal en kan elders op de homepage terugkeren.
 
 ---
 

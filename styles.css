@@ -786,6 +786,109 @@ html { scrollbar-color: var(--ink) var(--paper); }
 }
 
 /* =========================================================================
+   HERO-STAGE — gecentreerde hero met roterend H1-woord
+   Bewuste motion-override op WET 1 (stempel = enige entrance) en §4.7
+   (geen perpetuele animatie / > 600ms): het roterende hero-woord is een
+   eigen signature-primitive, vastgelegd in DESIGN.md. reduced-motion blijft
+   gerespecteerd (zie onderaan dit blok).
+   ========================================================================= */
+.hero-stage { padding-block: clamp(48px, 8vh, 96px); }
+.hero-stage__inner {
+  max-width: 920px;
+  min-height: calc(100vh - 220px);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+
+/* Logo-tegel (app-icon-stijl). Zachte schaduw i.p.v. harde offset:
+   bewuste merk-uitzondering voor deze hero. */
+.hero-tile {
+  width: 112px; height: 112px;
+  border-radius: 26px;
+  background: var(--signal);
+  display: grid; place-items: center;
+  box-shadow: 0 2px 4px rgba(31,24,20,0.05), 0 14px 40px rgba(31,24,20,0.08);
+  margin-bottom: 44px;
+}
+.hero-tile span {
+  font-family: var(--font-display);
+  font-weight: 700; font-size: 60px; line-height: 1;
+  color: var(--ink);
+}
+
+.hero-stage__title {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: clamp(42px, 8vw, 84px);
+  line-height: 1.04;
+  letter-spacing: -0.025em;
+  color: var(--ink);
+}
+.hstage-l1 { display: flex; align-items: center; justify-content: center; white-space: pre; }
+.hstage-l2 { display: block; }
+
+/* Roterende pill: oranje vlak, wit italic woord, breedte animeert mee. */
+.pill {
+  display: inline-flex;
+  align-items: center;
+  overflow: hidden;
+  background: var(--signal);
+  color: #fff;
+  border-radius: 16px;
+  padding: 0.04em 0.34em;
+  transition: width 0.55s var(--ease-stamp);
+  vertical-align: baseline;
+}
+.rotator { display: inline-flex; font-style: italic; white-space: pre; }
+.ch {
+  display: inline-block;
+  transform: translateY(110%);
+  opacity: 0;
+  transition: transform 0.6s var(--ease-stamp), opacity 0.45s ease;
+  will-change: transform;
+}
+
+.hero-stage__sub {
+  margin-top: 28px;
+  max-width: 600px;
+  font-family: var(--font-body);
+  font-size: clamp(17px, 2.2vw, 21px);
+  line-height: 1.55;
+  color: var(--ink-soft);
+}
+.hero-stage__actions { justify-content: center; margin-top: 40px; }
+
+/* Tool-strook */
+.tools { margin-top: 76px; }
+.tools-cap {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--ink-faint);
+}
+.tools-row {
+  display: flex; flex-wrap: wrap;
+  align-items: center; justify-content: center;
+  gap: 48px; margin-top: 26px;
+}
+.tool-logo {
+  height: 28px; width: auto;
+  color: var(--ink);
+  fill: currentColor;
+  opacity: 0.6;
+}
+
+/* reduced-motion: geen letter-animatie, geen breedte-animatie. */
+@media (prefers-reduced-motion: reduce) {
+  .ch   { transition: none; transform: none; opacity: 1; }
+  .pill { transition: none; }
+}
+
+/* =========================================================================
    PROBLEMEN
    ========================================================================= */
 .problems-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 24px; }
