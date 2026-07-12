@@ -888,6 +888,27 @@ html { scrollbar-color: var(--ink) var(--paper); }
   .pill { transition: none; }
 }
 
+/* Mobiel: compactere hero, kleinere kop zodat lange woorden ("zichtbaarheid")
+   niet overlopen; als laatste redmiddel mag de pill onder "Meer" wrappen
+   (voorkomt horizontale scroll). CTA's vol-breed gestapeld voor grotere
+   taphit. De JS herberekent de pill-breedte bij resize. */
+@media (max-width: 640px) {
+  .hero-stage { padding-block: clamp(32px, 6vh, 56px); }
+  .hero-stage__inner { min-height: auto; }
+  .hero-tile { width: 88px; height: 88px; border-radius: 22px; margin-bottom: 28px; }
+  .hero-tile span { font-size: 46px; }
+  .hero-stage__title { font-size: clamp(30px, 10vw, 46px); }
+  .hstage-l1 { flex-wrap: wrap; row-gap: 6px; }
+  .hero-stage__sub { margin-top: 22px; font-size: 16px; }
+  .hero-stage__actions { margin-top: 30px; width: 100%; flex-direction: column; gap: 12px; }
+  .hero-stage__actions .btn { width: 100%; justify-content: center; }
+  .tools { margin-top: 48px; }
+  .tools-row { gap: 30px; margin-top: 20px; }
+}
+@media (max-width: 380px) {
+  .hero-stage__title { font-size: 27px; }
+}
+
 /* =========================================================================
    PROBLEMEN
    ========================================================================= */
