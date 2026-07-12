@@ -808,16 +808,21 @@ html { scrollbar-color: var(--ink) var(--paper); }
 .hero-tile {
   width: 112px; height: 112px;
   border-radius: 26px;
-  background: var(--signal);
   display: grid; place-items: center;
   box-shadow: 0 2px 4px rgba(31,24,20,0.05), 0 14px 40px rgba(31,24,20,0.08);
   margin-bottom: 44px;
 }
-.hero-tile span {
-  font-family: var(--font-display);
-  font-weight: 700; font-size: 60px; line-height: 1;
-  color: var(--ink);
-}
+.hero-tile__logo { width: 78px; height: auto; display: block; }
+
+/* Tegel-varianten (recolor van het inline logo via .la = ink-vormen, .lb = oranje-vormen). */
+.hero-tile--a { background: var(--signal); }                                   /* oranje tegel, wit logo (default) */
+.hero-tile--a .la, .hero-tile--a .lb { fill: #fff; }
+.hero-tile--b { background: var(--ink); }                                      /* ink tegel, wit + oranje logo */
+.hero-tile--b .la { fill: var(--cream); }
+.hero-tile--b .lb { fill: var(--signal); }
+.hero-tile--c { background: var(--cream); border: var(--border-ink); }         /* cream tegel, originele kleuren */
+.hero-tile--c .la { fill: var(--ink); }
+.hero-tile--c .lb { fill: var(--signal); }
 
 .hero-stage__title {
   font-family: var(--font-display);
@@ -896,7 +901,7 @@ html { scrollbar-color: var(--ink) var(--paper); }
   .hero-stage { padding-block: clamp(32px, 6vh, 56px); }
   .hero-stage__inner { min-height: auto; }
   .hero-tile { width: 88px; height: 88px; border-radius: 22px; margin-bottom: 28px; }
-  .hero-tile span { font-size: 46px; }
+  .hero-tile__logo { width: 60px; }
   .hero-stage__title { font-size: clamp(30px, 10vw, 46px); }
   .hstage-l1 { flex-wrap: wrap; row-gap: 6px; }
   .hero-stage__sub { margin-top: 22px; font-size: 16px; }
