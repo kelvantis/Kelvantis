@@ -102,7 +102,7 @@ document.addEventListener('DOMContentLoaded', function () {
     var cs = getComputedStyle(rot);
     var meter = document.createElement('span');
     meter.setAttribute('aria-hidden', 'true');
-    meter.style.cssText = 'position:absolute;visibility:hidden;white-space:pre;font-style:italic;' +
+    meter.style.cssText = 'position:fixed;top:0;left:-9999px;visibility:hidden;white-space:pre;font-style:italic;' +
       'font-family:' + cs.fontFamily + ';font-weight:' + cs.fontWeight + ';' +
       'letter-spacing:' + cs.letterSpacing + ';font-size:' + cs.fontSize + ';';
     document.body.appendChild(meter);
