@@ -143,9 +143,25 @@ document.addEventListener('DOMContentLoaded', function () {
       });
     }
 
-    build(words[0]);
-    setInterval(tick, HOLD + ENTER);
-    window.addEventListener('resize', function () { rot.style.width = widthOf(words[i]) + 'px'; }, { passive: true });
+    function startRotation() {
+      build(words[0]);
+      setInterval(tick, HOLD + ENTER);
+      window.addEventListener('resize', function () { rot.style.width = widthOf(words[i]) + 'px'; }, { passive: true });
+    }
+
+    // Wacht tot de webfonts geladen zijn voordat we meten en starten. Bij een
+    // KOUDE load (fonts nog niet in cache) is Fraunces bij DOMContentLoaded nog
+    // niet klaar; dan meet de meter met het fallback-font, wordt de pill te smal
+    // en lijkt de rotatie stil te staan tot je herlaadt. fonts.ready lost dat op;
+    // een timeout-vangnet start alsnog als fonts.ready onverhoopt blijft hangen.
+    if (document.fonts && document.fonts.ready) {
+      var started = false;
+      var go = function () { if (started) return; started = true; startRotation(); };
+      document.fonts.ready.then(go);
+      setTimeout(go, 1200);
+    } else {
+      startRotation();
+    }
   })();
 
   /* --- Scroll-reveal v2 (systeem B): [data-reveal]-varianten + group-stagger, één keer
