@@ -2340,3 +2340,51 @@ html { scrollbar-color: var(--ink) var(--paper); }
 @media (prefers-reduced-motion: reduce) {
   .kv-flame-flicker, .kv-bob, .kv-blink { animation: none !important; }
 }
+
+/* =========================================================================
+   COOKIEBANNER (§ consent) — accepteren/weigeren, JS-geïnjecteerd (js/site.js).
+   Niet-blokkerende neo-brutalist kaart linksonder. Verschijnt alleen als er
+   nog geen keuze in localStorage staat. Er laden geen analytische/marketing-
+   cookies vóór 'accepteren'. Buttons hergebruiken .btn / .btn--primary /
+   .btn--ghost, dus de press-mechaniek klopt met de rest van de site.
+   ========================================================================= */
+.cc-banner {
+  position: fixed;
+  left: clamp(16px, 3vw, 28px);
+  bottom: clamp(16px, 3vw, 28px);
+  z-index: 1000;
+  width: min(420px, calc(100vw - 32px));
+  background: var(--cream);
+  border: var(--border-ink);
+  box-shadow: var(--shadow-hard-lg);
+  border-radius: var(--r-md);
+  padding: 22px 22px 20px;
+  animation: cc-in 220ms cubic-bezier(.2, .7, .2, 1) both;
+}
+.cc-banner:focus { outline: none; }
+.cc-label {
+  display: block; font-family: var(--font-mono); font-size: 11px;
+  letter-spacing: 0.14em; text-transform: uppercase; color: var(--signal-deep);
+  margin-bottom: 10px;
+}
+.cc-title {
+  font-family: var(--font-display); font-weight: 600; font-size: 19px;
+  line-height: 1.2; color: var(--ink); margin: 0 0 8px;
+}
+.cc-text { color: var(--ink-soft); font-size: 14.5px; line-height: 1.55; margin: 0 0 16px; }
+.cc-text a {
+  color: var(--ink); text-decoration: underline; text-underline-offset: 2px;
+  text-decoration-color: var(--rule-strong); transition: text-decoration-color 0.18s ease;
+}
+.cc-text a:hover { text-decoration-color: var(--signal); }
+.cc-actions { display: flex; gap: 10px; flex-wrap: wrap; }
+.cc-actions .btn { flex: 1 1 auto; justify-content: center; font-size: 13px; padding: 12px 18px; }
+
+@keyframes cc-in { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: none; } }
+
+@media (max-width: 480px) {
+  .cc-banner { left: 12px; right: 12px; bottom: 12px; width: auto; padding: 18px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .cc-banner { animation: none; }
+}

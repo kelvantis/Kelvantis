@@ -502,4 +502,82 @@ document.addEventListener('DOMContentLoaded', function () {
     if (small.addEventListener)  { small.addEventListener('change', applyMode); }
   })();
 
+  /* --- Cookiebanner (§ consent): accepteren/weigeren, sitebreed. Verschijnt
+        éénmalig tot er een keuze in localStorage staat; twee gelijkwaardige
+        knoppen (AVG: weigeren even makkelijk als accepteren). De banner wordt
+        hier in JS gebouwd — geen inline HTML/JS, dus de strikte CSP blijft heel.
+        Zonder JS laadt er sowieso geen tracking, dus is er dan geen banner nodig.
+
+        KOPPELPUNT VOOR LATER (GA4 / Meta Pixel / LinkedIn): laad die scripts
+        pas als toestemming er is. Luister daarvoor op het window-event
+        'kelvantis:consent' — detail = { choice, analytics, marketing }:
+          window.addEventListener('kelvantis:consent', function (e) {
+            if (e.detail.analytics) { ...GA4 injecteren... }
+          });
+        Het event vuurt bij een verse keuze én bij elke herbezoek-load (zodat een
+        loader weet wat mag). Heropenen kan via window.KelvantisCookies.open()
+        of een element met [data-cookie-settings] (toekomstige footerlink). --- */
+  (function () {
+    var KEY = 'kv-cookie-consent';
+    var VERSION = 1;
+
+    function read() {
+      try { var v = JSON.parse(localStorage.getItem(KEY)); return (v && v.v === VERSION) ? v : null; }
+      catch (e) { return null; }
+    }
+    function write(choice) {
+      var payload = { v: VERSION, choice: choice, analytics: choice === 'accepted', marketing: choice === 'accepted' };
+      try { localStorage.setItem(KEY, JSON.stringify(payload)); } catch (e) {}
+      return payload;
+    }
+    function emit(payload) {
+      try { window.dispatchEvent(new CustomEvent('kelvantis:consent', { detail: payload })); } catch (e) {}
+    }
+
+    var banner = null;
+    function close() {
+      if (banner && banner.parentNode) banner.parentNode.removeChild(banner);
+      banner = null;
+    }
+    function decide(choice) { emit(write(choice)); close(); }
+
+    function open() {
+      if (banner) return;
+      banner = document.createElement('section');
+      banner.className = 'cc-banner';
+      banner.setAttribute('role', 'dialog');
+      banner.setAttribute('aria-labelledby', 'cc-title');
+      banner.setAttribute('aria-describedby', 'cc-text');
+      banner.tabIndex = -1;
+      banner.innerHTML =
+        '<span class="cc-label">§ Cookies</span>' +
+        '<h2 class="cc-title" id="cc-title">Cookies op kelvantis.com</h2>' +
+        '<p class="cc-text" id="cc-text">We gebruiken alleen noodzakelijke cookies om de site te laten werken. ' +
+        'Analytische en marketingcookies plaatsen we pas als jij ze accepteert. ' +
+        '<a href="/privacybeleid/">Meer info</a>.</p>' +
+        '<div class="cc-actions">' +
+          '<button type="button" class="btn btn--ghost" data-cc="reject">Weigeren</button>' +
+          '<button type="button" class="btn btn--primary" data-cc="accept">Accepteren</button>' +
+        '</div>';
+      document.body.appendChild(banner);
+      banner.querySelector('[data-cc="accept"]').addEventListener('click', function () { decide('accepted'); });
+      banner.querySelector('[data-cc="reject"]').addEventListener('click', function () { decide('rejected'); });
+      banner.focus({ preventScroll: true });
+    }
+
+    // Mini-API voor later (footerlink "Cookie-instellingen", of keuze wissen).
+    window.KelvantisCookies = {
+      open: open,
+      get: read,
+      reset: function () { try { localStorage.removeItem(KEY); } catch (e) {} open(); }
+    };
+    document.querySelectorAll('[data-cookie-settings]').forEach(function (el) {
+      el.addEventListener('click', function (e) { e.preventDefault(); open(); });
+    });
+
+    var saved = read();
+    if (saved) { emit(saved); }   // herbezoek: keuze opnieuw uitzenden voor listeners
+    else { open(); }
+  })();
+
 });
