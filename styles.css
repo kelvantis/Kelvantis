@@ -33,6 +33,15 @@
   src: url('/fonts/jetbrains-mono-var.woff2') format('woff2');
   unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
 }
+/* Bricolage Grotesque — display/koppen op de homepage (home-scoped, zie .page-home onderaan). */
+@font-face {
+  font-family: 'Bricolage Grotesque';
+  font-style: normal;
+  font-weight: 400 800;
+  font-display: swap;
+  src: url('/fonts/bricolage-var.woff2') format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
 
 /* ---------- Fallback-fonts met metrics-overrides (anti font-swap-CLS) ----
    De eerste paint (systeemfont) neemt dezelfde ruimte in als de webfont,
@@ -55,6 +64,11 @@
   font-family: 'JetBrains-Mono-fallback';
   src: local('Consolas');
   size-adjust: 109.13%; ascent-override: 93.5%; descent-override: 27.5%; line-gap-override: 0%;
+}
+@font-face {
+  font-family: 'Bricolage-fallback';
+  src: local('Segoe UI'), local('Arial');
+  size-adjust: 97%; ascent-override: 101%; descent-override: 26%; line-gap-override: 0%;
 }
 
 /* =========================================================================
@@ -847,13 +861,14 @@ html { scrollbar-color: var(--ink) var(--paper); }
   transition: width 0.55s var(--ease-stamp);
   vertical-align: baseline;
 }
-.rotator { display: inline-flex; font-style: italic; white-space: pre; }
-.ch {
+.rotator { display: inline-flex; justify-content: center; text-align: center; white-space: pre; }
+/* Hele woord animeert als één blok (eased slide), niet meer letter-voor-letter. */
+.rotator .word {
   display: inline-block;
   transform: translateY(110%);
   opacity: 0;
-  transition: transform 0.6s var(--ease-stamp), opacity 0.45s ease;
-  will-change: transform;
+  transition: transform 0.6s var(--ease-stamp), opacity 0.4s ease;
+  will-change: transform, opacity;
 }
 
 .hero-stage__sub {
@@ -887,9 +902,9 @@ html { scrollbar-color: var(--ink) var(--paper); }
   opacity: 0.6;
 }
 
-/* reduced-motion: geen letter-animatie, geen breedte-animatie. */
+/* reduced-motion: geen woord-animatie, geen breedte-animatie. */
 @media (prefers-reduced-motion: reduce) {
-  .ch   { transition: none; transform: none; opacity: 1; }
+  .rotator .word { transition: none; transform: none; opacity: 1; }
   .pill { transition: none; }
 }
 
@@ -995,9 +1010,65 @@ html { scrollbar-color: var(--ink) var(--paper); }
 .stats-foot a:hover { text-decoration-color: var(--signal); }
 
 /* =========================================================================
+   AUTOMATISERING (feature: kaart met simpele automations + SEO/AEO-copy)
+   ========================================================================= */
+.auto-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 56px; align-items: center; }
+
+.auto-card {
+  position: relative;
+  height: clamp(300px, 44vh, 380px);
+  background: var(--cream);
+  border: var(--border-ink);
+  border-radius: var(--r-md);
+  box-shadow: var(--shadow-hard);
+  overflow: hidden;
+}
+/* oneindig verticaal scrollende lijst: lijst staat 2× in de track, translateY(-50%) loopt naadloos */
+.auto-track {
+  list-style: none; margin: 0; padding: 0;
+  display: flex; flex-direction: column;
+  animation: auto-marquee 46s linear infinite;
+  will-change: transform;
+}
+.auto-card:hover .auto-track,
+.auto-card:focus-within .auto-track { animation-play-state: paused; }
+@keyframes auto-marquee { from { transform: translateY(0); } to { transform: translateY(-50%); } }
+
+/* fade-randen boven/onder (van cream naar transparant) */
+.auto-fade { position: absolute; left: 0; right: 0; height: 60px; pointer-events: none; z-index: 2; }
+.auto-fade--top    { top: 0;    background: linear-gradient(to bottom, var(--cream), rgba(253,250,243,0)); }
+.auto-fade--bottom { bottom: 0; background: linear-gradient(to top,    var(--cream), rgba(253,250,243,0)); }
+
+.auto-row { display: flex; align-items: center; gap: 14px; padding: 16px 18px; border-bottom: 1px solid var(--rule); }
+.auto-ico {
+  flex: none; width: 40px; height: 40px;
+  display: grid; place-items: center;
+  border: var(--border-ink); border-radius: var(--r-sm);
+  background: var(--paper);
+  color: var(--signal-deep);
+}
+.auto-ico svg { width: 20px; height: 20px; }
+.auto-txt { display: flex; flex-direction: column; gap: 2px; min-width: 0; }
+.auto-t { font-family: var(--font-body); font-weight: 500; color: var(--ink); }
+.auto-s { font-size: 14px; color: var(--ink-soft); }
+
+.auto-copy { display: flex; flex-direction: column; gap: 20px; }
+.auto-badges { display: flex; gap: 10px; flex-wrap: wrap; }
+.auto-badge {
+  font-family: var(--font-mono); text-transform: uppercase; letter-spacing: 0.08em;
+  font-size: 11px; color: var(--ink);
+  border: var(--border-ink); border-radius: var(--r-pill); padding: 6px 12px;
+}
+.auto-copy .stats-foot { margin-top: 0; }
+
+@media (max-width: 760px) {
+  .auto-grid { grid-template-columns: 1fr; gap: 32px; }
+}
+
+/* =========================================================================
    AANPAK
    ========================================================================= */
-.aanpak-head h2 { font-size: clamp(32px,4.4vw,54px); letter-spacing: -0.02em; margin-bottom: 48px; }
+.aanpak-head h2 { font-size: clamp(32px,4.4vw,54px); letter-spacing: -0.02em; margin-bottom: 24px; }
 .aanpak-head h2 .accent { display: block; }
 .aanpak-grid { display: grid; grid-template-columns: repeat(4,1fr); gap: 16px; }
 
@@ -1048,6 +1119,11 @@ html { scrollbar-color: var(--ink) var(--paper); }
    ENTITY
    ========================================================================= */
 .entity-grid { display: grid; grid-template-columns: 1.4fr 0.9fr; gap: 56px; align-items: center; }
+/* §05: badge + kop + paragraaf staan als één blok in de linkerkolom en zijn
+   zo verticaal gecentreerd naast de (hoge) foto. */
+.entity-copy > .section-label { margin-bottom: 20px; }
+.answer-block > p { margin: 0; }
+.answer-block > p + p { margin-top: 0.9em; }
 .entity h2 { font-size: clamp(28px,3.6vw,44px); line-height: 1.15; letter-spacing: -0.015em; }
 .answer-block {
   margin: 28px 0 22px;
@@ -1619,6 +1695,7 @@ html { scrollbar-color: var(--ink) var(--paper); }
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
   .ticker-move       { animation: none; }
+  .auto-track        { animation: none; }
   .live-dot::after   { animation: none; }
   .nav-dd-caret, .nav-dd-panel { transition: none; }
   *, *::before, *::after {
@@ -2387,4 +2464,32 @@ html { scrollbar-color: var(--ink) var(--paper); }
 }
 @media (prefers-reduced-motion: reduce) {
   .cc-banner { animation: none; }
+}
+
+/* =========================================================================
+   Homepage-scoped merk-overrides (tijdelijk — koppen in Bricolage Grotesque,
+   accent zonder cursief. Alleen actief op <body class="page-home"> =
+   index.html. De rest van de site blijft Fraunces gebruiken tot die batch volgt.
+   ========================================================================= */
+.page-home {
+  --font-display: 'Bricolage Grotesque', 'Bricolage-fallback', system-ui, sans-serif;
+}
+
+/* Accent: geen cursief meer — onderscheid via zwaarste gewicht + fel merk-oranje.
+   Achteraan geplaatst zodat bij gelijke specificiteit de bronvolgorde wint
+   van de eerdere `.sec-head h2 .accent { font-style: italic }`-regels. */
+.page-home h1 .accent,
+.page-home h2 .accent,
+.page-home h3 .accent {
+  font-family: var(--font-display);   /* = Bricolage Grotesque op de homepage */
+  font-style: normal;
+  font-weight: 800;
+  color: var(--signal);               /* #FF4D2E — merk-oranje (licht én donker) */
+}
+
+/* §01 payoff-zin ("...precies waar wij beginnen.") zwaarder als slotstatement. */
+.page-home .sec-answer.is-payoff {
+  font-weight: 600;
+  font-size: 20px;
+  color: var(--ink);
 }

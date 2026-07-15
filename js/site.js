@@ -92,8 +92,7 @@ document.addEventListener('DOMContentLoaded', function () {
     if (kvReduce) return;          // reduced-motion: laat de statische HTML-tekst staan
 
     var words = ['groei', 'klanten', 'omzet', 'zichtbaarheid', 'impact'];
-    var STAGGER = 28;   // ms per letter
-    var ENTER = 650;    // ms enter-duur (letter)
+    var ENTER = 620;    // ms slide-duur (heel woord, eased)
     var HOLD = 2000;    // ms zichtbaar
     var i = 0;
 
@@ -102,38 +101,33 @@ document.addEventListener('DOMContentLoaded', function () {
     var cs = getComputedStyle(rot);
     var meter = document.createElement('span');
     meter.setAttribute('aria-hidden', 'true');
-    meter.style.cssText = 'position:fixed;top:0;left:-9999px;visibility:hidden;white-space:pre;font-style:italic;' +
+    meter.style.cssText = 'position:fixed;top:0;left:-9999px;visibility:hidden;white-space:pre;font-style:' + cs.fontStyle + ';' +
       'font-family:' + cs.fontFamily + ';font-weight:' + cs.fontWeight + ';' +
       'letter-spacing:' + cs.letterSpacing + ';font-size:' + cs.fontSize + ';';
     document.body.appendChild(meter);
     function widthOf(w) { meter.textContent = w; return Math.ceil(meter.getBoundingClientRect().width); }
 
+    // Woord als één blok: glijdt van onder in en (bij exit) naar boven uit —
+    // één eased transition, geen letter-stagger, geen stapsgewijs verspringen.
     function build(word) {
       rot.style.width = widthOf(word) + 'px';
       rot.textContent = '';
-      var chars = Array.from(word);
-      chars.forEach(function (c, k) {
-        var s = document.createElement('span');
-        s.className = 'ch';
-        s.textContent = c;
-        s.style.transitionDelay = ((chars.length - 1 - k) * STAGGER) + 'ms'; // stagger vanaf laatste letter
-        rot.appendChild(s);
-      });
-      void rot.offsetWidth; // reflow, dan naar rust
-      Array.prototype.forEach.call(rot.children, function (s) {
-        s.style.transform = 'translateY(0)';
-        s.style.opacity = 1;
-      });
+      var span = document.createElement('span');
+      span.className = 'word';
+      span.textContent = word;           // begint (via CSS) onder de lijn, verborgen
+      rot.appendChild(span);
+      void rot.offsetWidth;              // reflow, dan naar rust laten glijden
+      span.style.transform = 'translateY(0)';
+      span.style.opacity = 1;
     }
 
     function exit(cb) {
-      var kids = Array.prototype.slice.call(rot.children);
-      kids.forEach(function (s, k) {
-        s.style.transitionDelay = ((kids.length - 1 - k) * STAGGER) + 'ms';
-        s.style.transform = 'translateY(-120%)';
-        s.style.opacity = 0;
-      });
-      setTimeout(cb, ENTER + kids.length * STAGGER);
+      var span = rot.firstChild;
+      if (span) {
+        span.style.transform = 'translateY(-110%)';
+        span.style.opacity = 0;
+      }
+      setTimeout(cb, ENTER);
     }
 
     function tick() {

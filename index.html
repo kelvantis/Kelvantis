@@ -40,6 +40,7 @@
   <!-- Fonts: self-hosted, zie @font-face bovenin styles.css -->
   <link rel="preload" href="/fonts/fraunces-var.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="preload" href="/fonts/inter-tight-var.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="/fonts/bricolage-var.woff2" as="font" type="font/woff2" crossorigin>
 
   <link rel="stylesheet" href="/styles.css">
 
@@ -147,7 +148,7 @@
       {
         "@type": "Question",
         "name": "Wat als ik al eerder slechte ervaringen heb gehad met een bureau?",
-        "acceptedAnswer": { "@type": "Answer", "text": "Logisch dat je voorzichtig bent. Veel bedrijven kennen het: vage offertes, trajecten die uitlopen en werk dat stilletjes naar een junior gaat. Bij Kelvantis spreken we vooraf een vaste prijs en een vaste levertijd af, en werk je direct met iemand die je project echt kent — en het ook zelf bouwt." }
+        "acceptedAnswer": { "@type": "Answer", "text": "Logisch dat je voorzichtig bent. Veel bedrijven kennen het: vage offertes, trajecten die uitlopen en werk dat stilletjes naar een junior gaat. Bij Kelvantis spreken we vooraf een vaste prijs en een vaste levertijd af, en werk je direct met iemand die je project echt kent en ook zelf bouwt." }
       },
       {
         "@type": "Question",
@@ -167,7 +168,7 @@
       {
         "@type": "Question",
         "name": "Wat kost het?",
-        "acceptedAnswer": { "@type": "Answer", "text": "We werken met vaste prijzen — geen uurtje-factuurtje — zodat je vooraf precies weet waar je aan toe bent. De investering hangt af van wat je nodig hebt: een losse website kost minder dan een website mét automatisering, AI en koppelingen erbij. Tijdens het gratis strategiegesprek bekijken we samen wat past bij jouw situatie, doelen en budget." }
+        "acceptedAnswer": { "@type": "Answer", "text": "We werken met vaste prijzen, geen uurtje-factuurtje, zodat je vooraf precies weet waar je aan toe bent. De investering hangt af van wat je nodig hebt: een losse website kost minder dan een website mét automatisering, AI en koppelingen erbij. Tijdens het gratis strategiegesprek bekijken we samen wat past bij jouw situatie, doelen en budget." }
       },
       {
         "@type": "Question",
@@ -190,7 +191,7 @@
   </script>
 </head>
 
-<body>
+<body class="page-home">
   <a class="skip-link" href="#main">Direct naar inhoud</a>
 
   <!-- ================= NAVBAR ================= -->
@@ -327,10 +328,10 @@
           <article data-reveal="up" class="problem">
             <div class="pnum">03</div>
             <h3>Onze website ziet er mooi uit, maar verkoopt niet</h3>
-            <p>Bezoekers komen, kijken en vertrekken — en jij ziet er niets van terug in je omzet.</p>
+            <p>Bezoekers komen, kijken en vertrekken. In je omzet zie je er niets van terug.</p>
           </article>
         </div>
-        <p class="sec-answer" data-reveal="up">Drie verschillende problemen, één oorzaak: je marketing werkt niet samen. Dat is precies waar wij beginnen.</p>
+        <p class="sec-answer is-payoff" data-reveal="up">Drie verschillende problemen, één oorzaak: je marketing werkt niet samen. Dat is precies waar wij beginnen.</p>
       </div>
     </section>
 
@@ -340,7 +341,7 @@
         <p class="section-label" data-reveal="stamp"><span class="sl-num">§ 02</span> / Wat we doen</p>
         <div class="dienst-head" data-reveal="up">
           <h2 id="diensten-title">Eén marketingbureau.<span class="accent">Begin waar het knelt.</span></h2>
-          <p class="dienst-intro">Kies gerust één dienst: alleen een website, alleen vindbaarheid, alleen automatisering. Alles wat we bouwen sluit later op elkaar aan — je hoeft nooit opnieuw te beginnen.</p>
+          <p class="dienst-intro">Kies gerust één dienst: alleen een website, alleen vindbaarheid, alleen automatisering. Alles wat we bouwen sluit later op elkaar aan, zodat je nooit opnieuw hoeft te beginnen.</p>
         </div>
 
         <div class="dienst-grid" data-reveal-group>
@@ -380,39 +381,62 @@
             </span>
             <span class="dienst-num">04</span>
             <h3>GEO &amp; AEO</h3>
-            <p>Gevonden worden in Google én in ChatGPT, Perplexity en AI Overviews — precies waar je klanten morgen zoeken.</p>
+            <p>Gevonden worden in Google én in ChatGPT, Perplexity en AI Overviews. Precies waar je klanten morgen zoeken.</p>
             <span class="dienst-arrow" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
           </a>
         </div>
       </div>
     </section>
 
-    <!-- ================= BEWIJS (werkplaats) ================= -->
-    <section class="section s-paper" aria-labelledby="bewijs-title">
+    <!-- ================= AUTOMATISERING ================= -->
+    <section class="section s-paper" aria-labelledby="auto-title">
       <div class="container">
-        <p class="section-label" data-reveal="stamp"><span class="sl-num">§ 03</span> / Bewijs</p>
-        <div class="sec-head" data-reveal="up">
-          <h2 id="bewijs-title">Wij bewijzen alles met eigen metingen. <span class="accent">Te beginnen bij onszelf.</span></h2>
-          <p class="sec-answer">Kelvantis is in 2026 gestart, dus onze klantenlijst is nog kort — dat is jouw voordeel: volledige aandacht. Wat we beloven, laten we eerst op onszelf zien: deze website is case 01, openbaar gedocumenteerd en zelf gemeten.</p>
+        <p class="section-label" data-reveal="stamp"><span class="sl-num">§ 03</span> / Automatisering</p>
+        <div class="auto-grid" data-reveal-group>
+          <!-- LINKS: oneindig scrollende lijst automations (naam + uitleg ≤5 woorden) -->
+          <div class="auto-card" data-reveal="left">
+            <ul class="auto-track">
+              <li class="auto-row"><span class="auto-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3.5 7l8.5 6 8.5-6"/></svg></span><span class="auto-txt"><span class="auto-t">Nieuwe lead binnen</span><span class="auto-s">Meteen persoonlijke opvolgmail</span></span></li>
+              <li class="auto-row"><span class="auto-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><path d="M14 3v5h5"/><path d="M9 13h6M9 17h4"/></svg></span><span class="auto-txt"><span class="auto-t">Offerte getekend</span><span class="auto-s">Factuur en onboarding automatisch</span></span></li>
+              <li class="auto-row"><span class="auto-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 9.5h18M8 3v4M16 3v4"/></svg></span><span class="auto-txt"><span class="auto-t">Afspraak gepland</span><span class="auto-s">Bevestiging en herinnering geregeld</span></span></li>
+              <li class="auto-row"><span class="auto-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="9" cy="8" r="3.2"/><path d="M3 20c0-3.3 2.7-5.5 6-5.5s6 2.2 6 5.5"/><path d="M16 5.6a3 3 0 0 1 0 5.6M21 20c0-2.4-1.3-4.3-3.4-5.1"/></svg></span><span class="auto-txt"><span class="auto-t">Formulier ingevuld</span><span class="auto-s">Netjes gelabeld in CRM</span></span></li>
+              <li class="auto-row"><span class="auto-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 21h18"/><rect x="5" y="11" width="3.4" height="7"/><rect x="10.3" y="6" width="3.4" height="12"/><rect x="15.6" y="14" width="3.4" height="4"/></svg></span><span class="auto-txt"><span class="auto-t">Elke maandag</span><span class="auto-s">Kort rapport in je inbox</span></span></li>
+              <li class="auto-row"><span class="auto-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9a6 6 0 0 1 12 0c0 5 2 6 2 6H4s2-1 2-6"/><path d="M10 19a2 2 0 0 0 4 0"/></svg></span><span class="auto-txt"><span class="auto-t">Factuur te laat</span><span class="auto-s">Vriendelijke betaalherinnering vanzelf</span></span></li>
+              <li class="auto-row"><span class="auto-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3.6l2.5 5.1 5.6.8-4 4 1 5.6-5-2.6-5 2.6 1-5.6-4-4 5.6-.8z"/></svg></span><span class="auto-txt"><span class="auto-t">Nieuwe review</span><span class="auto-s">Direct op je site</span></span></li>
+              <li class="auto-row"><span class="auto-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 8l-9-5-9 5 9 5 9-5z"/><path d="M3 8v8l9 5 9-5V8"/><path d="M12 13v8"/></svg></span><span class="auto-txt"><span class="auto-t">Voorraad laag</span><span class="auto-s">Bestelling automatisch klaargezet</span></span></li>
+              <li class="auto-row"><span class="auto-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12a8 8 0 0 1 13.7-5.6L20 8"/><path d="M20 3v5h-5"/><path d="M20 12a8 8 0 0 1-13.7 5.6L4 16"/><path d="M4 21v-5h5"/></svg></span><span class="auto-txt"><span class="auto-t">Klant afgehaakt</span><span class="auto-s">Win-backmail na een week</span></span></li>
+              <li class="auto-row"><span class="auto-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="8.5"/><path d="M8.5 12.5l2.5 2.5 4.5-5"/></svg></span><span class="auto-txt"><span class="auto-t">Project afgerond</span><span class="auto-s">Automatisch om review gevraagd</span></span></li>
+              <li class="auto-row"><span class="auto-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="9" cy="8" r="3.3"/><path d="M3.5 20c0-3.3 2.5-5.5 5.5-5.5s5.5 2.2 5.5 5.5"/><path d="M18 8v6M15 11h6"/></svg></span><span class="auto-txt"><span class="auto-t">Nieuwe inschrijving</span><span class="auto-s">Welkomstreeks start vanzelf</span></span></li>
+              <li class="auto-row"><span class="auto-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M13 3L5 13h6l-1 8 8-10h-6z"/></svg></span><span class="auto-txt"><span class="auto-t">Lead scoort hoog</span><span class="auto-s">Sales krijgt direct seintje</span></span></li>
+              <!-- kopie voor naadloze loop -->
+              <li class="auto-row" aria-hidden="true"><span class="auto-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3.5 7l8.5 6 8.5-6"/></svg></span><span class="auto-txt"><span class="auto-t">Nieuwe lead binnen</span><span class="auto-s">Meteen persoonlijke opvolgmail</span></span></li>
+              <li class="auto-row" aria-hidden="true"><span class="auto-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><path d="M14 3v5h5"/><path d="M9 13h6M9 17h4"/></svg></span><span class="auto-txt"><span class="auto-t">Offerte getekend</span><span class="auto-s">Factuur en onboarding automatisch</span></span></li>
+              <li class="auto-row" aria-hidden="true"><span class="auto-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 9.5h18M8 3v4M16 3v4"/></svg></span><span class="auto-txt"><span class="auto-t">Afspraak gepland</span><span class="auto-s">Bevestiging en herinnering geregeld</span></span></li>
+              <li class="auto-row" aria-hidden="true"><span class="auto-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="9" cy="8" r="3.2"/><path d="M3 20c0-3.3 2.7-5.5 6-5.5s6 2.2 6 5.5"/><path d="M16 5.6a3 3 0 0 1 0 5.6M21 20c0-2.4-1.3-4.3-3.4-5.1"/></svg></span><span class="auto-txt"><span class="auto-t">Formulier ingevuld</span><span class="auto-s">Netjes gelabeld in CRM</span></span></li>
+              <li class="auto-row" aria-hidden="true"><span class="auto-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 21h18"/><rect x="5" y="11" width="3.4" height="7"/><rect x="10.3" y="6" width="3.4" height="12"/><rect x="15.6" y="14" width="3.4" height="4"/></svg></span><span class="auto-txt"><span class="auto-t">Elke maandag</span><span class="auto-s">Kort rapport in je inbox</span></span></li>
+              <li class="auto-row" aria-hidden="true"><span class="auto-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9a6 6 0 0 1 12 0c0 5 2 6 2 6H4s2-1 2-6"/><path d="M10 19a2 2 0 0 0 4 0"/></svg></span><span class="auto-txt"><span class="auto-t">Factuur te laat</span><span class="auto-s">Vriendelijke betaalherinnering vanzelf</span></span></li>
+              <li class="auto-row" aria-hidden="true"><span class="auto-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3.6l2.5 5.1 5.6.8-4 4 1 5.6-5-2.6-5 2.6 1-5.6-4-4 5.6-.8z"/></svg></span><span class="auto-txt"><span class="auto-t">Nieuwe review</span><span class="auto-s">Direct op je site</span></span></li>
+              <li class="auto-row" aria-hidden="true"><span class="auto-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 8l-9-5-9 5 9 5 9-5z"/><path d="M3 8v8l9 5 9-5V8"/><path d="M12 13v8"/></svg></span><span class="auto-txt"><span class="auto-t">Voorraad laag</span><span class="auto-s">Bestelling automatisch klaargezet</span></span></li>
+              <li class="auto-row" aria-hidden="true"><span class="auto-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12a8 8 0 0 1 13.7-5.6L20 8"/><path d="M20 3v5h-5"/><path d="M20 12a8 8 0 0 1-13.7 5.6L4 16"/><path d="M4 21v-5h5"/></svg></span><span class="auto-txt"><span class="auto-t">Klant afgehaakt</span><span class="auto-s">Win-backmail na een week</span></span></li>
+              <li class="auto-row" aria-hidden="true"><span class="auto-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="8.5"/><path d="M8.5 12.5l2.5 2.5 4.5-5"/></svg></span><span class="auto-txt"><span class="auto-t">Project afgerond</span><span class="auto-s">Automatisch om review gevraagd</span></span></li>
+              <li class="auto-row" aria-hidden="true"><span class="auto-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="9" cy="8" r="3.3"/><path d="M3.5 20c0-3.3 2.5-5.5 5.5-5.5s5.5 2.2 5.5 5.5"/><path d="M18 8v6M15 11h6"/></svg></span><span class="auto-txt"><span class="auto-t">Nieuwe inschrijving</span><span class="auto-s">Welkomstreeks start vanzelf</span></span></li>
+              <li class="auto-row" aria-hidden="true"><span class="auto-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M13 3L5 13h6l-1 8 8-10h-6z"/></svg></span><span class="auto-txt"><span class="auto-t">Lead scoort hoog</span><span class="auto-s">Sales krijgt direct seintje</span></span></li>
+            </ul>
+            <span class="auto-fade auto-fade--top" aria-hidden="true"></span>
+            <span class="auto-fade auto-fade--bottom" aria-hidden="true"></span>
+          </div>
+          <!-- RECHTS: SEO/AEO-copy -->
+          <div class="auto-copy" data-reveal="right">
+            <h2 id="auto-title">Automatiseer het werk dat je tijd opeet. <span class="accent">Zonder gedoe.</span></h2>
+            <p class="sec-answer">Workflow-automatisering laat terugkerende taken vanzelf verlopen: leads opvolgen, offertes versturen, afspraken inplannen, rapporten maken. Je koppelt de tools die je al gebruikt — HubSpot, Make, n8n — en het werk gebeurt op de achtergrond. Minder handwerk, minder fouten, meer tijd voor je klanten.</p>
+            <div class="auto-badges">
+              <span class="auto-badge">Werkt met je tools</span>
+              <span class="auto-badge">Minder handwerk</span>
+              <span class="auto-badge">Minder fouten</span>
+            </div>
+            <p class="stats-foot" data-reveal="up"><a href="/workflow-automatisering/">Bekijk workflow-automatisering →</a></p>
+          </div>
         </div>
-        <div class="stats-grid" data-reveal-group>
-          <div data-reveal="up" class="stat">
-            <div class="stat-value">~1 s</div>
-            <div class="stat-label">Laadtijd van deze site, ook op mobiel</div>
-            <div class="stat-source">Zelf gemeten op 11-07-2026</div>
-          </div>
-          <div data-reveal="up" class="stat">
-            <div class="stat-value">0</div>
-            <div class="stat-label">Trackers en cookies op kelvantis.com</div>
-            <div class="stat-source">Vastgelegd in ons privacybeleid</div>
-          </div>
-          <div data-reveal="up" class="stat">
-            <div class="stat-value">3 wkn</div>
-            <div class="stat-label">Van eerste regel code tot live</div>
-            <div class="stat-source">Methode &amp; ruwe cijfers: git-geschiedenis</div>
-          </div>
-        </div>
-        <p class="stats-foot" data-reveal="up">Elke verbetering meten we vóór en ná — anders telt hij niet. <a href="/projecten/">Bekijk de werkplaats →</a></p>
       </div>
     </section>
 
@@ -624,11 +648,15 @@
     <!-- ================= ENTITY ================= -->
     <section class="section s-paper" aria-labelledby="entity-title">
       <div class="container">
-        <p class="section-label" data-reveal="stamp"><span class="sl-num">§ 05</span> / Wie zit erachter</p>
         <div class="entity-grid" data-reveal-group>
           <div class="entity-copy" data-reveal="left">
+            <p class="section-label"><span class="sl-num">§ 05</span> / Wie zit erachter</p>
             <h2 id="entity-title">Kelvantis, dat ben ik: <span class="accent">Kjell</span>.</h2>
-            <p class="answer-block">Ik bouw websites die klanten opleveren en zorg dat je gevonden wordt — in Google én in ChatGPT. Geen accountmanager ertussen, geen wollige rapporten: je belt gewoon met degene die het ook echt bouwt. En kom je uit Limburg? Dan versta ik je zelfs in het dialect.</p>
+            <div class="answer-block">
+              <p>Ik geloof dat een bedrijf pas echt groeit wanneer alles samenwerkt. Je website, marketing en strategie mogen geen losse onderdelen zijn, maar één geheel.</p>
+              <p>Daarom bouw ik niet alleen een mooie website of zet ik een campagne live. Ik kijk naar het complete plaatje en zoek continu naar de volgende stap die meer groei oplevert.</p>
+              <p>Bij Kelvantis werk je rechtstreeks met degene die het bedenkt én uitvoert. Korte lijnen, eerlijk advies en altijd met één doel voor ogen: jouw bedrijf laten groeien.</p>
+            </div>
           </div>
           <figure class="portrait" data-reveal="up">
             <img src="/Kjell.jpg" alt="Kjell Kuijpers, oprichter van Kelvantis" width="800" height="1000" loading="lazy" decoding="async">
@@ -648,7 +676,7 @@
         <div class="faq-list" data-reveal-group>
           <details data-reveal="up" class="faq-item">
             <summary>Wat als ik al eerder slechte ervaringen heb gehad met een bureau? <span class="pm" aria-hidden="true"></span></summary>
-            <div class="faq-answer"><p>Logisch dat je voorzichtig bent. Veel bedrijven kennen het: vage offertes, trajecten die uitlopen en werk dat stilletjes naar een junior gaat. Bij Kelvantis spreken we vooraf een vaste prijs en een vaste levertijd af, en werk je direct met iemand die je project echt kent — en het ook zelf bouwt.</p></div>
+            <div class="faq-answer"><p>Logisch dat je voorzichtig bent. Veel bedrijven kennen het: vage offertes, trajecten die uitlopen en werk dat stilletjes naar een junior gaat. Bij Kelvantis spreken we vooraf een vaste prijs en een vaste levertijd af, en werk je direct met iemand die je project echt kent en ook zelf bouwt.</p></div>
           </details>
           <details data-reveal="up" class="faq-item">
             <summary>Hoe snel sta ik live? <span class="pm" aria-hidden="true"></span></summary>
@@ -664,7 +692,7 @@
           </details>
           <details data-reveal="up" class="faq-item">
             <summary>Wat kost het? <span class="pm" aria-hidden="true"></span></summary>
-            <div class="faq-answer"><p>We werken met vaste prijzen — geen uurtje-factuurtje — zodat je vooraf precies weet waar je aan toe bent. De investering hangt af van wat je nodig hebt: een losse website kost minder dan een website mét automatisering, AI en koppelingen erbij. Tijdens het gratis strategiegesprek bekijken we samen wat past bij jouw situatie, doelen en budget.</p></div>
+            <div class="faq-answer"><p>We werken met vaste prijzen, geen uurtje-factuurtje, zodat je vooraf precies weet waar je aan toe bent. De investering hangt af van wat je nodig hebt: een losse website kost minder dan een website mét automatisering, AI en koppelingen erbij. Tijdens het gratis strategiegesprek bekijken we samen wat past bij jouw situatie, doelen en budget.</p></div>
           </details>
           <details data-reveal="up" class="faq-item">
             <summary>In welke regio werken jullie? <span class="pm" aria-hidden="true"></span></summary>
