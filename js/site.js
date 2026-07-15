@@ -96,15 +96,18 @@ document.addEventListener('DOMContentLoaded', function () {
     var HOLD = 2000;    // ms zichtbaar
     var i = 0;
 
-    // Verborgen meter: meet de woordbreedte in exact de rotator-typografie
-    // zodat de pill-breedte zonder sprong animeert.
-    var cs = getComputedStyle(rot);
+    // Verborgen meter: meet de woordbreedte in exact de rotator-typografie zodat
+    // de pill-breedte zonder sprong animeert. De meter hangt in de pill (de ouder
+    // van rot) en ERFT alle typografie live uit de cascade — font, gewicht,
+    // letter-spacing én font-size, inclusief de mobiele media-queries en clamp/vw.
+    // Bewust géén bevroren snapshot meer: stond het viewport bij een refresh op
+    // mobiel nog even op desktopbreedte, dan mat de oude snapshot een te grote
+    // font-size → oranje pill veel te breed. Absoluut gepositioneerd, dus geen
+    // flex-item in de pill en geen invloed op de layout.
     var meter = document.createElement('span');
     meter.setAttribute('aria-hidden', 'true');
-    meter.style.cssText = 'position:fixed;top:0;left:-9999px;visibility:hidden;white-space:pre;font-style:' + cs.fontStyle + ';' +
-      'font-family:' + cs.fontFamily + ';font-weight:' + cs.fontWeight + ';' +
-      'letter-spacing:' + cs.letterSpacing + ';font-size:' + cs.fontSize + ';';
-    document.body.appendChild(meter);
+    meter.style.cssText = 'position:absolute;top:0;left:-9999px;visibility:hidden;white-space:pre;';
+    (rot.parentNode || document.body).appendChild(meter);
     function widthOf(w) { meter.textContent = w; return Math.ceil(meter.getBoundingClientRect().width); }
 
     // Woord als één blok: glijdt van onder in en (bij exit) naar boven uit —
@@ -137,10 +140,19 @@ document.addEventListener('DOMContentLoaded', function () {
       });
     }
 
+    function fitCurrent() { rot.style.width = widthOf(words[i]) + 'px'; }
+
     function startRotation() {
       build(words[0]);
       setInterval(tick, HOLD + ENTER);
-      window.addEventListener('resize', function () { rot.style.width = widthOf(words[i]) + 'px'; }, { passive: true });
+      window.addEventListener('resize', fitCurrent, { passive: true });
+      window.addEventListener('orientationchange', fitCurrent, { passive: true });
+      // Vang late layout-correcties op (mobiel viewport-meta dat pas na de eerste
+      // paint grijpt, of de in-/uitschuivende URL-balk): hermeet zodra alles echt
+      // geladen is en nog eens kort daarna, zodat de pill zich altijd corrigeert.
+      if (document.readyState !== 'complete') window.addEventListener('load', fitCurrent, { once: true });
+      requestAnimationFrame(function () { requestAnimationFrame(fitCurrent); });
+      setTimeout(fitCurrent, 400);
     }
 
     // Wacht tot de webfonts geladen zijn voordat we meten en starten. Bij een
