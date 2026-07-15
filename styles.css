@@ -103,7 +103,7 @@
   --shadow-hard-sm: 3px 3px 0 var(--ink);
   --shadow-hard-lg: 6px 6px 0 var(--ink);
 
-  --font-display: 'Fraunces', 'Fraunces-fallback', Georgia, serif;
+  --font-display: 'Bricolage Grotesque', 'Bricolage-fallback', system-ui, sans-serif;
   --font-body:    'Inter Tight', 'Inter-Tight-fallback', system-ui, sans-serif;
   --font-mono:    'JetBrains Mono', 'JetBrains-Mono-fallback', ui-monospace, monospace;
 
@@ -2467,21 +2467,23 @@ html { scrollbar-color: var(--ink) var(--paper); }
 }
 
 /* =========================================================================
-   Homepage-scoped merk-overrides (tijdelijk — koppen in Bricolage Grotesque,
-   accent zonder cursief. Alleen actief op <body class="page-home"> =
-   index.html. De rest van de site blijft Fraunces gebruiken tot die batch volgt.
+   Merk-overrides (site-breed — koppen in Bricolage Grotesque, accent zonder
+   cursief). De display-font staat op :root (--font-display); dit blok regelt
+   de accent-styling. Geldt op alle pagina's.
    ========================================================================= */
-.page-home {
-  --font-display: 'Bricolage Grotesque', 'Bricolage-fallback', system-ui, sans-serif;
-}
 
 /* Accent: geen cursief meer — onderscheid via zwaarste gewicht + fel merk-oranje.
-   Achteraan geplaatst zodat bij gelijke specificiteit de bronvolgorde wint
-   van de eerdere `.sec-head h2 .accent { font-style: italic }`-regels. */
-.page-home h1 .accent,
-.page-home h2 .accent,
-.page-home h3 .accent {
-  font-family: var(--font-display);   /* = Bricolage Grotesque op de homepage */
+   Achteraan geplaatst zodat bij gelijke specificiteit de bronvolgorde wint van de
+   eerdere italic-regels. De kop-selectors (.sec-head/.kr-*) zijn expliciet
+   herhaald: hun specificiteit (0,2,x) verslaat de kale `h2 .accent` niet, dus
+   moeten ze op gelijke voet meedoen. Pullquotes blijven bewust cursief. */
+h1 .accent,
+h2 .accent,
+h3 .accent,
+.sec-head h2 .accent,
+.kr-h1 .accent,
+.kr-h2 .accent {
+  font-family: var(--font-display);   /* = Bricolage Grotesque */
   font-style: normal;
   font-weight: 800;
   color: var(--signal);               /* #FF4D2E — merk-oranje (licht én donker) */
