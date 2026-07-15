@@ -153,6 +153,12 @@ document.addEventListener('DOMContentLoaded', function () {
       if (document.readyState !== 'complete') window.addEventListener('load', fitCurrent, { once: true });
       requestAnimationFrame(function () { requestAnimationFrame(fitCurrent); });
       setTimeout(fitCurrent, 400);
+      // Startte de rotatie via het 1200ms-vangnet hieronder nog met het fallback-
+      // font (koud/traag netwerk), hermeet dan zodra het echte webfont alsnog
+      // binnen is. Anders blijft de pill op de smallere fallback-breedte staan en
+      // kapt een lang woord ("zichtbaarheid") af. Bricolage is breder dan de Arial-
+      // fallback, dus dit corrigeert naar boven.
+      if (document.fonts && document.fonts.ready) document.fonts.ready.then(fitCurrent);
     }
 
     // Wacht tot de webfonts geladen zijn voordat we meten en starten. Bij een
