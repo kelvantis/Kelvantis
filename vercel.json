@@ -44,6 +44,12 @@
       "headers": [
         { "key": "Cache-Control", "value": "public, max-age=3600, stale-while-revalidate=86400" }
       ]
+    },
+    {
+      "source": "/concept-1/(.*)",
+      "headers": [
+        { "key": "X-Robots-Tag", "value": "noindex, nofollow, noarchive, noimageindex" }
+      ]
     }
   ]
 }

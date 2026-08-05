@@ -1,0 +1,24 @@
+FOTO'S VOOR DE DRIE CONCEPTEN
+=============================
+
+Zet de drie foto's in deze map met exact deze bestandsnamen (kleine letters,
+.jpg). Daarna verschijnen ze vanzelf in alle drie de concepten — er hoeft
+niets in de code aangepast te worden.
+
+  studio-gevel.jpg            de gevelfoto met het uithangbord ART BRUT
+                              -> komt in de studio-sectie van alle drie
+
+  werk-dotwork-mandala.jpg    de mandala over de volledige rug (bovenaanzicht)
+                              -> vervangt het motief in de plaat/cel "Dotwork"
+
+  werk-ornamental-rug.jpg     het fijne ornamentele werk op de rug, tijdens
+                              het zetten
+                              -> vervangt het motief in de plaat/cel "Ornamental"
+
+Aanbevolen: ongeveer 1600 px op de langste zijde, kwaliteit 80, kleur mag —
+de pagina zet ze zelf om naar zwart-wit via CSS. Zolang een bestand ontbreekt
+valt de pagina automatisch terug op het getekende motief, zonder foutmelding
+en zonder gat in de layout.
+
+Andere naam of ander formaat (.png/.webp)? Zeg het even, dan pas ik de
+verwijzingen aan.

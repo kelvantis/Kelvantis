@@ -1,0 +1,547 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Art Brut Tattoo Studio — concept A · Papier en inkt</title>
+<meta name="description" content="Conceptontwerp voor Art Brut Tattoo Studio, Lanaken. Richting A: papier en inkt.">
+<meta name="robots" content="noindex, nofollow, noarchive, noimageindex">
+<link rel="stylesheet" href="assets/fonts/fonts.css">
+<style>
+:root{
+  --paper:#E3D8C3;
+  --paper-2:#D2C5A9;
+  --ink:#0C0B0A;
+  --red:#C0301A;
+  --grey:#736C61;
+  --line:rgba(12,11,10,.16);
+  --line-inv:rgba(239,233,222,.20);
+  --f-display:"Big Shoulders Display", Impact, sans-serif;
+  --f-body:"Newsreader", Georgia, serif;
+  --maxw:1240px;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;overflow-x:clip}
+body{
+  background:var(--paper);color:var(--ink);
+  font-family:var(--f-body);font-weight:300;font-size:17px;line-height:1.55;
+  overflow-x:clip;-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility;
+}
+img,svg{display:block;max-width:100%}
+a{color:inherit;text-decoration:none}
+::selection{background:var(--ink);color:var(--paper)}
+:focus-visible{outline:2px solid var(--red);outline-offset:4px}
+.skip{position:absolute;left:-9999px;top:0;z-index:999;background:var(--ink);color:var(--paper);padding:12px 18px;font-family:var(--f-display);letter-spacing:.16em;text-transform:uppercase;font-size:13px}
+.skip:focus{left:12px;top:12px}
+
+/* ---------- grain ---------- */
+.grain{position:fixed;inset:0;width:100%;height:100%;z-index:900;pointer-events:none;opacity:.17;mix-blend-mode:multiply}
+
+/* ---------- rode dot-cursor ---------- */
+.cursor{
+  position:fixed;top:0;left:0;z-index:950;pointer-events:none;display:none;
+  width:12px;height:12px;border-radius:50%;background:var(--red);
+  transform:translate(-50%,-50%);
+  transition:width .28s cubic-bezier(.16,1,.3,1),height .28s cubic-bezier(.16,1,.3,1),background .28s,border-color .28s;
+}
+body.has-cursor .cursor{display:block}
+@media (pointer:fine){
+  body.has-cursor,body.has-cursor a,body.has-cursor button{cursor:none}
+}
+.cursor.is-big{width:58px;height:58px;background:transparent;border:1.5px solid var(--red)}
+.cursor.is-dark{background:var(--ink)}
+.cursor.is-big.is-dark{background:transparent;border-color:var(--ink)}
+
+/* ---------- concept badge ---------- */
+.badge{
+  position:fixed;left:14px;bottom:14px;z-index:800;
+  font-family:var(--f-display);font-weight:600;font-size:11px;letter-spacing:.18em;text-transform:uppercase;
+  color:var(--paper);background:var(--ink);padding:9px 13px;line-height:1.5;max-width:230px;
+}
+.badge i{font-style:normal;color:var(--red)}
+@media (max-width:700px){.badge{display:none}}
+
+/* ---------- layout ---------- */
+.wrap{width:min(var(--maxw),90vw);margin-inline:auto}
+section{position:relative}
+.ink{background:var(--ink);color:var(--paper)}
+.eyebrow{font-family:var(--f-display);font-weight:600;font-size:12px;letter-spacing:.3em;text-transform:uppercase;color:var(--grey)}
+.ink .eyebrow{color:#9b9285}
+h1,h2,h3,.display{font-family:var(--f-display);font-weight:900;text-transform:uppercase;letter-spacing:-.01em}
+h2{font-size:clamp(36px,6.5vw,100px);line-height:.86}
+.hollow{color:transparent;-webkit-text-stroke:2px var(--ink);paint-order:stroke}
+.ink .hollow,.hero .hollow{-webkit-text-stroke-color:var(--paper)}
+.rule{height:1px;background:var(--line);width:100%}
+
+/* ---------- nav ---------- */
+.nav{
+  position:fixed;top:0;left:0;right:0;z-index:700;
+  display:flex;align-items:center;justify-content:space-between;gap:20px;
+  padding:16px clamp(16px,4vw,44px);
+  mix-blend-mode:difference;color:#fff;
+}
+.nav__logo{font-family:var(--f-display);font-weight:900;font-size:21px;letter-spacing:.08em;text-transform:uppercase}
+.nav__links{display:flex;gap:clamp(14px,2.4vw,28px);font-family:var(--f-display);font-weight:600;font-size:13px;letter-spacing:.18em;text-transform:uppercase}
+.nav__links a{position:relative;padding:2px 0}
+.nav__links a::after{content:"";position:absolute;left:0;bottom:-2px;width:0;height:1px;background:currentColor;transition:width .35s cubic-bezier(.16,1,.3,1)}
+.nav__links a:hover::after,.nav__links a:focus-visible::after{width:100%}
+@media (max-width:700px){.nav__links{display:none}}
+
+/* ---------- hero ---------- */
+.hero{min-height:100svh;display:flex;flex-direction:column;justify-content:flex-end;position:relative;overflow:hidden;background:var(--ink);color:var(--paper)}
+/* de placeholder en de latere <video> delen exact deze box */
+.hero__media{position:absolute;inset:0;z-index:0;overflow:hidden}
+.hero__video{
+  width:100%;height:100%;object-fit:cover;display:block;
+  background:
+    repeating-linear-gradient(122deg,rgba(239,233,222,.045) 0 1px,transparent 1px 8px),
+    repeating-linear-gradient(58deg,rgba(239,233,222,.035) 0 1px,transparent 1px 11px),
+    radial-gradient(120% 85% at 68% 26%,#211E1A 0%,#100E0D 55%,#0A0908 100%);
+}
+.hero__scrim{position:absolute;inset:0;background:linear-gradient(to top,rgba(12,11,10,.94) 0%,rgba(12,11,10,.42) 46%,rgba(12,11,10,.66) 100%)}
+.vidui{position:absolute;inset:0;z-index:1;pointer-events:none}
+.vidui__frame{position:absolute;inset:clamp(12px,2.6vw,30px);border:1px dashed rgba(239,233,222,.26)}
+.vidui__tag{
+  position:absolute;top:clamp(62px,8vh,82px);right:clamp(22px,5vw,52px);
+  display:flex;align-items:center;gap:9px;
+  font-family:var(--f-display);font-weight:600;font-size:11px;letter-spacing:.24em;text-transform:uppercase;color:rgba(239,233,222,.62);
+}
+.vidui__tag b{width:7px;height:7px;border-radius:50%;background:var(--red);display:block}
+/* het video-blok staat in het rechterkwadrant, buiten de leesbaan van de kop */
+.vidui__play{position:absolute;right:clamp(22px,6vw,88px);top:clamp(112px,24vh,230px);text-align:right;max-width:min(46vw,300px)}
+.vidui__circ{width:clamp(58px,6.4vw,92px);height:clamp(58px,6.4vw,92px);border:1px solid rgba(239,233,222,.5);border-radius:50%;display:flex;align-items:center;justify-content:center;margin-left:auto}
+.vidui__circ::before{content:"";border-left:14px solid var(--paper);border-block:9px solid transparent;margin-left:5px;opacity:.85}
+.vidui__play p{margin-top:13px;font-family:var(--f-display);font-weight:600;font-size:10px;letter-spacing:.22em;text-transform:uppercase;color:rgba(239,233,222,.5);line-height:2}
+@media (max-width:760px){
+  .vidui__play{left:50%;right:auto;transform:translateX(-50%);text-align:center;top:19vh;max-width:80vw}
+  .vidui__circ{margin-inline:auto}
+}
+
+.hero__inner{position:relative;z-index:2;padding-block:clamp(78px,10vh,96px) clamp(52px,8vh,104px)}
+.hero__top{display:flex;justify-content:flex-start;gap:clamp(14px,3vw,42px);flex-wrap:wrap;margin-bottom:clamp(18px,4.5vh,44px);max-width:min(100%,72ch);padding-right:clamp(0px,22vw,340px)}
+.hero__top .eyebrow{color:rgba(239,233,222,.6)}
+h1{font-size:clamp(50px,10.8vw,156px);line-height:.84}
+.line{display:block;overflow:hidden}
+.line>span{display:block;padding-bottom:.06em}
+.line--indent{padding-left:clamp(0px,12vw,220px)}
+.hero__foot{display:flex;justify-content:space-between;align-items:flex-end;gap:28px;flex-wrap:wrap;padding-top:clamp(18px,3.6vh,40px)}
+.hero__sub{max-width:48ch;font-size:clamp(16px,1.2vw,18px);color:rgba(239,233,222,.88)}
+.hero__cta{display:flex;gap:10px;flex-wrap:wrap}
+.btn{
+  display:inline-flex;align-items:center;gap:10px;position:relative;overflow:hidden;
+  font-family:var(--f-display);font-weight:800;font-size:14px;letter-spacing:.2em;text-transform:uppercase;
+  background:var(--red);color:var(--paper);padding:15px 26px;border:1.5px solid var(--red);
+}
+.btn>span{position:relative;z-index:2;transition:color .3s}
+.btn::before{content:"";position:absolute;inset:0;background:var(--paper);transform:translateY(101%);transition:transform .45s cubic-bezier(.16,1,.3,1)}
+.btn:hover::before,.btn:focus-visible::before{transform:translateY(0)}
+.btn:hover>span,.btn:focus-visible>span{color:var(--ink)}
+.btn--ghost::before{background:var(--red)}
+.btn--ghost:hover>span,.btn--ghost:focus-visible>span{color:var(--paper)}
+.btn--ghost{background:transparent;color:var(--paper);border-color:rgba(239,233,222,.5)}
+
+/* ---------- payoff band (de ene accentregel) ---------- */
+.band{border-block:1.5px solid var(--ink);overflow:hidden;padding:14px 0;background:var(--red);color:var(--paper)}
+.band__track{display:flex;width:max-content;gap:0;animation:march 34s linear infinite}
+.band__track span{
+  font-family:var(--f-display);font-weight:900;text-transform:uppercase;
+  font-size:clamp(26px,4.6vw,62px);line-height:1;white-space:nowrap;
+  display:flex;align-items:center;gap:clamp(18px,3vw,38px);padding-right:clamp(18px,3vw,38px);
+}
+.band__track svg{width:.42em;height:.42em;color:var(--paper);flex:none}
+@keyframes march{to{transform:translateX(-50%)}}
+@media (prefers-reduced-motion:reduce){.band__track{animation:none}}
+
+/* ---------- manifest ---------- */
+.manifest{padding:clamp(92px,16vh,200px) 0 0}
+.manifest__grid{display:grid;grid-template-columns:1fr;gap:clamp(22px,4vw,70px);align-items:start}
+@media (min-width:900px){.manifest__grid{grid-template-columns:.42fr 1fr}}
+.quote{font-weight:800;font-size:clamp(32px,5.2vw,78px);line-height:.95;max-width:16ch}
+.quote em{font-family:var(--f-body);font-style:italic;font-weight:200;text-transform:none;letter-spacing:0;color:var(--red)}
+.manifest p.body{font-size:clamp(16px,1.25vw,19px);max-width:58ch;margin-top:22px;color:#24221E}
+.stats{display:grid;grid-template-columns:repeat(2,1fr);gap:1px;background:var(--line);margin-top:clamp(60px,10vh,124px);border-block:1px solid var(--line)}
+@media (min-width:760px){.stats{grid-template-columns:repeat(4,1fr)}}
+.stat{background:var(--paper);padding:clamp(28px,3.2vw,42px) clamp(20px,2vw,26px)}
+.stat b{display:block;font-family:var(--f-display);font-weight:900;font-size:clamp(34px,4.4vw,62px);line-height:1;color:var(--red)}
+.stat small{font-family:var(--f-display);font-weight:600;letter-spacing:.18em;text-transform:uppercase;font-size:11px;color:var(--grey)}
+
+/* ---------- sectiekop ---------- */
+.sec-head{display:flex;justify-content:space-between;align-items:baseline;gap:18px;flex-wrap:wrap;margin-bottom:clamp(36px,6vh,64px)}
+.sec-head .eyebrow b,.manifest .eyebrow b{font-weight:600;color:var(--red)}
+
+/* ---------- artiesten ---------- */
+.artists{padding:clamp(92px,15vh,186px) 0}
+.artist{
+  display:grid;grid-template-columns:40px 1fr;gap:6px 18px;align-items:center;
+  padding:clamp(26px,3.6vw,44px) 0;border-bottom:1px solid var(--line);
+}
+.artist:first-of-type{border-top:1px solid var(--line)}
+@media (min-width:820px){
+  .artist{grid-template-columns:80px minmax(0,1.15fr) minmax(0,1fr) auto;gap:24px}
+}
+.artist__no{font-family:var(--f-display);font-weight:600;font-size:13px;letter-spacing:.2em;color:var(--grey)}
+.artist__name{
+  font-family:var(--f-display);font-weight:900;text-transform:uppercase;
+  font-size:clamp(28px,4.2vw,58px);line-height:.94;display:flex;align-items:center;gap:14px;
+  transition:transform .45s cubic-bezier(.16,1,.3,1),color .3s;
+}
+.artist__name svg{width:0;height:.62em;opacity:0;color:var(--red);transition:width .45s cubic-bezier(.16,1,.3,1),opacity .3s;flex:none}
+.artist:hover .artist__name,.artist:focus-visible .artist__name{transform:translateX(14px);color:var(--red)}
+.artist:hover .artist__name svg,.artist:focus-visible .artist__name svg{width:.5em;opacity:1}
+.artist__style{color:var(--grey);font-size:15px}
+.artist__handle{font-family:var(--f-display);font-weight:600;letter-spacing:.12em;font-size:13px}
+@media (max-width:819px){.artist__style,.artist__handle{grid-column:2}}
+
+/* ---------- het werk ---------- */
+.work{padding:clamp(52px,8vh,96px) 0;overflow:hidden}
+.work__viewport{margin-top:clamp(24px,4vh,38px);overflow:hidden}
+.work__track{display:flex;gap:20px;padding-inline:max(calc((100vw - min(var(--maxw),90vw))/2),20px);will-change:transform}
+.plate{
+  flex:0 0 clamp(250px,27vw,380px);height:clamp(320px,46vh,500px);
+  border:1px solid var(--line-inv);position:relative;overflow:hidden;
+  display:flex;flex-direction:column;justify-content:space-between;padding:20px;
+  background:repeating-linear-gradient(135deg,rgba(239,233,222,.05) 0 1px,transparent 1px 7px),#121110;
+}
+.plate:nth-child(even){background-color:#0E0D0C}
+.plate__no{font-family:var(--f-display);font-weight:900;font-size:clamp(52px,7vw,96px);line-height:.8;color:var(--red);opacity:.9;position:relative;z-index:2}
+.plate__mark{position:absolute;inset:0;margin:auto;width:56%;height:56%;opacity:.42;color:var(--paper);z-index:1}
+.plate__foot{position:relative;z-index:2}
+.plate__label{font-family:var(--f-display);font-weight:800;text-transform:uppercase;letter-spacing:.16em;font-size:14px}
+.plate__hint{font-family:var(--f-display);font-weight:600;letter-spacing:.16em;text-transform:uppercase;font-size:10px;color:#8f8779;margin-top:7px}
+@media (max-width:899px){.work__viewport{overflow-x:auto;-webkit-overflow-scrolling:touch}.work__track{padding-bottom:14px}}
+@media (min-width:900px){.work{min-height:100svh;display:flex;flex-direction:column;justify-content:center}}
+
+/* ---------- echte foto's ---------- */
+.plate__img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:1;filter:grayscale(1) contrast(1.06)}
+.plate--photo::after{content:"";position:absolute;inset:0;z-index:2;background:linear-gradient(to top,rgba(12,11,10,.88) 0%,rgba(12,11,10,.15) 55%,rgba(12,11,10,.45) 100%)}
+.plate--photo .plate__no,.plate--photo .plate__foot{z-index:3}
+.studioshot{margin-top:clamp(34px,5vh,60px);position:relative;border:1px solid var(--line)}
+.studioshot img{width:100%;height:clamp(240px,42vh,460px);object-fit:cover;filter:grayscale(1) contrast(1.04);display:block}
+.studioshot figcaption{font-family:var(--f-display);font-weight:600;letter-spacing:.18em;text-transform:uppercase;font-size:11px;color:var(--grey);padding:12px 2px 0}
+
+/* ---------- proces ---------- */
+.proces{padding:clamp(92px,15vh,190px) 0}
+.steps{display:grid;grid-template-columns:1fr;gap:1px;background:var(--line);border:1px solid var(--line)}
+.ink .steps{background:var(--line-inv);border-color:var(--line-inv)}
+.ink .step{background:#131211;color:var(--paper)}
+.ink .step:hover{background:var(--paper);color:var(--ink)}
+.ink .step:hover>b{color:var(--red)}
+@media (min-width:620px){.steps{grid-template-columns:1fr 1fr}}
+@media (min-width:1000px){.steps{grid-template-columns:repeat(4,1fr)}}
+.step{background:var(--paper);padding:clamp(26px,2.7vw,42px);min-height:264px;display:flex;flex-direction:column;justify-content:space-between;gap:36px;transition:background .4s,color .4s}
+.step:hover{background:var(--ink);color:var(--paper)}
+.step>b{font-family:var(--f-display);font-weight:900;font-size:36px;line-height:1;color:var(--red)}
+.step h3{font-size:19px;font-weight:800;letter-spacing:.06em;margin-bottom:8px}
+.step p{font-size:15px;opacity:.82}
+
+/* ---------- reviews ---------- */
+.reviews{padding:clamp(96px,16vh,200px) 0 clamp(110px,18vh,230px)}
+.rev-grid{display:grid;grid-template-columns:1fr;gap:clamp(40px,5.5vw,86px);margin-top:clamp(44px,7vh,72px)}
+@media (min-width:900px){.rev-grid{grid-template-columns:repeat(3,1fr)}}
+.rev{border-top:3px solid var(--red);padding-top:clamp(24px,3vh,34px)}
+.rev blockquote{font-style:italic;font-size:clamp(18px,1.6vw,23px);line-height:1.42;color:#211F1B}
+.rev blockquote span{font-style:normal;color:var(--grey)}
+.rev small{display:block;margin-top:clamp(26px,3.4vh,36px);font-family:var(--f-display);font-weight:600;letter-spacing:.18em;text-transform:uppercase;font-size:11px;color:var(--grey)}
+.rev-note{margin-top:clamp(52px,8vh,92px);font-size:15px;color:var(--grey);max-width:60ch}
+
+/* ---------- cta ---------- */
+.cta{padding:clamp(112px,19vh,230px) 0 clamp(44px,7vh,80px);overflow:hidden}
+.cta__orn{display:flex;gap:20px;margin-bottom:clamp(30px,4.5vh,50px);color:var(--red)}
+.cta__orn svg{width:24px;height:24px}
+.cta h2{font-size:clamp(46px,12.5vw,196px);line-height:.9}
+.cta h2 .hollow{-webkit-text-stroke-width:1.5px}
+.cta__info{display:grid;grid-template-columns:1fr;gap:clamp(26px,4vh,40px) 40px;margin-top:clamp(68px,11vh,130px);padding-top:clamp(32px,4.5vh,48px);border-top:1px solid var(--line-inv)}
+@media (min-width:760px){.cta__info{grid-template-columns:repeat(4,auto);justify-content:space-between}}
+.cta__info dt{font-family:var(--f-display);font-weight:600;letter-spacing:.2em;text-transform:uppercase;font-size:11px;color:#9b9285;margin-bottom:6px}
+.cta__info dd{font-family:var(--f-display);font-weight:800;letter-spacing:.06em;text-transform:uppercase;font-size:clamp(14px,1.3vw,17px)}
+.cta__info a{border-bottom:1px solid transparent;transition:color .25s,border-color .25s}
+.cta__info a:hover,.cta__info a:focus-visible{color:var(--red);border-color:var(--red)}
+.foot{
+  display:flex;justify-content:space-between;gap:14px;flex-wrap:wrap;
+  padding:clamp(28px,4vh,40px) 0;margin-top:clamp(68px,11vh,136px);border-top:1px solid var(--line-inv);
+  font-family:var(--f-display);font-weight:600;letter-spacing:.16em;text-transform:uppercase;font-size:11px;color:#8f8779;
+}
+</style>
+</head>
+<body>
+
+<!-- lijnmotieven, met de hand opgezet; dienen als tijdelijk beeld tot er foto's zijn -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+  <defs>
+    <symbol id="m-dagger" viewBox="0 0 100 200">
+      <g fill="none" stroke="currentColor" stroke-width="2.2" stroke-linejoin="round" stroke-linecap="round">
+        <path d="M50 8 62 62 50 152 38 62Z"/><path d="M50 62v78"/>
+        <path d="M16 64h68M16 64l8 8M84 64l-8 8"/><path d="M43 72v26h14V72"/><circle cx="50" cy="108" r="9"/>
+      </g>
+    </symbol>
+    <symbol id="m-moth" viewBox="0 0 200 170">
+      <g fill="none" stroke="currentColor" stroke-width="2.2" stroke-linejoin="round" stroke-linecap="round">
+        <path d="M100 62C74 20 32 14 22 44c-9 27 16 52 46 56"/><path d="M100 62c26-42 68-48 78-18 9 27-16 52-46 56"/>
+        <path d="M100 100c-18 34-44 46-56 30-9-12 4-28 24-32"/><path d="M100 100c18 34 44 46 56 30 9-12-4-28-24-32"/>
+        <ellipse cx="100" cy="88" rx="8" ry="36"/><path d="M96 54c-6-14-16-20-26-22M104 54c6-14 16-20 26-22"/>
+        <circle cx="72" cy="60" r="7"/><circle cx="128" cy="60" r="7"/>
+      </g>
+    </symbol>
+    <symbol id="m-snake" viewBox="0 0 120 200">
+      <g fill="none" stroke="currentColor" stroke-width="2.2" stroke-linejoin="round" stroke-linecap="round">
+        <path d="M60 186c-30-16 30-38 0-56s30-40 0-58"/><ellipse cx="60" cy="52" rx="17" ry="13"/>
+        <path d="M60 39V22m0 0-8-9m8 9 8-9"/><path d="M44 118c8 4 24 4 32 0M44 158c8 4 24 4 32 0"/>
+        <circle cx="53" cy="50" r="2.4" fill="currentColor" stroke="none"/><circle cx="67" cy="50" r="2.4" fill="currentColor" stroke="none"/>
+      </g>
+    </symbol>
+    <symbol id="m-rose" viewBox="0 0 180 180">
+      <g fill="none" stroke="currentColor" stroke-width="2.2" stroke-linejoin="round" stroke-linecap="round">
+        <path d="M90 84c7 0 8-11-3-11-14 0-15 20 3 20 22 0 23-30-7-30-30 0-30 40 10 40 30 0 34-24 20-40"/>
+        <path d="M40 76c-14 22-6 54 22 66 26 11 58 0 68-26 8-21 3-42-10-54"/>
+        <path d="M44 132c-16 2-28 12-30 26 16 2 28-6 34-18M136 132c16 2 28 12 30 26-16 2-28-6-34-18"/>
+      </g>
+    </symbol>
+    <symbol id="m-eye" viewBox="0 0 200 120">
+      <g fill="none" stroke="currentColor" stroke-width="2.2" stroke-linejoin="round" stroke-linecap="round">
+        <path d="M12 60C56 12 144 12 188 60c-44 48-132 48-176 0Z"/>
+        <circle cx="100" cy="60" r="24"/><circle cx="100" cy="60" r="9" fill="currentColor" stroke="none"/>
+        <path d="M100 10V2M30 24 22 14m148 10 8-10M100 110v8"/>
+      </g>
+    </symbol>
+    <symbol id="m-swallow" viewBox="0 0 200 120">
+      <g fill="none" stroke="currentColor" stroke-width="2.2" stroke-linejoin="round" stroke-linecap="round">
+        <path d="M100 66C74 26 44 18 12 32c26 12 40 34 44 52 14-6 30-10 44-18Z"/>
+        <path d="M100 66c26-40 56-48 88-34-26 12-40 34-44 52-14-6-30-10-44-18Z"/>
+        <path d="M100 66 84 104l16-12 16 12z"/>
+      </g>
+    </symbol>
+    <symbol id="m-star" viewBox="0 0 40 40">
+      <path d="M20 2c2 12 6 16 18 18-12 2-16 6-18 18-2-12-6-16-18-18 12-2 16-6 18-18Z" fill="currentColor"/>
+    </symbol>
+    <symbol id="m-arrow" viewBox="0 0 40 40">
+      <g fill="none" stroke="currentColor" stroke-width="3" stroke-linejoin="round" stroke-linecap="round">
+        <path d="M6 20h28M22 8l12 12-12 12"/>
+      </g>
+    </symbol>
+  </defs>
+</svg>
+
+<svg class="grain" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">
+  <filter id="grainFilter"><feTurbulence type="fractalNoise" baseFrequency="0.85" numOctaves="4" stitchTiles="stitch"/><feColorMatrix type="saturate" values="0"/></filter>
+  <rect width="100%" height="100%" filter="url(#grainFilter)"/>
+</svg>
+
+<a class="skip" href="#hoofd">Naar de inhoud</a>
+<div class="cursor" id="cursor" aria-hidden="true"></div>
+<p class="badge">Concept A · papier en inkt<br><i>Niet definitief</i></p>
+
+<header class="nav">
+  <a class="nav__logo" href="#top">Art Brut</a>
+  <nav class="nav__links" aria-label="Hoofdmenu">
+    <a href="#artiesten">Artiesten</a>
+    <a href="#werk">Werk</a>
+    <a href="#boeken">Boeken</a>
+    <a href="#contact">Contact</a>
+  </nav>
+</header>
+
+<main id="hoofd">
+<div id="top"></div>
+
+  <!-- ═══ HERO ═══ -->
+  <section class="hero">
+    <div class="hero__media">
+      <!-- VIDEOPLACEHOLDER — vervang deze <div> 1-op-1 door onderstaande <video>, zelfde class, zelfde box:
+           <video class="hero__video" autoplay muted loop playsinline poster="studio-poster.jpg">
+             <source src="studio.mp4" type="video/mp4">
+           </video>
+      -->
+      <div class="hero__video" role="img" aria-label="Videoplaceholder: hier komt de studiovideo van Art Brut"></div>
+      <div class="hero__scrim" aria-hidden="true"></div>
+    </div>
+    <div class="vidui" aria-hidden="true">
+      <span class="vidui__frame"></span>
+      <p class="vidui__tag"><b></b> Video placeholder</p>
+      <div class="vidui__play">
+        <span class="vidui__circ"></span>
+        <p>studiovideo volgt<br>full-bleed · autoplay · muted · loop</p>
+      </div>
+    </div>
+
+    <div class="wrap hero__inner">
+      <div class="hero__top">
+        <p class="eyebrow">Tattoo studio · Stationsstraat 72, Lanaken (BE) · enkel op afspraak</p>
+        <p class="eyebrow">Sinds 2018</p>
+      </div>
+      <h1>
+        <span class="line" data-hero-line><span>Rauwe</span></span>
+        <span class="line line--indent" data-hero-line><span class="hollow">kunst</span></span>
+        <span class="line" data-hero-line><span>op huid</span></span>
+      </h1>
+      <div class="hero__foot">
+        <p class="hero__sub" data-hero-fade>Vijf artiesten, vijf handschriften. De beste tattoo is er een die jouw statement perfect belichaamt — daarom tekenen we mee, denken we mee en gaat de naald pas op de huid als het ontwerp klopt.</p>
+        <div class="hero__cta" data-hero-fade>
+          <a class="btn" href="#boeken"><span>Boek een afspraak</span></a>
+          <a class="btn btn--ghost" href="#werk"><span>Bekijk het werk</span></a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══ PAYOFF ═══ -->
+  <div class="band" aria-label="Get your ass here">
+    <div class="band__track" id="band" aria-hidden="true">
+      <span>Get your ass here <svg><use href="#m-star"/></svg></span>
+      <span>Get your ass here <svg><use href="#m-star"/></svg></span>
+      <span>Get your ass here <svg><use href="#m-star"/></svg></span>
+      <span>Get your ass here <svg><use href="#m-star"/></svg></span>
+    </div>
+  </div>
+
+  <!-- ═══ MANIFEST ═══ -->
+  <section class="manifest" id="studio">
+    <div class="wrap">
+      <div class="manifest__grid">
+        <p class="eyebrow" data-reveal><b>01</b> — De studio</p>
+        <div>
+          <h2 class="quote" data-reveal>De beste tattoo is er een die <em>jouw</em> statement perfect belichaamt.</h2>
+          <p class="body" data-reveal>Art Brut is in 2018 geopend door Fleur de Vries aan de Stationsstraat 72 in Lanaken. Vandaag werken er vijf artiesten, elk met een eigen handschrift: van realisme en black &amp; grey tot fineline, dotwork en ornamental.</p>
+          <p class="body" data-reveal>Wij tekenen mee en denken mee. De naald gaat pas op je huid als het ontwerp klopt. Dat kost tijd — dat is precies de bedoeling. Werken kan enkel op afspraak.</p>
+          <figure class="studioshot" data-reveal>
+            <img src="media/studio-gevel.jpg" alt="De gevel van Art Brut Tattoo Studio aan de Stationsstraat 72 in Lanaken" loading="lazy">
+            <figcaption>Stationsstraat 72, Lanaken</figcaption>
+          </figure>
+        </div>
+      </div>
+      <dl class="stats">
+        <div class="stat" data-reveal><b>2018</b><small>Opgericht</small></div>
+        <div class="stat" data-reveal><b>5</b><small>Artiesten</small></div>
+        <div class="stat" data-reveal><b>8,1K</b><small>Volgers op Instagram</small></div>
+        <div class="stat" data-reveal><b>100%</b><small>Aanbevolen · 17 reviews</small></div>
+      </dl>
+    </div>
+  </section>
+
+  <!-- ═══ ARTIESTEN ═══ -->
+  <section class="artists" id="artiesten">
+    <div class="wrap">
+      <div class="sec-head">
+        <h2 data-reveal>De artiesten</h2>
+        <p class="eyebrow" data-reveal><b>02</b> — Vijf handschriften</p>
+      </div>
+
+      <a class="artist" href="https://instagram.com/fleur_dvrs" data-reveal>
+        <span class="artist__no">01</span>
+        <span class="artist__name">Fleur de Vries <svg viewBox="0 0 40 40" aria-hidden="true"><use href="#m-arrow"/></svg></span>
+        <span class="artist__style">Realisme · black &amp; grey · freehand</span>
+        <span class="artist__handle">@fleur_dvrs</span>
+      </a>
+      <a class="artist" href="https://instagram.com/abnormaal_tattoo" data-reveal>
+        <span class="artist__no">02</span>
+        <span class="artist__name">Abnormaal <svg viewBox="0 0 40 40" aria-hidden="true"><use href="#m-arrow"/></svg></span>
+        <span class="artist__style">Stijl nog in te vullen</span>
+        <span class="artist__handle">@abnormaal_tattoo</span>
+      </a>
+      <a class="artist" href="https://instagram.com/lensonnable" data-reveal>
+        <span class="artist__no">03</span>
+        <span class="artist__name">Lens <svg viewBox="0 0 40 40" aria-hidden="true"><use href="#m-arrow"/></svg></span>
+        <span class="artist__style">Stijl nog in te vullen</span>
+        <span class="artist__handle">@lensonnable</span>
+      </a>
+      <a class="artist" href="https://instagram.com/yael.sherah.tattoo" data-reveal>
+        <span class="artist__no">04</span>
+        <span class="artist__name">Yael Sherah <svg viewBox="0 0 40 40" aria-hidden="true"><use href="#m-arrow"/></svg></span>
+        <span class="artist__style">Stijl nog in te vullen</span>
+        <span class="artist__handle">@yael.sherah.tattoo</span>
+      </a>
+      <a class="artist" href="https://instagram.com/demigelissen_tattoo" data-reveal>
+        <span class="artist__no">05</span>
+        <span class="artist__name">Demi Gelissen <svg viewBox="0 0 40 40" aria-hidden="true"><use href="#m-arrow"/></svg></span>
+        <span class="artist__style">Stijl nog in te vullen</span>
+        <span class="artist__handle">@demigelissen_tattoo</span>
+      </a>
+    </div>
+  </section>
+
+  <!-- ═══ HET WERK ═══ -->
+  <section class="work ink" id="werk">
+    <div class="wrap">
+      <div class="sec-head">
+        <h2 data-reveal>Het werk</h2>
+        <p class="eyebrow" data-reveal><b>03</b> — Zeven stijlen, foto's volgen</p>
+      </div>
+    </div>
+    <div class="work__viewport" id="workViewport">
+      <div class="work__track" id="workTrack">
+        <article class="plate"><span class="plate__no">01</span><svg class="plate__mark" viewBox="0 0 200 120" role="img" aria-label="Placeholder voor een foto van eigen werk in realisme"><use href="#m-eye"/></svg><div class="plate__foot"><span class="plate__label">Realisme</span><p class="plate__hint">Foto van eigen werk</p></div></article>
+        <article class="plate"><span class="plate__no">02</span><svg class="plate__mark" viewBox="0 0 100 200" role="img" aria-label="Placeholder voor een foto van eigen werk in black and grey"><use href="#m-dagger"/></svg><div class="plate__foot"><span class="plate__label">Black &amp; grey</span><p class="plate__hint">Foto van eigen werk</p></div></article>
+        <article class="plate"><span class="plate__no">03</span><svg class="plate__mark" viewBox="0 0 180 180" role="img" aria-label="Placeholder voor een foto van eigen werk in fineline"><use href="#m-rose"/></svg><div class="plate__foot"><span class="plate__label">Fineline</span><p class="plate__hint">Foto van eigen werk</p></div></article>
+        <article class="plate plate--photo"><span class="plate__no">04</span><svg class="plate__mark" viewBox="0 0 200 170" aria-hidden="true"><use href="#m-moth"/></svg><img class="plate__img" src="media/werk-dotwork-mandala.jpg" alt="Dotwork mandala over de volledige rug" loading="lazy"><div class="plate__foot"><span class="plate__label">Dotwork</span><p class="plate__hint">Eigen werk</p></div></article>
+        <article class="plate plate--photo"><span class="plate__no">05</span><svg class="plate__mark" viewBox="0 0 120 200" aria-hidden="true"><use href="#m-snake"/></svg><img class="plate__img" src="media/werk-ornamental-rug.jpg" alt="Ornamental werk op een rug, tijdens het zetten in de studio" loading="lazy"><div class="plate__foot"><span class="plate__label">Ornamental</span><p class="plate__hint">Eigen werk</p></div></article>
+        <article class="plate"><span class="plate__no">06</span><svg class="plate__mark" viewBox="0 0 200 120" role="img" aria-label="Placeholder voor een foto van eigen werk in freehand"><use href="#m-swallow"/></svg><div class="plate__foot"><span class="plate__label">Freehand</span><p class="plate__hint">Foto van eigen werk</p></div></article>
+        <article class="plate"><span class="plate__no">07</span><svg class="plate__mark" viewBox="0 0 100 200" role="img" aria-label="Placeholder voor een foto van eigen werk, cover up"><use href="#m-dagger"/></svg><div class="plate__foot"><span class="plate__label">Cover up</span><p class="plate__hint">Foto van eigen werk</p></div></article>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══ ZO BOEK JE ═══ -->
+  <section class="proces ink" id="boeken">
+    <div class="wrap">
+      <div class="sec-head">
+        <h2 data-reveal>Zo boek je</h2>
+        <p class="eyebrow" data-reveal><b>04</b> — Van idee naar afspraak</p>
+      </div>
+      <div class="steps">
+        <div class="step" data-reveal><b>01</b><div><h3>Stuur je idee</h3><p>Beschrijf je idee, de plaatsing, de maximale grootte en of je black &amp; grey of kleur wil. Voorbeelden mogen erbij.</p></div></div>
+        <div class="step" data-reveal><b>02</b><div><h3>Kies je artiest</h3><p>Noem de artiest van je voorkeur en geef aan of een leerling-tatoeëerder ook mag.</p></div></div>
+        <div class="step" data-reveal><b>03</b><div><h3>Voorschot</h3><p>Je afspraak staat vast zodra het voorschot binnen is. Verplaatsen kan eenmalig kosteloos tot 72 uur van tevoren.</p></div></div>
+        <div class="step" data-reveal><b>04</b><div><h3>Get your ass here</h3><p>Stationsstraat 72, Lanaken. Enkel op afspraak.</p></div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══ REVIEWS ═══ -->
+  <section class="reviews">
+    <div class="wrap">
+      <div class="sec-head">
+        <h2 data-reveal>Gezegd</h2>
+        <p class="eyebrow" data-reveal><b>05</b> — Uit de Google reviews</p>
+      </div>
+      <div class="rev-grid">
+        <figure class="rev" data-reveal>
+          <blockquote>Er is in mijn ogen geen betere tattoo artieste te vinden. Begrijpt heel goed wat je wilt, denkt enorm mee en is super getalenteerd.</blockquote>
+          <figcaption><small>Zoë Raike · Google review</small></figcaption>
+        </figure>
+        <figure class="rev" data-reveal>
+          <blockquote>De studio was heel schoon en professioneel, wat meteen vertrouwen gaf. <span>[…]</span> Het eindresultaat is zelfs mooier dan ik had verwacht!</blockquote>
+          <figcaption><small>Hubert Fraussen · Google review</small></figcaption>
+        </figure>
+        <figure class="rev" data-reveal>
+          <blockquote>Kom al ongeveer 10 jaar bij Fleur, vertrouw haar als geen ander! Ze heeft echt talent voor tekenen en tattoo's zetten.</blockquote>
+          <figcaption><small>Melanie Reus · Google review</small></figcaption>
+        </figure>
+      </div>
+      <p class="rev-note" data-reveal>Letterlijke citaten uit de Google reviews. <span style="color:var(--red)">[…]</span> markeert waar is ingekort — aan de bewoording is niets veranderd.</p>
+    </div>
+  </section>
+
+  <!-- ═══ CONTACT ═══ -->
+  <section class="cta ink" id="contact">
+    <div class="wrap">
+      <p class="cta__orn" data-reveal aria-hidden="true"><svg><use href="#m-swallow"/></svg><svg><use href="#m-star"/></svg><svg><use href="#m-swallow"/></svg></p>
+      <h2 data-reveal>Get your<br><span class="hollow">ass</span> here</h2>
+      <dl class="cta__info" data-reveal>
+        <div><dt>Adres</dt><dd>Stationsstraat 72, 3620 Lanaken (BE)</dd></div>
+        <div><dt>Mail</dt><dd><a href="mailto:bookings@artbruttattoo.com">bookings@artbruttattoo.com</a></dd></div>
+        <div><dt>Instagram</dt><dd><a href="https://instagram.com/artbrut_tattoo">@artbrut_tattoo</a></dd></div>
+        <div><dt>Openingstijden</dt><dd>Enkel op afspraak</dd></div>
+      </dl>
+      <div class="foot">
+        <span>Art Brut Tattoo Studio</span>
+        <span>Conceptontwerp · Kelvantis × Studio N3ms · niet definitief · augustus 2026</span>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<script src="assets/gsap.min.js"></script>
+<script src="assets/ScrollTrigger.min.js"></script>
+<script src="assets/concept.js"></script>
+</body>
+</html>
