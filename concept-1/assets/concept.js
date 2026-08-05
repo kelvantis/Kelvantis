@@ -68,13 +68,11 @@
     gsap.set('[data-hero-line] > span', { yPercent:110 });
     gsap.set('[data-hero-fade]', { autoAlpha:0, y:24 });
     gsap.set('.hero__video', { autoAlpha:0, scale:1.06 });
-    gsap.set('.vidui', { autoAlpha:0 });
     gsap.set('.nav', { autoAlpha:0 });
     gsap.set('[data-reveal]', { autoAlpha:0, y:28 });
 
     var intro = gsap.timeline({ defaults:{ ease:'expo.out' } });
     intro.to('.hero__video',   { autoAlpha:1, scale:1, duration:1.8, ease:'power2.out' }, 0)
-         .to('.vidui',         { autoAlpha:1, duration:1.4, ease:'power2.out' }, 0.25)
          .to('.nav',           { autoAlpha:1, duration:0.8 }, 0.3)
          .to('[data-hero-line] > span', { yPercent:0, duration:1.2, stagger:0.08 }, 0.15)
          .to('[data-hero-fade]', { autoAlpha:1, y:0, duration:0.9, stagger:0.12 }, '-=0.65');

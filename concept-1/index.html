@@ -92,31 +92,16 @@ h2{font-size:clamp(36px,6.5vw,100px);line-height:.86}
 /* de placeholder en de latere <video> delen exact deze box */
 .hero__media{position:absolute;inset:0;z-index:0;overflow:hidden}
 .hero__video{
-  width:100%;height:100%;object-fit:cover;display:block;
+  width:100%;height:100%;object-fit:cover;object-position:58% 32%;display:block;
+  filter:grayscale(1) contrast(1.12) brightness(1.95);
   background:
     repeating-linear-gradient(122deg,rgba(239,233,222,.045) 0 1px,transparent 1px 8px),
     repeating-linear-gradient(58deg,rgba(239,233,222,.035) 0 1px,transparent 1px 11px),
     radial-gradient(120% 85% at 68% 26%,#211E1A 0%,#100E0D 55%,#0A0908 100%);
 }
-.hero__scrim{position:absolute;inset:0;background:linear-gradient(to top,rgba(12,11,10,.94) 0%,rgba(12,11,10,.42) 46%,rgba(12,11,10,.66) 100%)}
-.vidui{position:absolute;inset:0;z-index:1;pointer-events:none}
-.vidui__frame{position:absolute;inset:clamp(12px,2.6vw,30px);border:1px dashed rgba(239,233,222,.26)}
-.vidui__tag{
-  position:absolute;top:clamp(62px,8vh,82px);right:clamp(22px,5vw,52px);
-  display:flex;align-items:center;gap:9px;
-  font-family:var(--f-display);font-weight:600;font-size:11px;letter-spacing:.24em;text-transform:uppercase;color:rgba(239,233,222,.62);
-}
-.vidui__tag b{width:7px;height:7px;border-radius:50%;background:var(--red);display:block}
-/* het video-blok staat in het rechterkwadrant, buiten de leesbaan van de kop */
-.vidui__play{position:absolute;right:clamp(22px,6vw,88px);top:clamp(112px,24vh,230px);text-align:right;max-width:min(46vw,300px)}
-.vidui__circ{width:clamp(58px,6.4vw,92px);height:clamp(58px,6.4vw,92px);border:1px solid rgba(239,233,222,.5);border-radius:50%;display:flex;align-items:center;justify-content:center;margin-left:auto}
-.vidui__circ::before{content:"";border-left:14px solid var(--paper);border-block:9px solid transparent;margin-left:5px;opacity:.85}
-.vidui__play p{margin-top:13px;font-family:var(--f-display);font-weight:600;font-size:10px;letter-spacing:.22em;text-transform:uppercase;color:rgba(239,233,222,.5);line-height:2}
-@media (max-width:760px){
-  .vidui__play{left:50%;right:auto;transform:translateX(-50%);text-align:center;top:19vh;max-width:80vw}
-  .vidui__circ{margin-inline:auto}
-}
-
+.hero__scrim{position:absolute;inset:0;background:
+    linear-gradient(to right,rgba(12,11,10,.92) 0%,rgba(12,11,10,.66) 38%,rgba(12,11,10,.28) 100%),
+    linear-gradient(to top,rgba(12,11,10,.9) 0%,rgba(12,11,10,.2) 45%,rgba(12,11,10,.55) 100%)}
 .hero__inner{position:relative;z-index:2;padding-block:clamp(78px,10vh,96px) clamp(52px,8vh,104px)}
 .hero__top{display:flex;justify-content:flex-start;gap:clamp(14px,3vw,42px);flex-wrap:wrap;margin-bottom:clamp(18px,4.5vh,44px);max-width:min(100%,72ch);padding-right:clamp(0px,22vw,340px)}
 .hero__top .eyebrow{color:rgba(239,233,222,.6)}
@@ -360,21 +345,15 @@ body.has-cursor .portret{display:block}
   <!-- ═══ HERO ═══ -->
   <section class="hero">
     <div class="hero__media">
-      <!-- VIDEOPLACEHOLDER — vervang deze <div> 1-op-1 door onderstaande <video>, zelfde class, zelfde box:
-           <video class="hero__video" autoplay muted loop playsinline poster="studio-poster.jpg">
-             <source src="studio.mp4" type="video/mp4">
+      <!-- Zodra de studiovideo er is, vervang je deze <img> 1-op-1 door onderstaande <video>.
+           Zelfde class, zelfde box, dus geen layoutverschuiving:
+           <video class="hero__video" autoplay muted loop playsinline poster="media/studio-aan-het-werk.jpg">
+             <source src="media/studio.mp4" type="video/mp4">
            </video>
       -->
-      <div class="hero__video" role="img" aria-label="Videoplaceholder: hier komt de studiovideo van Art Brut"></div>
+      <img class="hero__video" src="media/studio-aan-het-werk.jpg" alt="Een ornamentele rugtattoo wordt gezet in de studio aan de Stationsstraat in Lanaken">
       <div class="hero__scrim" aria-hidden="true"></div>
     </div>
-    <div class="vidui" aria-hidden="true">
-      <span class="vidui__frame"></span>
-      <p class="vidui__tag"><b></b> Video placeholder</p>
-      <div class="vidui__play">
-        <span class="vidui__circ"></span>
-        <p>studiovideo volgt<br>full-bleed · autoplay · muted · loop</p>
-      </div>
     </div>
 
     <div class="wrap hero__inner">
@@ -416,10 +395,6 @@ body.has-cursor .portret{display:block}
           <h2 class="quote" data-reveal>De beste tattoo is er een die <em>jouw</em> statement perfect belichaamt.</h2>
           <p class="body" data-reveal>Art Brut is in 2018 geopend door Fleur de Vries aan de Stationsstraat 72 in Lanaken. Vandaag werken er vier artiesten, elk met een eigen handschrift: van realisme en black &amp; grey tot fineline, dotwork en ornamental.</p>
           <p class="body" data-reveal>Wij tekenen mee en denken mee. De naald gaat pas op je huid als het ontwerp klopt. Dat kost tijd — dat is precies de bedoeling. Werken kan enkel op afspraak.</p>
-          <figure class="studioshot" data-reveal>
-            <img src="media/studio-gevel.jpg" alt="De gevel van Art Brut Tattoo Studio aan de Stationsstraat 72 in Lanaken" loading="lazy">
-            <figcaption>Stationsstraat 72, Lanaken</figcaption>
-          </figure>
         </div>
       </div>
       <dl class="stats">
@@ -449,7 +424,6 @@ body.has-cursor .portret{display:block}
         <span class="artist__no">02</span>
         <span class="artist__name">Chayenne Fraiquin</span>
         <span class="artist__style">Black &amp; grey · lettering · micro-realisme · surrealisme · fineline</span>
-        <span class="artist__handle">Handle nog in te vullen</span>
       </div>
       <a class="artist" href="https://instagram.com/lensonnable" data-reveal data-portret="media/artiest-03-lenn.jpg">
         <span class="artist__no">03</span>
@@ -471,18 +445,18 @@ body.has-cursor .portret{display:block}
     <div class="wrap">
       <div class="sec-head">
         <h2 data-reveal>Het werk</h2>
-        <p class="eyebrow" data-reveal><b>03</b> — Zeven stijlen, foto's volgen</p>
+        <p class="eyebrow" data-reveal><b>03</b> — Zeven stijlen</p>
       </div>
     </div>
     <div class="work__viewport" id="workViewport">
       <div class="work__track" id="workTrack">
-        <article class="plate"><span class="plate__no">01</span><svg class="plate__mark" viewBox="0 0 200 120" role="img" aria-label="Placeholder voor een foto van eigen werk in realisme"><use href="#m-eye"/></svg><div class="plate__foot"><span class="plate__label">Realisme</span><p class="plate__hint">Foto van eigen werk</p></div></article>
-        <article class="plate"><span class="plate__no">02</span><svg class="plate__mark" viewBox="0 0 100 200" role="img" aria-label="Placeholder voor een foto van eigen werk in black and grey"><use href="#m-dagger"/></svg><div class="plate__foot"><span class="plate__label">Black &amp; grey</span><p class="plate__hint">Foto van eigen werk</p></div></article>
-        <article class="plate"><span class="plate__no">03</span><svg class="plate__mark" viewBox="0 0 180 180" role="img" aria-label="Placeholder voor een foto van eigen werk in fineline"><use href="#m-rose"/></svg><div class="plate__foot"><span class="plate__label">Fineline</span><p class="plate__hint">Foto van eigen werk</p></div></article>
-        <article class="plate plate--photo"><span class="plate__no">04</span><svg class="plate__mark" viewBox="0 0 200 170" aria-hidden="true"><use href="#m-moth"/></svg><img class="plate__img" src="media/werk-dotwork-mandala.jpg" alt="Dotwork mandala over de volledige rug" loading="lazy"><div class="plate__foot"><span class="plate__label">Dotwork</span><p class="plate__hint">Eigen werk</p></div></article>
-        <article class="plate plate--photo"><span class="plate__no">05</span><svg class="plate__mark" viewBox="0 0 120 200" aria-hidden="true"><use href="#m-snake"/></svg><img class="plate__img" src="media/werk-ornamental-rug.jpg" alt="Ornamental werk op een rug, tijdens het zetten in de studio" loading="lazy"><div class="plate__foot"><span class="plate__label">Ornamental</span><p class="plate__hint">Eigen werk</p></div></article>
-        <article class="plate"><span class="plate__no">06</span><svg class="plate__mark" viewBox="0 0 200 120" role="img" aria-label="Placeholder voor een foto van eigen werk in freehand"><use href="#m-swallow"/></svg><div class="plate__foot"><span class="plate__label">Freehand</span><p class="plate__hint">Foto van eigen werk</p></div></article>
-        <article class="plate"><span class="plate__no">07</span><svg class="plate__mark" viewBox="0 0 100 200" role="img" aria-label="Placeholder voor een foto van eigen werk, cover up"><use href="#m-dagger"/></svg><div class="plate__foot"><span class="plate__label">Cover up</span><p class="plate__hint">Foto van eigen werk</p></div></article>
+        <article class="plate"><span class="plate__no">01</span><svg class="plate__mark" viewBox="0 0 200 120" role="img" aria-label="Placeholder voor een foto van eigen werk in realisme"><use href="#m-eye"/></svg><div class="plate__foot"><span class="plate__label">Realisme</span></div></article>
+        <article class="plate"><span class="plate__no">02</span><svg class="plate__mark" viewBox="0 0 100 200" role="img" aria-label="Placeholder voor een foto van eigen werk in black and grey"><use href="#m-dagger"/></svg><div class="plate__foot"><span class="plate__label">Black &amp; grey</span></div></article>
+        <article class="plate"><span class="plate__no">03</span><svg class="plate__mark" viewBox="0 0 180 180" role="img" aria-label="Placeholder voor een foto van eigen werk in fineline"><use href="#m-rose"/></svg><div class="plate__foot"><span class="plate__label">Fineline</span></div></article>
+        <article class="plate plate--photo"><span class="plate__no">04</span><svg class="plate__mark" viewBox="0 0 200 170" aria-hidden="true"><use href="#m-moth"/></svg><img class="plate__img" src="media/werk-dotwork-mandala.jpg" alt="Dotwork mandala over de volledige rug" loading="lazy"><div class="plate__foot"><span class="plate__label">Dotwork</span></div></article>
+        <article class="plate"><span class="plate__no">05</span><svg class="plate__mark" viewBox="0 0 120 200" role="img" aria-label="Ornamental"><use href="#m-snake"/></svg><div class="plate__foot"><span class="plate__label">Ornamental</span></div></article>
+        <article class="plate"><span class="plate__no">06</span><svg class="plate__mark" viewBox="0 0 200 120" role="img" aria-label="Placeholder voor een foto van eigen werk in freehand"><use href="#m-swallow"/></svg><div class="plate__foot"><span class="plate__label">Freehand</span></div></article>
+        <article class="plate"><span class="plate__no">07</span><svg class="plate__mark" viewBox="0 0 100 200" role="img" aria-label="Placeholder voor een foto van eigen werk, cover up"><use href="#m-dagger"/></svg><div class="plate__foot"><span class="plate__label">Cover up</span></div></article>
       </div>
     </div>
   </section>
@@ -516,7 +490,7 @@ body.has-cursor .portret{display:block}
           <figcaption><small>Zoë Raike · Google review</small></figcaption>
         </figure>
         <figure class="rev" data-reveal>
-          <blockquote>De studio was heel schoon en professioneel, wat meteen vertrouwen gaf. <span>[…]</span> Het eindresultaat is zelfs mooier dan ik had verwacht!</blockquote>
+          <blockquote>De studio was heel schoon en professioneel, wat meteen vertrouwen gaf.</blockquote>
           <figcaption><small>Hubert Fraussen · Google review</small></figcaption>
         </figure>
         <figure class="rev" data-reveal>
@@ -524,7 +498,6 @@ body.has-cursor .portret{display:block}
           <figcaption><small>Melanie Reus · Google review</small></figcaption>
         </figure>
       </div>
-      <p class="rev-note" data-reveal>Letterlijke citaten uit de Google reviews. <span style="color:var(--red)">[…]</span> markeert waar is ingekort — aan de bewoording is niets veranderd.</p>
     </div>
   </section>
 
