@@ -1,24 +1,48 @@
-FOTO'S VOOR DE DRIE CONCEPTEN
-=============================
+FOTO'S VOOR DE CONCEPTEN
+========================
 
-Zet de drie foto's in deze map met exact deze bestandsnamen (kleine letters,
-.jpg). Daarna verschijnen ze vanzelf in alle drie de concepten — er hoeft
-niets in de code aangepast te worden.
+Zet de foto's in deze map met exact deze bestandsnamen (kleine letters, .jpg).
+Daarna verschijnen ze vanzelf — er hoeft niets in de code aangepast te worden.
+Ontbreekt een bestand, dan valt die plek automatisch terug op het getekende
+motief: geen gebroken beeld, geen gat in de layout.
 
-  studio-gevel.jpg            de gevelfoto met het uithangbord ART BRUT
-                              -> komt in de studio-sectie van alle drie
+
+STUDIO EN WERK
+--------------
+  studio-gevel.jpg            de gevel met het uithangbord ART BRUT
+                              -> studio-sectie van alle drie de concepten
+                              ontbreekt nog
 
   werk-dotwork-mandala.jpg    de mandala over de volledige rug (bovenaanzicht)
-                              -> vervangt het motief in de plaat/cel "Dotwork"
+                              -> plaat/cel "Dotwork"
+                              ontbreekt nog
 
-  werk-ornamental-rug.jpg     het fijne ornamentele werk op de rug, tijdens
-                              het zetten
-                              -> vervangt het motief in de plaat/cel "Ornamental"
+  werk-ornamental-rug.jpg     het fijne ornamentele werk op de rug, tijdens het
+                              zetten (staand, donker)
+                              -> plaat/cel "Ornamental"
+                              STAAT ERIN
 
-Aanbevolen: ongeveer 1600 px op de langste zijde, kwaliteit 80, kleur mag —
-de pagina zet ze zelf om naar zwart-wit via CSS. Zolang een bestand ontbreekt
-valt de pagina automatisch terug op het getekende motief, zonder foutmelding
-en zonder gat in de layout.
 
-Andere naam of ander formaat (.png/.webp)? Zeg het even, dan pas ik de
-verwijzingen aan.
+ARTIESTENPORTRETTEN (alleen concept A)
+--------------------------------------
+Bij hover over een artiestenrij verschijnt het portret aan de cursor.
+
+  artiest-01-fleur.jpg        Fleur de Vries          STAAT ERIN
+  artiest-02-chayenne.jpg     Chayenne Fraiquin       STAAT ERIN
+  artiest-03-lenn.jpg         Lenn de Meij            STAAT ERIN
+  artiest-04-yael.jpg         Yael Sherah             STAAT ERIN
+
+Staand beeld werkt het best (verhouding ongeveer 4:5); de pagina snijdt zelf bij.
+
+
+FORMAAT
+-------
+Ongeveer 1600 px op de langste zijde, kwaliteit 80. Kleur mag: de pagina zet
+alles zelf om naar zwart-wit via CSS.
+
+
+OOK OP KELVANTIS.COM
+--------------------
+De live conceptpagina heeft een eigen kopie van deze map:
+  Kelvantis/concept-1/media/
+Zet dezelfde bestanden daar neer, commit en push, en ze staan online.

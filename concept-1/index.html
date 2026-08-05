@@ -4,8 +4,8 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Art Brut Tattoo Studio — concept A · Papier en inkt</title>
-<meta name="description" content="Conceptontwerp voor Art Brut Tattoo Studio, Lanaken. Richting A: papier en inkt.">
 <meta name="robots" content="noindex, nofollow, noarchive, noimageindex">
+<meta name="description" content="Conceptontwerp voor Art Brut Tattoo Studio, Lanaken. Richting A: papier en inkt.">
 <link rel="stylesheet" href="assets/fonts/fonts.css">
 <style>
 :root{
@@ -192,6 +192,19 @@ h1{font-size:clamp(50px,10.8vw,156px);line-height:.84}
 .artist__handle{font-family:var(--f-display);font-weight:600;letter-spacing:.12em;font-size:13px}
 @media (max-width:819px){.artist__style,.artist__handle{grid-column:2}}
 
+/* ---------- artiestenportret aan de cursor ---------- */
+.portret{
+  position:fixed;top:0;left:0;z-index:940;pointer-events:none;
+  width:clamp(150px,15vw,220px);aspect-ratio:4/5;
+  transform:translate(-50%,-50%) scale(.94);opacity:0;
+  transition:opacity .35s ease;
+  border:1px solid var(--line-inv);background:var(--ink);display:none;
+}
+body.has-cursor .portret{display:block}
+.portret.is-on{opacity:1}
+.portret img{width:100%;height:100%;object-fit:cover;filter:grayscale(1) contrast(1.06)}
+@media (max-width:900px){.portret{display:none!important}}
+
 /* ---------- het werk ---------- */
 .work{padding:clamp(52px,8vh,96px) 0;overflow:hidden}
 .work__viewport{margin-top:clamp(24px,4vh,38px);overflow:hidden}
@@ -212,8 +225,8 @@ h1{font-size:clamp(50px,10.8vw,156px);line-height:.84}
 @media (min-width:900px){.work{min-height:100svh;display:flex;flex-direction:column;justify-content:center}}
 
 /* ---------- echte foto's ---------- */
-.plate__img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:1;filter:grayscale(1) contrast(1.06)}
-.plate--photo::after{content:"";position:absolute;inset:0;z-index:2;background:linear-gradient(to top,rgba(12,11,10,.88) 0%,rgba(12,11,10,.15) 55%,rgba(12,11,10,.45) 100%)}
+.plate__img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:1;filter:grayscale(1) contrast(1.08) brightness(1.45)}
+.plate--photo::after{content:"";position:absolute;inset:0;z-index:2;background:linear-gradient(to top,rgba(12,11,10,.82) 0%,rgba(12,11,10,0) 48%,rgba(12,11,10,.35) 100%)}
 .plate--photo .plate__no,.plate--photo .plate__foot{z-index:3}
 .studioshot{margin-top:clamp(34px,5vh,60px);position:relative;border:1px solid var(--line)}
 .studioshot img{width:100%;height:clamp(240px,42vh,460px);object-fit:cover;filter:grayscale(1) contrast(1.04);display:block}
@@ -328,6 +341,7 @@ h1{font-size:clamp(50px,10.8vw,156px);line-height:.84}
 
 <a class="skip" href="#hoofd">Naar de inhoud</a>
 <div class="cursor" id="cursor" aria-hidden="true"></div>
+<div class="portret" id="portret" aria-hidden="true"><img id="portretImg" src="" alt=""></div>
 <p class="badge">Concept A · papier en inkt<br><i>Niet definitief</i></p>
 
 <header class="nav">
@@ -374,7 +388,7 @@ h1{font-size:clamp(50px,10.8vw,156px);line-height:.84}
         <span class="line" data-hero-line><span>op huid</span></span>
       </h1>
       <div class="hero__foot">
-        <p class="hero__sub" data-hero-fade>Vijf artiesten, vijf handschriften. De beste tattoo is er een die jouw statement perfect belichaamt — daarom tekenen we mee, denken we mee en gaat de naald pas op de huid als het ontwerp klopt.</p>
+        <p class="hero__sub" data-hero-fade>Vier artiesten, vier handschriften. De beste tattoo is er een die jouw statement perfect belichaamt — daarom tekenen we mee, denken we mee en gaat de naald pas op de huid als het ontwerp klopt.</p>
         <div class="hero__cta" data-hero-fade>
           <a class="btn" href="#boeken"><span>Boek een afspraak</span></a>
           <a class="btn btn--ghost" href="#werk"><span>Bekijk het werk</span></a>
@@ -400,7 +414,7 @@ h1{font-size:clamp(50px,10.8vw,156px);line-height:.84}
         <p class="eyebrow" data-reveal><b>01</b> — De studio</p>
         <div>
           <h2 class="quote" data-reveal>De beste tattoo is er een die <em>jouw</em> statement perfect belichaamt.</h2>
-          <p class="body" data-reveal>Art Brut is in 2018 geopend door Fleur de Vries aan de Stationsstraat 72 in Lanaken. Vandaag werken er vijf artiesten, elk met een eigen handschrift: van realisme en black &amp; grey tot fineline, dotwork en ornamental.</p>
+          <p class="body" data-reveal>Art Brut is in 2018 geopend door Fleur de Vries aan de Stationsstraat 72 in Lanaken. Vandaag werken er vier artiesten, elk met een eigen handschrift: van realisme en black &amp; grey tot fineline, dotwork en ornamental.</p>
           <p class="body" data-reveal>Wij tekenen mee en denken mee. De naald gaat pas op je huid als het ontwerp klopt. Dat kost tijd — dat is precies de bedoeling. Werken kan enkel op afspraak.</p>
           <figure class="studioshot" data-reveal>
             <img src="media/studio-gevel.jpg" alt="De gevel van Art Brut Tattoo Studio aan de Stationsstraat 72 in Lanaken" loading="lazy">
@@ -410,7 +424,7 @@ h1{font-size:clamp(50px,10.8vw,156px);line-height:.84}
       </div>
       <dl class="stats">
         <div class="stat" data-reveal><b>2018</b><small>Opgericht</small></div>
-        <div class="stat" data-reveal><b>5</b><small>Artiesten</small></div>
+        <div class="stat" data-reveal><b>4</b><small>Artiesten</small></div>
         <div class="stat" data-reveal><b>8,1K</b><small>Volgers op Instagram</small></div>
         <div class="stat" data-reveal><b>100%</b><small>Aanbevolen · 17 reviews</small></div>
       </dl>
@@ -422,38 +436,32 @@ h1{font-size:clamp(50px,10.8vw,156px);line-height:.84}
     <div class="wrap">
       <div class="sec-head">
         <h2 data-reveal>De artiesten</h2>
-        <p class="eyebrow" data-reveal><b>02</b> — Vijf handschriften</p>
+        <p class="eyebrow" data-reveal><b>02</b> — Vier handschriften</p>
       </div>
 
-      <a class="artist" href="https://instagram.com/fleur_dvrs" data-reveal>
+      <a class="artist" href="https://instagram.com/fleur_dvrs" data-reveal data-portret="media/artiest-01-fleur.jpg">
         <span class="artist__no">01</span>
         <span class="artist__name">Fleur de Vries <svg viewBox="0 0 40 40" aria-hidden="true"><use href="#m-arrow"/></svg></span>
         <span class="artist__style">Realisme · black &amp; grey · freehand</span>
         <span class="artist__handle">@fleur_dvrs</span>
       </a>
-      <a class="artist" href="https://instagram.com/abnormaal_tattoo" data-reveal>
+      <div class="artist" data-reveal data-portret="media/artiest-02-chayenne.jpg">
         <span class="artist__no">02</span>
-        <span class="artist__name">Abnormaal <svg viewBox="0 0 40 40" aria-hidden="true"><use href="#m-arrow"/></svg></span>
-        <span class="artist__style">Stijl nog in te vullen</span>
-        <span class="artist__handle">@abnormaal_tattoo</span>
-      </a>
-      <a class="artist" href="https://instagram.com/lensonnable" data-reveal>
+        <span class="artist__name">Chayenne Fraiquin</span>
+        <span class="artist__style">Black &amp; grey · lettering · micro-realisme · surrealisme · fineline</span>
+        <span class="artist__handle">Handle nog in te vullen</span>
+      </div>
+      <a class="artist" href="https://instagram.com/lensonnable" data-reveal data-portret="media/artiest-03-lenn.jpg">
         <span class="artist__no">03</span>
-        <span class="artist__name">Lens <svg viewBox="0 0 40 40" aria-hidden="true"><use href="#m-arrow"/></svg></span>
-        <span class="artist__style">Stijl nog in te vullen</span>
+        <span class="artist__name">Lenn de Meij <svg viewBox="0 0 40 40" aria-hidden="true"><use href="#m-arrow"/></svg></span>
+        <span class="artist__style">Dikkere lijnen · simpele shading · fineline · peppershading</span>
         <span class="artist__handle">@lensonnable</span>
       </a>
-      <a class="artist" href="https://instagram.com/yael.sherah.tattoo" data-reveal>
+      <a class="artist" href="https://instagram.com/yael.sherah.tattoo" data-reveal data-portret="media/artiest-04-yael.jpg">
         <span class="artist__no">04</span>
-        <span class="artist__name">Yael Sherah <svg viewBox="0 0 40 40" aria-hidden="true"><use href="#m-arrow"/></svg></span>
-        <span class="artist__style">Stijl nog in te vullen</span>
+        <span class="artist__name">Yaël Sherah <svg viewBox="0 0 40 40" aria-hidden="true"><use href="#m-arrow"/></svg></span>
+        <span class="artist__style">Fineline · ornamental · dotwork · floral &amp; mandala · blackwork</span>
         <span class="artist__handle">@yael.sherah.tattoo</span>
-      </a>
-      <a class="artist" href="https://instagram.com/demigelissen_tattoo" data-reveal>
-        <span class="artist__no">05</span>
-        <span class="artist__name">Demi Gelissen <svg viewBox="0 0 40 40" aria-hidden="true"><use href="#m-arrow"/></svg></span>
-        <span class="artist__style">Stijl nog in te vullen</span>
-        <span class="artist__handle">@demigelissen_tattoo</span>
       </a>
     </div>
   </section>

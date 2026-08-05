@@ -25,6 +25,28 @@
       requestAnimationFrame(loop);
     })();
 
+    /* artiestenportret hangt aan de cursor, met wat meer naloop dan de dot */
+    var portret = document.getElementById('portret');
+    var portretImg = document.getElementById('portretImg');
+    if (portret && portretImg) {
+      var px = tx, py = ty, psc = 0.94, portretOk = true;
+      portretImg.addEventListener('error', function(){ portretOk = false; portret.classList.remove('is-on'); });
+      (function portretLoop(){
+        px += (tx - px) * 0.09; py += (ty - py) * 0.09;
+        psc += ((portret.classList.contains('is-on') ? 1 : 0.94) - psc) * 0.12;
+        portret.style.transform = 'translate(' + px + 'px,' + py + 'px) translate(-50%,-50%) scale(' + psc.toFixed(3) + ')';
+        requestAnimationFrame(portretLoop);
+      })();
+      document.querySelectorAll('[data-portret]').forEach(function(el){
+        el.addEventListener('mouseenter', function(){
+          var src = el.getAttribute('data-portret');
+          if (portretImg.getAttribute('src') !== src) { portretOk = true; portretImg.setAttribute('src', src); }
+          if (portretOk) portret.classList.add('is-on');
+        });
+        el.addEventListener('mouseleave', function(){ portret.classList.remove('is-on'); });
+      });
+    }
+
     /* op donkere vlakken wordt de dot inkt, anders verdwijnt het rood in het rood */
     document.querySelectorAll('a,button,.step,.plate,.stat').forEach(function(el){
       el.addEventListener('mouseenter', function(){
@@ -96,11 +118,24 @@
     };
   });
 
+  /* Beeld dat laadt of juist wegvalt verandert de paginahoogte. Zonder hermeting
+     staan alle scroll-triggers eronder scheef en blijven secties onzichtbaar. */
+  var refreshSoon = (function(){
+    var t;
+    return function(){ clearTimeout(t); t = setTimeout(function(){ ScrollTrigger.refresh(); }, 120); };
+  })();
+  document.querySelectorAll('img').forEach(function(img){
+    if (img.complete) return;
+    img.addEventListener('load', refreshSoon);
+    img.addEventListener('error', refreshSoon);
+  });
+
   window.addEventListener('load', function(){ ScrollTrigger.refresh(); });
 })();
 
-/* Foto-fallback — zat eerder in inline onerror-attributen; die staan de CSP van
-   kelvantis.com niet toe, dus is het hierheen verhuisd. */
+/* Beeld-fallback — zat in de losse versie in inline onerror-attributen. Die staan
+   de CSP van kelvantis.com niet toe, dus staat het hier. Ontbreekt een foto, dan
+   valt de plek terug op het getekende motief in plaats van een gebroken beeld. */
 (function(){
   'use strict';
   document.querySelectorAll('.studioshot img').forEach(function(img){
