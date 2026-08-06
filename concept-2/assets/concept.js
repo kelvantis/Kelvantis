@@ -5,28 +5,33 @@
   var band = document.getElementById('band');
   if (band) band.innerHTML = band.innerHTML + band.innerHTML;
 
-  /* dunne lijn onder de header zodra je scrollt */
-  var site = document.getElementById('site');
-  if (site) {
-    var onScroll = function(){
-      site.classList.toggle('is-stuck', window.scrollY > 24);
-      /* het woordmerk in de balk pas tonen als het neonbord uit beeld is */
-      site.classList.toggle('is-past-hero', window.scrollY > window.innerHeight * .62);
+  /* mobiel menu */
+  var burger = document.getElementById('burger');
+  var menu = document.getElementById('menu');
+  if (burger && menu) {
+    var setMenu = function(open){
+      document.body.classList.toggle('menu-open', open);
+      burger.setAttribute('aria-expanded', open ? 'true' : 'false');
+      burger.setAttribute('aria-label', open ? 'Menu sluiten' : 'Menu openen');
+      document.body.style.overflow = open ? 'hidden' : '';
     };
-    window.addEventListener('scroll', onScroll, {passive:true});
-    onScroll();
+    burger.addEventListener('click', function(){
+      setMenu(!document.body.classList.contains('menu-open'));
+    });
+    menu.addEventListener('click', function(e){ if (e.target.tagName === 'A') setMenu(false); });
+    document.addEventListener('keydown', function(e){ if (e.key === 'Escape') setMenu(false); });
   }
 
-  /* Een cel zonder foto valt terug op het --panel-vlak. Het onerror-attribuut
-     haalt de <img> weg; deze regel zet de klasse zodat de gloed-overlay en de
-     hover-schaal uitgaan. Bij een geladen foto gebeurt het omgekeerde. */
-  Array.prototype.forEach.call(document.querySelectorAll('[data-cell]'), function(cell){
-    var img = cell.querySelector('.cell__img');
-    if (!img) return;
-    var mark = function(){ cell.classList.add('cell--photo'); };
-    if (img.complete) { if (img.naturalWidth > 0) mark(); }
-    else { img.addEventListener('load', mark); }
-  });
+  /* balkachtergrond en scroll-aanwijzing — los van GSAP, werkt dus ook
+     zonder CDN */
+  var nav = document.getElementById('nav');
+  var onScroll = function(){
+    var y = window.scrollY;
+    if (nav) nav.classList.toggle('is-solid', y > window.innerHeight * .6);
+    document.body.classList.toggle('is-scrolled', y > 40);
+  };
+  window.addEventListener('scroll', onScroll, {passive:true});
+  onScroll();
 
   /* het neon licht op zodra de pagina er is en neemt daarna zijn eigen
      CSS-flikkering over. Zonder JS staat het bord gewoon stabiel aan. */
@@ -61,7 +66,7 @@
       scrollTrigger:{trigger:'.hero', start:'top top', end:'bottom top', scrub:true}
     });
 
-    /* ── secties ── */
+    /* ── secties: alleen een fade-up, geen animerende gloed ── */
     var reveals = gsap.utils.toArray('[data-reveal]');
     gsap.set(reveals, {autoAlpha:0, y:30});
     ScrollTrigger.batch(reveals, {
@@ -71,13 +76,13 @@
       }
     });
 
-    /* ── werkraster: van onderen dichtgeschoven open, past bij de zwaarte ── */
+    /* ── werkraster: van onderen dichtgeschoven open ── */
     var cells = gsap.utils.toArray('[data-cell]');
     gsap.set(cells, {clipPath:'inset(100% 0 0 0)'});
     ScrollTrigger.batch(cells, {
       start:'top 90%',
       onEnter:function(batch){
-        gsap.to(batch, {clipPath:'inset(0% 0 0 0)', duration:1, stagger:.07, ease:'power3.out', overwrite:true});
+        gsap.to(batch, {clipPath:'inset(0% 0 0 0)', duration:1, stagger:.06, ease:'power3.out', overwrite:true});
       }
     });
 

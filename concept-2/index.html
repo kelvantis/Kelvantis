@@ -11,147 +11,206 @@
 /* ══════════════════════════════════════════════════════════════════
    ART BRUT — concept D "Rood neon"
    De studio bij nacht: zwart, korrelig en zwaar, met de naam in rood
-   neon aan de muur. Het signatuur-element is dat haperende neon plus
-   de rode gloed die op de foto eronder valt.
+   neon aan de muur.
    ══════════════════════════════════════════════════════════════════ */
 
 :root{
-  --black:#08080A;      /* achtergrond */
-  --panel:#101013;      /* vlakken, kaders, lege beeldplekken */
+  /* ── raster: één marge en één contentbreedte voor de hele pagina ── */
+  --page-x:clamp(20px, 5vw, 80px);
+  --maxw:1440px;
+  --gutter:24px;
+
+  /* ── drie achtergrondwaarden zodat secties zich losmaken ── */
+  --bg-0:#08080A;       /* basis */
+  --bg-1:#0E0E11;       /* verhoogd: studio, zo boek je */
+  --bg-2:#000000;       /* beeld: hero, werk, CTA */
+  --panel:#101013;      /* vlakken en lege beeldplekken */
+
   --bone:#EDEAE4;       /* tekst */
-  /* De brief noemt #7C7873 als ondergrens. Dat haalt AA op --black (4,57:1)
-     maar niet op --panel (4,33:1), en labels staan op allebei. Eén stap
-     lichter haalt het overal: 5,16:1 op zwart en 4,90:1 op --panel. */
-  --dim:#858179;        /* secundaire tekst */
+  --dim:#A8A29B;        /* secundaire tekst — 7,6:1 of beter op alle drie de vlakken */
   --neon:#CC0000;       /* hun eigen rood, alleen voor licht en accenten */
   --neon-hot:#FF4A3D;   /* de hete kern van de tube */
   --neon-deep:#6E0000;  /* schaduwkant, alleen in de buitenste gloed */
+  --neon-lit:#FF6A5E;   /* de brandende kern; lichter dan --neon, anders dooft tekst weg */
   --hair:rgba(237,234,228,.14);
 
   --f-neon:"Bodoni Moda", Didot, "Times New Roman", serif;
   --f-display:"Archivo Black", Impact, sans-serif;
   --f-body:"Barlow", system-ui, sans-serif;
 
-  --maxw:1320px;
-  --gut:clamp(20px, 4vw, 56px);
+  /* ── typeschaal met een middenlaag, zodat het gat tussen kop en
+        lopende tekst niet meer te groot is ── */
+  --t-hero:clamp(56px, 11vw, 168px);
+  --t-h2:clamp(34px, 5vw, 72px);
+  --t-lead:clamp(22px, 2.4vw, 34px);
+  --t-body:clamp(16px, 1.15vw, 18px);
+  --t-small:14px;
+  --t-label:11px;
+
+  --sec-y:clamp(88px, 13vh, 168px);   /* sectiepadding boven en onder */
+  --head-gap:clamp(40px, 6vh, 72px);  /* sectiekop → eerste inhoud */
 }
 
 *,*::before,*::after{ box-sizing:border-box }
-html{ -webkit-text-size-adjust:100% }
+html{ -webkit-text-size-adjust:100%; scroll-behavior:smooth }
 body{
-  margin:0; background:var(--black); color:var(--bone);
+  margin:0; background:var(--bg-0); color:var(--bone);
   font-family:var(--f-body); font-weight:300;
-  font-size:clamp(16px,1.05vw,18px); line-height:1.62;
+  font-size:var(--t-body); line-height:1.65;
   overflow-x:hidden; -webkit-font-smoothing:antialiased;
 }
 img{ display:block; max-width:100% }
 a{ color:inherit }
 h1,h2,h3{ margin:0; font-weight:400 }
 p{ margin:0 }
-dl,dd{ margin:0 }
+dl,dd,ol,ul{ margin:0 }
+ol,ul{ padding:0; list-style:none }
 
-.wrap{ width:min(100% - (var(--gut) * 2), var(--maxw)); margin-inline:auto }
+/* Eén raster voor alles. Tekst blijft altijd binnen .wrap; alleen beeld
+   mag full-bleed daarbuiten treden. */
+.wrap{ width:min(100% - var(--page-x) * 2, var(--maxw)); margin-inline:auto }
+.g12{ display:grid; grid-template-columns:repeat(12, minmax(0,1fr)); column-gap:var(--gutter) }
 
-/* korrel — één vaste laag over de hele pagina, zodat het zwart niet vlak wordt */
+.section{ padding-block:var(--sec-y) }
+.bg-0{ background:var(--bg-0) }
+.bg-1{ background:var(--bg-1) }
+.bg-2{ background:var(--bg-2) }
+
+/* korrel — één vaste laag zodat het zwart niet vlak wordt */
 body::after{
   content:''; position:fixed; inset:0; z-index:900; pointer-events:none;
   opacity:.05; mix-blend-mode:overlay;
   background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.82' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)'/%3E%3C/svg%3E");
 }
 
-.eyebrow{
-  font-size:11px; letter-spacing:.22em; text-transform:uppercase;
-  color:var(--dim); font-weight:600; line-height:1.5;
+.label{
+  font-size:var(--t-label); letter-spacing:.22em; text-transform:uppercase;
+  font-weight:600; line-height:1.5; color:var(--dim);
 }
-.eyebrow b{ color:var(--bone); font-weight:600 }
+.label b{ color:var(--bone); font-weight:600 }
+.lead{ font-size:var(--t-lead); line-height:1.25; font-weight:300; letter-spacing:-.01em }
 
-/* ── het neon-effect ─────────────────────────────────────────────── */
-.neon{
-  color:#FF6A5E;
+/* ── neon ────────────────────────────────────────────────────────
+   De gloed schaalt mee met de lettergrootte. Op koppen blijft de
+   buitenste ring weg, anders wordt de tekst wazig; de 80px-halo zit
+   alleen op het logo in de hero en op "here" in de CTA. */
+.neon-sm{
+  color:var(--neon-lit);
+  text-shadow:0 0 2px #FFD9D4, 0 0 8px var(--neon-hot), 0 0 20px var(--neon), 0 0 44px var(--neon-deep);
+}
+.neon-lg{
+  color:var(--neon-lit);
   text-shadow:
-    0 0 2px #FFD9D4,
-    0 0 6px var(--neon-hot),
-    0 0 18px var(--neon),
-    0 0 40px var(--neon),
-    0 0 80px var(--neon-deep);
-}
-/* neon-sectiekop: Bodoni, en een zachte rode vlek erachter zodat het
-   licht op de achtergrond valt in plaats van los te zweven */
-.h-neon{
-  position:relative; display:inline-block;
-  font-family:var(--f-neon); font-weight:900;
-  font-size:clamp(28px,4.5vw,64px); line-height:1.04;
-  letter-spacing:.06em; text-transform:uppercase;
-}
-.h-neon::before{
-  content:''; position:absolute; inset:-70% -18%; z-index:-1;
-  background:radial-gradient(ellipse at 50% 50%, rgba(204,0,0,.7), transparent 70%);
-  filter:blur(40px); opacity:.35; pointer-events:none;
-}
-/* witte sans-kop — een sectie heeft een neon-serif kop óf deze, nooit allebei */
-.h-sans{
-  font-family:var(--f-display); font-weight:400;
-  font-size:clamp(34px,5.6vw,86px); line-height:.85;
-  letter-spacing:-.01em; text-transform:uppercase;
+    0 0 2px #FFD9D4, 0 0 6px var(--neon-hot), 0 0 18px var(--neon),
+    0 0 40px var(--neon), 0 0 80px var(--neon-deep);
 }
 
-.sec-head{ padding-block:clamp(56px,7vw,104px) clamp(28px,3.4vw,48px) }
-.sec-head .eyebrow{ margin-top:14px }
+.h2-neon{
+  font-family:var(--f-neon); font-weight:900;
+  font-size:var(--t-h2); line-height:.95; letter-spacing:.06em; text-transform:uppercase;
+}
+.h2-sans{
+  font-family:var(--f-display); font-weight:400;
+  font-size:var(--t-h2); line-height:.95; letter-spacing:-.01em; text-transform:uppercase;
+}
+.sec-head{ margin-bottom:var(--head-gap) }
+.sec-head .label{ margin-top:16px }
 
 /* ── knoppen ─────────────────────────────────────────────────────── */
 .btn{
-  display:inline-block; padding:15px 26px; border:1px solid var(--bone);
-  font-size:11px; letter-spacing:.22em; text-transform:uppercase; font-weight:600;
-  text-decoration:none; border-radius:2px;
-  transition:color .35s, border-color .35s, background-color .35s, box-shadow .35s;
+  display:inline-block; padding:18px 34px; border:1px solid transparent;
+  font-size:var(--t-small); letter-spacing:.18em; text-transform:uppercase; font-weight:600;
+  text-decoration:none; border-radius:2px; text-align:center;
+  transition:background-color .35s, color .35s, border-color .35s, box-shadow .35s;
 }
-.btn:hover,.btn:focus-visible{
-  color:#FF6A5E; border-color:var(--neon);
-  box-shadow:0 0 18px rgba(204,0,0,.45), inset 0 0 18px rgba(204,0,0,.16);
+.btn--primary{ background:var(--bone); color:#08080A; border-color:var(--bone) }
+.btn--primary:hover,.btn--primary:focus-visible{
+  background:var(--neon); border-color:var(--neon); color:#fff;
+  box-shadow:0 0 24px rgba(204,0,0,.55);
 }
-.btn--ghost{ border-color:var(--hair); color:var(--dim) }
-.btn--ghost:hover,.btn--ghost:focus-visible{ color:#FF6A5E; border-color:var(--neon) }
-:focus-visible{ outline:2px solid #FF6A5E; outline-offset:3px }
+.btn--ghost{ border-color:rgba(237,234,228,.5); color:var(--bone) }
+.btn--ghost:hover,.btn--ghost:focus-visible{ background:var(--bone); color:#08080A; border-color:var(--bone) }
+:focus-visible{ outline:2px solid var(--neon-lit); outline-offset:3px }
 
 .skip{ position:absolute; left:-9999px }
-.skip:focus{ left:12px; top:12px; z-index:1000; background:var(--panel); padding:12px 18px }
+.skip:focus{ left:12px; top:12px; z-index:1200; background:var(--panel); padding:12px 18px }
 
-/* ══ HEADER ══════════════════════════════════════════════════════ */
-.site{
-  position:fixed; inset:0 0 auto 0; z-index:800;
-  display:flex; align-items:center; justify-content:space-between;
-  gap:20px; padding:16px var(--gut);
+/* ══ NAVIGATIE ═══════════════════════════════════════════════════ */
+.nav{
+  position:fixed; inset:0 0 auto 0; z-index:1000;
+  display:flex; align-items:center; justify-content:space-between; gap:20px;
+  padding:14px var(--page-x);
   border-bottom:1px solid transparent;
-  transition:background-color .4s, border-color .4s;
+  transition:background-color .3s, border-color .3s, backdrop-filter .3s;
 }
-.site.is-stuck{ background:var(--black); border-bottom-color:var(--hair) }
-/* Het woordmerk in de balk verschijnt pas zodra je van de hero af scrollt.
-   Boven in beeld staat het al groot in neon; twee keer hetzelfde logo onder
-   elkaar leest als een fout. */
-.site__mark{
-  display:block; width:132px; flex:none;
-  opacity:0; visibility:hidden; transform:translate3d(0,-6px,0);
-  transition:opacity .4s, transform .4s, visibility .4s;
+.nav.is-solid{
+  background:rgba(8,8,10,.72); border-bottom-color:var(--hair);
+  -webkit-backdrop-filter:blur(10px); backdrop-filter:blur(10px);
 }
-.site.is-past-hero .site__mark{ opacity:1; visibility:visible; transform:none }
-.site__mark img{
-  width:100%; height:auto;
-  filter:drop-shadow(0 0 4px rgba(204,0,0,.85)) drop-shadow(0 0 14px rgba(204,0,0,.5));
+/* Het wordmerk in de balk is gezette Bodoni, niet het logobestand uit de
+   hero, en het flikkert niet. Het verschijnt samen met de balkachtergrond,
+   zodat het neonbord in de hero alleen staat. */
+.nav__mark{
+  font-family:var(--f-neon); font-weight:700; font-size:18px;
+  letter-spacing:.16em; text-transform:uppercase; text-decoration:none;
+  color:var(--neon-lit);
+  text-shadow:0 0 2px #FFD9D4, 0 0 8px var(--neon-hot), 0 0 22px var(--neon);
+  opacity:0; visibility:hidden; transition:opacity .3s, visibility .3s;
 }
-.site__nav{ display:flex; gap:clamp(14px,2vw,30px) }
-.site__nav a{
-  font-size:11px; letter-spacing:.22em; text-transform:uppercase; font-weight:600;
-  text-decoration:none; color:var(--dim); transition:color .3s;
+.nav.is-solid .nav__mark{ opacity:1; visibility:visible }
+.nav__links{ display:flex; gap:clamp(18px,2.2vw,34px) }
+.nav__links a{
+  position:relative; font-size:12px; letter-spacing:.2em; text-transform:uppercase;
+  font-weight:600; text-decoration:none; color:var(--bone); padding-block:4px;
+  transition:color .3s;
 }
-.site__nav a:hover,.site__nav a:focus-visible{ color:#FF6A5E }
-@media (max-width:640px){ .site__nav{ display:none } .site__mark{ width:112px } }
+.nav__links a::after{
+  content:''; position:absolute; left:0; bottom:0; height:1px; width:100%;
+  background:var(--neon); transform:scaleX(0); transform-origin:left;
+  transition:transform .35s cubic-bezier(.22,1,.36,1);
+}
+.nav__links a:hover,.nav__links a:focus-visible{ color:var(--neon-lit) }
+.nav__links a:hover::after,.nav__links a:focus-visible::after{ transform:scaleX(1) }
+
+.burger{
+  display:none; width:44px; height:44px; padding:0; border:0; background:none;
+  cursor:pointer; position:relative;
+}
+.burger span{
+  position:absolute; left:11px; width:22px; height:1px; background:var(--bone);
+  transition:transform .35s, opacity .25s;
+}
+.burger span:nth-child(1){ top:17px }
+.burger span:nth-child(2){ top:23px }
+.burger span:nth-child(3){ top:29px }
+.menu-open .burger span:nth-child(1){ transform:translateY(6px) rotate(45deg) }
+.menu-open .burger span:nth-child(2){ opacity:0 }
+.menu-open .burger span:nth-child(3){ transform:translateY(-6px) rotate(-45deg) }
+
+.menu{
+  position:fixed; inset:0; z-index:990; background:var(--bg-2);
+  display:flex; flex-direction:column; justify-content:center; gap:8px;
+  padding:0 var(--page-x);
+  opacity:0; visibility:hidden; transition:opacity .35s, visibility .35s;
+}
+.menu-open .menu{ opacity:1; visibility:visible }
+.menu a{
+  font-family:var(--f-display); font-weight:400; text-transform:uppercase;
+  font-size:clamp(28px,8vw,44px); line-height:1.25; text-decoration:none;
+  letter-spacing:-.01em; transition:color .3s;
+}
+.menu a:hover,.menu a:focus-visible{ color:var(--neon-lit) }
+
+@media (max-width:760px){
+  .nav__links{ display:none }
+  .burger{ display:block }
+  /* het wordmerk in de balk blijft ook hier pas komen als je van de hero
+     af scrollt, anders staat het pal boven het neonbord */
+  .menu-open .nav__mark{ opacity:1; visibility:visible }
+}
 
 /* ══ HERO ════════════════════════════════════════════════════════ */
-.hero{
-  position:relative; min-height:100svh;
-  display:flex; align-items:stretch;
-  padding-block:clamp(88px,12vh,124px) clamp(28px,4vw,56px); overflow:hidden;
-}
+.hero{ position:relative; min-height:100svh; display:flex; overflow:hidden; background:var(--bg-2) }
 .hero__media{ position:absolute; inset:0; z-index:0; overflow:hidden }
 /* Zodra de studiovideo er is, vervang je deze <img> 1-op-1 door onderstaande <video>.
    Zelfde class, zelfde box, dus geen enkele layoutverschuiving:
@@ -161,29 +220,29 @@ body::after{
 */
 .hero__video{
   position:absolute; inset:0; width:100%; height:100%;
-  object-fit:cover; object-position:58% 30%;
-  filter:grayscale(.15) contrast(1.08) brightness(.88);
+  object-fit:cover; object-position:62% center;
+  /* de foto mag gezien worden — het tattoowerk erop is het argument van
+     de hele pagina, dus lichter in plaats van weggedimd */
+  filter:grayscale(.2) contrast(1.1) brightness(1.05);
 }
 .hero__scrim{
   position:absolute; inset:0;
-  background:
-    radial-gradient(ellipse 120% 70% at 46% 8%, rgba(204,0,0,.22), transparent 62%),
-    linear-gradient(to bottom, rgba(8,8,10,.74) 0%, rgba(8,8,10,.28) 32%, rgba(8,8,10,.66) 72%, var(--black) 100%);
+  background:linear-gradient(to top, rgba(8,8,10,.92) 0%, rgba(8,8,10,.45) 42%, rgba(8,8,10,.62) 100%);
 }
 .hero__inner{
-  position:relative; z-index:2;
-  display:flex; flex-direction:column; justify-content:space-between;
-  gap:clamp(22px,3vw,44px);
+  position:relative; z-index:2; display:flex; flex-direction:column;
+  padding-block:clamp(84px,11vh,120px) clamp(36px,5vh,64px);
 }
-.hero__top{
-  display:flex; flex-wrap:wrap; gap:8px 24px; justify-content:space-between;
-}
+.hero__top{ display:flex; flex-wrap:wrap; gap:8px 24px; justify-content:space-between }
+.hero__mid{ margin-top:auto }
 
-/* het neonbord */
+/* het neonbord — blijft in de hero, maar met lucht eronder en op
+   hoogstens 40% van de breedte van de kop */
 .sign{
   position:relative; display:block;
-  width:min(470px,72vw); aspect-ratio:1380 / 388;
-  margin-bottom:clamp(20px,2.6vw,38px);
+  width:min(40%, 420px); aspect-ratio:1380 / 388;
+  margin-top:clamp(30px, 4.5vh, 64px);
+  margin-bottom:clamp(40px, 7vh, 96px);
 }
 .sign__halo{
   position:absolute; inset:-46% -14%; z-index:0; pointer-events:none;
@@ -201,15 +260,14 @@ body::after{
     drop-shadow(0 0 68px var(--neon-deep));
 }
 /* de U van BRUT is een aparte, permanent zwakkere buis — de klassieke
-   halfdode letter. Hij zit in een eigen PNG, dus elke letter houdt zijn
-   eigen halo en er wordt nergens een gloed doorgesneden. */
+   halfdode letter. Eigen PNG, dus elke letter houdt zijn eigen halo. */
 .sign__u{ opacity:.55 }
 
 /* Eén haper per cyclus van 10s: drie korte dips, daarna weer stabiel.
    Let op de paren keyframes die de opacity op 1 vasthouden (88.4%+92.0%,
    92.8%+96.4%). Zonder die houdpunten interpoleert CSS lineair over het
    hele gat en begint de volgende dip al veel eerder — gemeten liep dat op
-   tot 5,5 dips per seconde. Met de houdpunten liggen de dips 440ms uit
+   tot 5,5 dips per seconde. Met de houdpunten liggen de dips 433ms uit
    elkaar: 2,3 per seconde, ruim onder de grens van 3 per seconde.
    Dit is het enige dat flikkert op de pagina. */
 @keyframes signFlicker{
@@ -221,303 +279,312 @@ body::after{
   96.7%{ opacity:.22 }
   97.2%{ opacity:1 }
 }
-/* de zwakke letter ademt traag — een vloeiende verandering, geen flits,
-   dus die telt niet mee in het aantal dips per seconde */
 @keyframes uBreathe{ 0%,100%{ opacity:.50 } 50%{ opacity:.63 } }
-
 .sign.is-lit{ animation:signFlicker 10s linear infinite }
 .sign.is-lit .sign__u{ animation:uBreathe 7s ease-in-out infinite }
 
+/* kop op één as: alle regels vlak links, één inspringing op regel twee */
 .hero h1{
   font-family:var(--f-display); font-weight:400;
-  font-size:clamp(46px,8.6vw,128px); line-height:.85;
+  font-size:var(--t-hero); line-height:.86;
   letter-spacing:-.01em; text-transform:uppercase;
 }
 .hero h1 .mask{ display:block; overflow:hidden; padding-bottom:.02em }
 .hero h1 .mask > span{ display:block }
-.hero h1 .mask:nth-child(2){ padding-left:clamp(18px,6vw,104px) }
+.hero h1 .mask:nth-child(2) > span{ padding-left:min(8vw, 110px) }
 
 .hero__foot{
-  display:grid; gap:clamp(18px,2.4vw,40px);
-  grid-template-columns:minmax(0,1fr);
-  align-items:end;
-  padding-top:clamp(18px,2.2vw,30px); border-top:1px solid var(--hair);
+  margin-top:max(8vh, 44px);
+  display:grid; grid-template-columns:minmax(0,1fr); gap:32px; align-items:end;
 }
-.hero__sub{ max-width:56ch; color:var(--dim) }
-.hero__cta{ display:flex; flex-wrap:wrap; gap:12px }
-@media (min-width:860px){
-  .hero__foot{ grid-template-columns:minmax(0,1.5fr) auto }
+.hero__lead{ max-width:46ch }
+.hero__cta{ display:flex; flex-wrap:wrap; gap:14px }
+@media (max-width:560px){
+  /* knoppen onder elkaar over de volle breedte */
+  .hero__cta{ display:grid; grid-template-columns:minmax(0,1fr); gap:12px }
+}
+@media (min-width:900px){
+  .hero__foot{ grid-template-columns:minmax(0,1fr) auto; gap:48px; padding-right:76px }
 }
 
-/* ══ PAYOFF-BAND ═════════════════════════════════════════════════ */
+/* scroll-aanwijzing */
+.scroll-hint{
+  position:absolute; right:var(--page-x); bottom:clamp(36px,5vh,64px); z-index:3;
+  display:flex; align-items:center; gap:14px;
+  transition:opacity .5s;
+}
+.scroll-hint__txt{
+  font-size:var(--t-label); letter-spacing:.3em; text-transform:uppercase; color:var(--dim);
+  writing-mode:vertical-rl;
+}
+.scroll-hint__line{ position:relative; width:1px; height:56px; background:var(--hair); overflow:hidden }
+.scroll-hint__line::after{
+  content:''; position:absolute; inset:0; background:var(--neon-lit);
+  transform:translateY(-100%); animation:scrollRun 2.4s ease-in-out infinite;
+}
+@keyframes scrollRun{
+  0%{ transform:translateY(-100%) } 60%,100%{ transform:translateY(100%) }
+}
+.is-scrolled .scroll-hint{ opacity:0; pointer-events:none }
+@media (max-width:760px){ .scroll-hint{ display:none } }
+
+/* ══ MARQUEE ═════════════════════════════════════════════════════ */
 .band{
-  position:relative; overflow:hidden;
-  border-block:1px solid var(--hair); background:var(--panel);
-  padding-block:16px;
+  position:relative; overflow:hidden; background:var(--bg-0);
+  border-block:1px solid var(--hair);
+  height:clamp(44px, 6vh, 64px); display:flex; align-items:center;
 }
-.band__track{ display:flex; width:max-content; animation:bandRoll 34s linear infinite }
+.band__track{ display:flex; width:max-content; animation:bandRoll 68s linear infinite }
 .band__track span{
-  display:inline-flex; align-items:center; gap:clamp(20px,3vw,44px);
-  padding-inline:clamp(20px,3vw,44px);
+  display:inline-flex; align-items:center; gap:clamp(26px,3.4vw,52px);
+  padding-inline:clamp(26px,3.4vw,52px);
   font-family:var(--f-neon); font-weight:700;
-  font-size:clamp(14px,1.7vw,22px); letter-spacing:.22em; text-transform:uppercase;
-  white-space:nowrap; color:#FF6A5E;
-  text-shadow:0 0 4px var(--neon-hot), 0 0 16px var(--neon), 0 0 34px var(--neon-deep);
+  font-size:16px; letter-spacing:.3em; text-transform:uppercase;
+  white-space:nowrap; color:var(--bone);
 }
-.band__track span::after{ content:''; width:5px; height:5px; background:currentColor; border-radius:50% }
+.band__track span::after{
+  content:''; width:5px; height:5px; border-radius:50%;
+  background:var(--neon); box-shadow:0 0 8px var(--neon);
+}
 @keyframes bandRoll{ from{ transform:translate3d(0,0,0) } to{ transform:translate3d(-50%,0,0) } }
+@media (max-width:760px){ .band__track span{ font-size:14px } }
 
 /* ══ 01 DE STUDIO ════════════════════════════════════════════════ */
-.manifest{ border-bottom:1px solid var(--hair) }
-.manifest__grid{
-  display:grid; gap:clamp(24px,3.4vw,56px);
-  grid-template-columns:minmax(0,1fr);
-  padding-bottom:clamp(48px,6vw,88px);
+.studio__body{ align-items:start }
+.studio__lead{ grid-column:1 / -1 }
+.studio__text{ grid-column:1 / -1; margin-top:28px; color:var(--dim); max-width:60ch }
+.studio__text p + p{ margin-top:1em }
+@media (min-width:900px){
+  .studio__lead{ grid-column:1 / span 6 }
+  .studio__text{ grid-column:8 / span 5; margin-top:0 }
 }
-@media (min-width:900px){ .manifest__grid{ grid-template-columns:minmax(0,.9fr) minmax(0,1.5fr) } }
-.quote{
-  font-family:var(--f-body); font-weight:300;
-  font-size:clamp(25px,3.4vw,46px); line-height:1.18; letter-spacing:-.01em;
-  margin-bottom:clamp(20px,2.4vw,32px);
-}
-.quote em{ font-style:normal; color:#FF6A5E; text-shadow:0 0 12px rgba(204,0,0,.7) }
-.manifest__body p + p{ margin-top:1em }
-.manifest__body{ color:var(--dim); max-width:62ch }
+.studio__lead em{ font-style:normal; color:var(--neon-lit); text-shadow:0 0 14px rgba(204,0,0,.7) }
 
 .stats{
-  display:grid; grid-template-columns:repeat(2,minmax(0,1fr));
-  border-top:1px solid var(--hair);
+  display:grid; grid-template-columns:repeat(2, minmax(0,1fr));
+  margin-top:var(--head-gap);
+  border-block:1px solid var(--hair);
 }
-@media (min-width:760px){ .stats{ grid-template-columns:repeat(4,minmax(0,1fr)) } }
-.stat{
-  padding:clamp(22px,2.6vw,36px) clamp(14px,2vw,28px);
-  border-left:1px solid var(--hair);
-}
-.stat:nth-child(-n+2){ border-top:0 }
-.stat:nth-child(2n+1){ border-left:0 }
+@media (min-width:760px){ .stats{ grid-template-columns:repeat(4, minmax(0,1fr)) } }
+/* De eerste kolom van elke rij staat vlak op de paginamarge en de laatste
+   vlak op de rechtermarge, zodat het cijfer exact onder de sectiekop
+   uitkomt in plaats van een celbreedte naar binnen. */
+.stat{ padding:clamp(24px,3vw,40px) clamp(12px,1.6vw,24px) }
+.stat:nth-child(2n+1){ padding-left:0 }
+.stat:nth-child(2n){ padding-right:0 }
 @media (min-width:760px){
-  .stat:nth-child(2n+1){ border-left:1px solid var(--hair) }
-  .stat:first-child{ border-left:0 }
+  .stat + .stat{ border-left:1px solid var(--hair) }
+  .stat{ padding-inline:clamp(12px,1.6vw,24px) }
+  .stat:first-child{ padding-left:0 }
+  .stat:last-child{ padding-right:0 }
 }
 .stat b{
   display:block; font-family:var(--f-display); font-weight:400;
-  font-size:clamp(30px,3.6vw,54px); line-height:1; letter-spacing:-.02em;
+  font-size:clamp(40px, 4.2vw, 68px); line-height:1; letter-spacing:-.02em;
 }
-.stat small{ display:block; margin-top:10px; font-size:11px; letter-spacing:.22em; text-transform:uppercase; color:var(--dim) }
+.stat small{ display:block; margin-top:12px; font-size:var(--t-label); letter-spacing:.22em; text-transform:uppercase; color:var(--dim) }
 
-/* ══ 02 DE ARTIESTEN ═════════════════════════════════════════════ */
-.artists{ border-bottom:1px solid var(--hair) }
+/* ══ 02 ONZE ARTISTS ═════════════════════════════════════════════ */
 .artist{
-  display:grid; gap:clamp(18px,3vw,48px);
-  grid-template-columns:minmax(0,1fr);
-  align-items:center; text-decoration:none;
-  padding-block:clamp(24px,3vw,44px); border-top:1px solid var(--hair);
+  display:grid; grid-template-columns:repeat(12, minmax(0,1fr));
+  column-gap:var(--gutter); row-gap:24px; align-items:center;
+  text-decoration:none; padding-block:clamp(56px, 8vh, 104px);
+  border-top:1px solid var(--hair);
 }
-.artist:first-child{ border-top:0 }
-/* Om en om links en rechts. De rijen zijn een mix van <a> (met Instagram) en
-   <div> (zonder), dus nth-child en niet nth-of-type — die telt per elementsoort
-   en zet de kolommen dan scheef. Bij het omdraaien kantelt ook het
-   kolommenschema mee, anders krijgt de foto de brede kolom. */
-@media (min-width:820px){
-  .artist{ grid-template-columns:minmax(0,.4fr) minmax(0,1fr) }
-  .artist:nth-child(even){ grid-template-columns:minmax(0,1fr) minmax(0,.4fr) }
-  .artist:nth-child(even) .artist__media{ order:2 }
-  .artist:nth-child(even) .artist__body{ text-align:right }
-  .artist:nth-child(even) .artist__style{ margin-left:auto }
-}
+.artist:first-child{ border-top:0; padding-top:0 }
 .artist__media{
-  position:relative; overflow:hidden; background:var(--panel);
-  aspect-ratio:1 / 1; border-radius:2px;
+  grid-column:1 / -1; position:relative; overflow:hidden;
+  background:var(--panel); aspect-ratio:4 / 5; border-radius:2px;
 }
-/* Onder de tweekolomsgrens zou een vierkant portret over de volle breedte
-   op tablet ruim 700px hoog worden en de rij helemaal opeten. Vandaar hier
-   een staand kader met een plafond op de breedte. */
-@media (max-width:819px){
-  .artist__media{ aspect-ratio:4 / 5; max-width:min(340px,72vw) }
+.artist__body{ grid-column:1 / -1 }
+@media (min-width:860px){
+  /* Portret 5 kolommen, één kolom lucht, tekst 6 kolommen — in beide
+     richtingen exact dezelfde tussenruimte en even grote portretten.
+     grid-row:1 is nodig: bij de omgedraaide rijen staat de foto vooraan in
+     de DOM maar achteraan in het raster, en auto-placement springt niet
+     terug naar een eerdere kolom — zonder dit belandt de tekst een rij
+     lager en staan foto en naam onder elkaar. */
+  .artist__media{ grid-column:1 / span 5; grid-row:1 }
+  .artist__body{ grid-column:7 / span 6; grid-row:1 }
+  .artist:nth-child(even) .artist__media{ grid-column:8 / span 5 }
+  .artist:nth-child(even) .artist__body{ grid-column:1 / span 6 }
 }
 .artist__media img{
   width:100%; height:100%; object-fit:cover;
-  /* portretten blijven zwart-wit, ook bij hover — dat is hun beeldtaal en
-     het laat het rood en het tattoowerk het enige kleuraccent zijn */
-  filter:grayscale(1) contrast(1.08) brightness(.86);
-  transition:filter .5s ease, transform .6s cubic-bezier(.22,1,.36,1);
-}
-.artist__media::after{
-  content:''; position:absolute; inset:0; pointer-events:none;
-  background:linear-gradient(to top, rgba(8,8,10,.6), transparent 52%);
+  filter:grayscale(1) contrast(1.06) brightness(.94);
+  transition:filter .6s ease, transform .6s cubic-bezier(.22,1,.36,1);
 }
 .artist:hover .artist__media img,
-.artist:focus-visible .artist__media img{ filter:grayscale(1) brightness(1.04); transform:scale(1.03) }
+.artist:focus-visible .artist__media img{ filter:grayscale(.15) contrast(1.06) brightness(1); transform:scale(1.02) }
 
-.artist__body{ position:relative }
-.artist__no{
-  display:block; font-family:var(--f-neon); font-weight:700;
-  font-size:12px; letter-spacing:.22em; color:var(--dim); margin-bottom:10px;
-}
+.artist__no{ display:block; font-size:var(--t-label); letter-spacing:.22em; color:var(--dim); margin-bottom:12px }
 .artist__name{
   font-family:var(--f-display); font-weight:400;
-  font-size:clamp(30px,5.4vw,80px); line-height:.92;
-  letter-spacing:-.02em; text-transform:uppercase;
-  transition:transform .5s cubic-bezier(.22,1,.36,1), color .4s, text-shadow .4s;
-}
-.artist:hover .artist__name,
-.artist:focus-visible .artist__name{
-  transform:translate3d(clamp(8px,1.4vw,22px),0,0);
-  color:#FF6A5E;
-  text-shadow:0 0 4px var(--neon-hot), 0 0 20px var(--neon), 0 0 48px var(--neon-deep);
-}
-@media (min-width:820px){
-  .artist:nth-child(even):hover .artist__name,
-  .artist:nth-child(even):focus-visible .artist__name{
-    transform:translate3d(calc(-1 * clamp(8px,1.4vw,22px)),0,0);
-  }
+  font-size:clamp(28px, 3.6vw, 58px); line-height:1; letter-spacing:-.02em;
+  text-transform:uppercase; text-wrap:balance;
 }
 .artist__rule{
-  display:block; height:1px; margin:16px 0 14px; background:var(--hair);
-  transform-origin:left; transition:background-color .4s, box-shadow .4s;
+  display:block; height:1px; width:100%; margin:18px 0; background:var(--hair); position:relative;
 }
-.artist:hover .artist__rule,
-.artist:focus-visible .artist__rule{ background:var(--neon); box-shadow:0 0 12px rgba(204,0,0,.8) }
-.artist__role{ font-size:11px; letter-spacing:.22em; text-transform:uppercase; color:var(--dim); font-weight:600 }
+.artist__rule::after{
+  content:''; position:absolute; inset:0; background:var(--neon);
+  box-shadow:0 0 10px rgba(204,0,0,.8);
+  transform:scaleX(0); transform-origin:left; transition:transform .6s cubic-bezier(.22,1,.36,1);
+}
+.artist:hover .artist__rule::after,
+.artist:focus-visible .artist__rule::after{ transform:scaleX(1) }
+.artist__role{ font-size:var(--t-label); letter-spacing:.22em; text-transform:uppercase; font-weight:600; color:var(--neon-lit) }
 .artist__style{ margin-top:10px; color:var(--dim); max-width:46ch }
-.artist__handle{
-  display:inline-block; margin-top:14px;
-  font-size:11px; letter-spacing:.22em; text-transform:uppercase; color:var(--dim); font-weight:600;
-  transition:color .35s;
-}
-.artist:hover .artist__handle{ color:#FF6A5E }
+.artist__handle{ display:inline-block; margin-top:10px; font-size:13px; color:var(--dim); transition:color .35s }
+.artist:hover .artist__handle{ color:var(--neon-lit) }
 
-/* ══ 03 HET WERK ═════════════════════════════════════════════════ */
-.work{ border-bottom:1px solid var(--hair) }
-.wall{
-  display:grid; grid-template-columns:repeat(2,minmax(0,1fr));
-  grid-auto-rows:clamp(42px,4.9vw,70px); grid-auto-flow:row dense; gap:6px;
-  padding-bottom:clamp(40px,5vw,72px);
-}
-@media (min-width:900px){ .wall{ grid-template-columns:repeat(4,minmax(0,1fr)) } }
-.cell{
+/* ══ 03 HET WERK ═════════════════════════════════════════════════
+   Er is op dit moment één echte foto van eigen werk. De regel is dat er
+   nooit meer lege vakken staan dan echte foto's, dus het raster is één
+   grote foto plus één ingetogen plek — geen muur van zes rode
+   placeholders. De zeven stijlen staan er als lijst onder, dat is echte
+   inhoud in plaats van opvulling. */
+.wall{ display:grid; grid-template-columns:repeat(12, minmax(0,1fr)); gap:8px }
+.wall__cell{
   position:relative; overflow:hidden; border-radius:2px;
-  background:var(--panel); border:1px solid var(--hair);
-  grid-row:span var(--r,4);
-  display:flex; flex-direction:column; justify-content:flex-end;
+  grid-column:1 / -1; aspect-ratio:16 / 9; background:var(--panel);
 }
-.cell--wide{ grid-column:span 2 }
-.cell__img{
+.wall__img{
   position:absolute; inset:0; width:100%; height:100%; object-fit:cover;
-  filter:grayscale(.15) contrast(1.08) brightness(.92);
-  transition:filter .5s ease, transform .6s cubic-bezier(.22,1,.36,1);
+  filter:grayscale(.15) contrast(1.05) brightness(.95);
+  transition:filter .6s ease, transform .6s cubic-bezier(.22,1,.36,1);
 }
-.cell--photo:hover .cell__img{ filter:grayscale(0) brightness(1); transform:scale(1.03) }
-.cell--photo::after{
+.wall__cell--photo::after{
   content:''; position:absolute; inset:0; pointer-events:none;
-  background:linear-gradient(to top, rgba(8,8,10,.82), rgba(8,8,10,.1) 46%, transparent 70%);
+  background:linear-gradient(to top, rgba(8,8,10,.85), transparent 55%);
+  opacity:0; transition:opacity .6s;
 }
-/* lege cel: een egaal --panel-vlak met het nummer in neon-outline en de
-   stijlnaam. Nooit een gebroken beeld. Zodra het bestand in media/ staat,
-   vult de cel zichzelf. */
-.cell__ghost{
-  position:absolute; inset:0; display:grid; place-items:center;
-  font-family:var(--f-neon); font-weight:900;
-  font-size:clamp(46px,7vw,104px); line-height:1;
-  color:transparent; -webkit-text-stroke:1px rgba(204,0,0,.62);
-  text-shadow:0 0 24px rgba(204,0,0,.22); pointer-events:none;
+.wall__cell--photo:hover .wall__img{ filter:grayscale(0) contrast(1.12) brightness(1.05); transform:scale(1.04) }
+.wall__cell--photo:hover::after{ opacity:1 }
+.wall__cap{
+  position:absolute; left:0; right:0; bottom:0; z-index:2;
+  padding:clamp(16px,2vw,26px);
+  display:flex; align-items:baseline; gap:12px; flex-wrap:wrap;
+  transform:translateY(12px); opacity:0; transition:transform .6s cubic-bezier(.22,1,.36,1), opacity .5s;
 }
-.cell--photo .cell__ghost{ display:none }
-.cell__foot{
-  position:relative; z-index:2; display:flex; align-items:baseline;
-  gap:10px; flex-wrap:wrap; padding:clamp(12px,1.4vw,18px);
+.wall__cell--photo:hover .wall__cap{ transform:none; opacity:1 }
+.wall__cap b{ font-size:var(--t-label); letter-spacing:.22em; text-transform:uppercase; font-weight:600 }
+.wall__cap span{ font-size:var(--t-label); letter-spacing:.18em; text-transform:uppercase; color:var(--dim) }
+
+.wall__note{ margin-top:20px; font-size:var(--t-body); color:var(--dim) }
+
+/* Scheidingslijnen als randen op de items zelf, niet als gap boven een
+   gekleurde ondergrond: zeven stijlen in vier kolommen laat één plek in
+   het raster leeg, en die zou anders als grijs vlak zichtbaar blijven. */
+.styles{
+  display:grid; grid-template-columns:repeat(2, minmax(0,1fr));
+  margin-top:var(--head-gap); border-top:1px solid var(--hair);
 }
-.cell__no{ font-family:var(--f-neon); font-weight:700; font-size:11px; letter-spacing:.22em; color:#FF6A5E }
-.cell__label{ font-size:11px; letter-spacing:.22em; text-transform:uppercase; font-weight:600 }
-.cell__wait{ width:100%; font-size:10px; letter-spacing:.18em; text-transform:uppercase; color:var(--dim) }
-.cell--photo .cell__wait{ display:none }
+.styles li{
+  padding:clamp(18px,2vw,26px) clamp(14px,1.6vw,22px);
+  display:flex; align-items:baseline; gap:12px;
+  border-bottom:1px solid var(--hair);
+}
+.styles li:nth-child(2n+1){ padding-left:0 }
+.styles li:nth-child(2n){ border-left:1px solid var(--hair); padding-right:0 }
+@media (min-width:700px){
+  .styles{ grid-template-columns:repeat(4, minmax(0,1fr)) }
+  .styles li{ border-left:1px solid var(--hair); padding-inline:clamp(14px,1.6vw,22px) }
+  .styles li:nth-child(4n+1){ border-left:0; padding-left:0 }
+  .styles li:nth-child(4n){ padding-right:0 }
+}
+.styles .n{ font-family:var(--f-neon); font-weight:700; font-size:13px; color:var(--neon-lit) }
+.styles .t{ font-size:var(--t-body) }
 
 /* ══ 04 ZO BOEK JE ═══════════════════════════════════════════════ */
-.proces{ border-bottom:1px solid var(--hair) }
-.steps{
-  display:grid; grid-template-columns:minmax(0,1fr);
-  padding-bottom:clamp(40px,5vw,72px);
-}
-@media (min-width:700px){ .steps{ grid-template-columns:repeat(2,minmax(0,1fr)) } }
-@media (min-width:1060px){ .steps{ grid-template-columns:repeat(4,minmax(0,1fr)) } }
-.step{
-  padding:clamp(22px,2.4vw,34px) clamp(16px,1.8vw,28px);
-  border-top:2px solid rgba(237,234,228,.2);
-}
+.steps{ display:grid; grid-template-columns:minmax(0,1fr); align-items:stretch }
+@media (min-width:700px){ .steps{ grid-template-columns:repeat(2, minmax(0,1fr)) } }
+@media (min-width:1060px){ .steps{ grid-template-columns:repeat(4, minmax(0,1fr)) } }
+.step{ padding:clamp(24px,2.6vw,36px) 0; border-top:1px solid var(--hair) }
+.step:first-child{ border-top:0; padding-top:0 }
 @media (min-width:700px){
-  .step{ border-top:0; border-left:2px solid rgba(237,234,228,.2) }
-  .step:nth-child(2n+1){ border-left:0 }
+  .step{ border-top:0; border-left:1px solid var(--hair); padding:0 clamp(16px,1.8vw,28px) }
+  .step:nth-child(2n+1){ border-left:0; padding-left:0 }
+  .step:nth-child(2n){ padding-right:0 }
 }
 @media (min-width:1060px){
-  .step:nth-child(2n+1){ border-left:2px solid rgba(237,234,228,.2) }
-  .step:first-child{ border-left:0 }
+  .step:nth-child(2n+1){ border-left:1px solid var(--hair); padding-left:clamp(16px,1.8vw,28px) }
+  .step:nth-child(2n){ padding-right:clamp(16px,1.8vw,28px) }
+  .step:first-child{ border-left:0; padding-left:0 }
+  .step:last-child{ padding-right:0 }
 }
-.step b{
-  display:block; font-family:var(--f-neon); font-weight:900;
-  font-size:clamp(38px,4.2vw,64px); line-height:1; margin-bottom:16px;
-  color:transparent; -webkit-text-stroke:1px var(--neon);
-  text-shadow:0 0 20px rgba(204,0,0,.35);
-}
-.step h3{
-  font-family:var(--f-display); font-weight:400; font-size:clamp(15px,1.4vw,19px);
-  text-transform:uppercase; letter-spacing:-.005em; margin-bottom:10px;
-}
+.step b{ display:block; font-family:var(--f-neon); font-weight:900; font-size:28px; color:var(--neon-lit); margin-bottom:18px }
+.step h3{ font-family:var(--f-display); font-weight:400; font-size:20px; text-transform:uppercase; margin-bottom:12px; line-height:1.15 }
 .step p{ color:var(--dim) }
 
 /* ══ 05 GEZEGD ═══════════════════════════════════════════════════ */
-.reviews{ border-bottom:1px solid var(--hair) }
-.rev-grid{
-  display:grid; gap:1px; background:var(--hair);
-  grid-template-columns:minmax(0,1fr); margin-bottom:clamp(48px,6vw,88px);
-}
-@media (min-width:820px){ .rev-grid{ grid-template-columns:repeat(3,minmax(0,1fr)) } }
-.rev{
-  margin:0; padding:clamp(24px,2.6vw,38px); background:var(--black);
-  display:flex; flex-direction:column; gap:18px;
-}
-.rev blockquote{ margin:0; font-size:clamp(16px,1.3vw,19px) }
+.rev-grid{ display:grid; grid-template-columns:minmax(0,1fr); gap:var(--gutter) }
+@media (min-width:820px){ .rev-grid{ grid-template-columns:repeat(3, minmax(0,1fr)) } }
+.rev{ margin:0; padding-top:24px; border-top:1px solid var(--hair) }
+.rev blockquote{ margin:0 0 20px; font-size:clamp(19px, 1.6vw, 24px); line-height:1.4 }
 .rev blockquote::before{ content:'“' }
 .rev blockquote::after{ content:'”' }
-.rev figcaption{ margin-top:auto; padding-top:14px; border-top:1px solid var(--neon) }
-.rev figcaption small{ font-size:11px; letter-spacing:.22em; text-transform:uppercase; color:var(--dim) }
+.rev figcaption{ font-size:var(--t-label); letter-spacing:.22em; text-transform:uppercase; color:var(--dim) }
 
 /* ══ CONTACT / CTA ═══════════════════════════════════════════════ */
-.cta{ padding-block:clamp(64px,9vw,140px) }
 .cta h2{
+  position:relative;
   font-family:var(--f-display); font-weight:400;
-  font-size:clamp(52px,11.5vw,176px); line-height:.85;
+  font-size:clamp(52px, 11.5vw, 176px); line-height:.86;
   letter-spacing:-.02em; text-transform:uppercase;
 }
-.cta__info{
-  display:grid; gap:1px; background:var(--hair);
-  grid-template-columns:minmax(0,1fr);
-  margin-top:clamp(38px,5vw,72px); border-top:1px solid var(--hair);
+.cta__here{ position:relative; display:inline-block }
+/* ronde gloed, precies achter het woord — geen rechthoekig blok meer */
+.cta__here::before{
+  content:''; position:absolute; left:50%; top:50%;
+  width:150%; aspect-ratio:1 / 1; transform:translate(-50%,-50%);
+  border-radius:50%; z-index:-1; pointer-events:none;
+  background:radial-gradient(ellipse at center, rgba(204,0,0,.55), transparent 70%);
+  filter:blur(48px);
 }
-@media (min-width:700px){ .cta__info{ grid-template-columns:repeat(2,minmax(0,1fr)) } }
-@media (min-width:1060px){ .cta__info{ grid-template-columns:repeat(4,minmax(0,1fr)) } }
-.cta__info > div{ background:var(--black); padding:clamp(20px,2.2vw,30px) }
-.cta__info dt{ font-size:11px; letter-spacing:.22em; text-transform:uppercase; color:var(--dim); font-weight:600; margin-bottom:10px }
+.cta__info{
+  display:grid; grid-template-columns:minmax(0,1fr);
+  margin-top:var(--head-gap); border-top:1px solid var(--hair);
+}
+@media (min-width:700px){ .cta__info{ grid-template-columns:repeat(2, minmax(0,1fr)) } }
+@media (min-width:1060px){ .cta__info{ grid-template-columns:repeat(4, minmax(0,1fr)) } }
+.cta__info > div{ padding:clamp(22px,2.4vw,32px) 0; border-bottom:1px solid var(--hair) }
+@media (min-width:700px){
+  .cta__info > div{ border-left:1px solid var(--hair); padding-inline:clamp(16px,1.6vw,24px) }
+  .cta__info > div:nth-child(2n+1){ border-left:0; padding-left:0 }
+  .cta__info > div:nth-child(2n){ padding-right:0 }
+}
+@media (min-width:1060px){
+  .cta__info > div:nth-child(2n+1){ border-left:1px solid var(--hair); padding-left:clamp(16px,1.6vw,24px) }
+  .cta__info > div:nth-child(2n){ padding-right:clamp(16px,1.6vw,24px) }
+  .cta__info > div:first-child{ border-left:0; padding-left:0 }
+  .cta__info > div:last-child{ padding-right:0 }
+}
+.cta__info dt{ font-size:var(--t-label); letter-spacing:.22em; text-transform:uppercase; color:var(--dim); font-weight:600; margin-bottom:12px }
+.cta__info dd{ font-size:var(--t-body) }
 .cta__info dd a{ text-decoration:none; border-bottom:1px solid var(--hair); transition:color .3s, border-color .3s }
-.cta__info dd a:hover,.cta__info dd a:focus-visible{ color:#FF6A5E; border-color:var(--neon) }
+.cta__info dd a:hover,.cta__info dd a:focus-visible{ color:var(--neon-lit); border-color:var(--neon) }
 
 .foot{
   display:flex; flex-wrap:wrap; gap:10px 28px; justify-content:space-between;
-  margin-top:clamp(40px,5vw,72px); padding-top:24px; border-top:1px solid var(--hair);
-  font-size:11px; letter-spacing:.16em; text-transform:uppercase; color:var(--dim);
+  margin-top:48px; padding-top:24px; border-top:1px solid var(--hair);
+  font-size:12px; letter-spacing:.14em; text-transform:uppercase; color:var(--dim);
 }
 
 /* ══ REDUCED MOTION ══════════════════════════════════════════════
    Geen flikkering, geen beweging. De gloed staat stabiel aan en de
    pagina is volledig zichtbaar. */
 @media (prefers-reduced-motion: reduce){
+  html{ scroll-behavior:auto }
   *,*::before,*::after{
     animation-duration:.001ms !important; animation-iteration-count:1 !important;
-    transition-duration:.001ms !important; scroll-behavior:auto !important;
+    transition-duration:.001ms !important;
   }
   .sign.is-lit,.sign.is-lit .sign__u{ animation:none }
   .sign.is-lit{ opacity:1 }
   .sign.is-lit .sign__u{ opacity:.55 }
   .band__track{ animation:none }
+  .scroll-hint__line::after{ animation:none; transform:none }
 }
 </style>
 </head>
@@ -525,17 +592,27 @@ body::after{
 
 <a class="skip" href="#hoofd">Naar de inhoud</a>
 
-<header class="site" id="site">
-  <a class="site__mark" href="#top" aria-label="Art Brut Tattoo Studio, naar boven">
-    <img src="media/logo-art-brut.png" alt="Art Brut Tattoo Studio" width="1380" height="388">
-  </a>
-  <nav class="site__nav" aria-label="Hoofdmenu">
+<header class="nav" id="nav">
+  <a class="nav__mark" href="#top">Art Brut</a>
+  <nav class="nav__links" aria-label="Hoofdmenu">
+    <a href="#studio">Studio</a>
     <a href="#artiesten">Artiesten</a>
     <a href="#werk">Werk</a>
     <a href="#boeken">Boeken</a>
     <a href="#contact">Contact</a>
   </nav>
+  <button class="burger" id="burger" type="button" aria-expanded="false" aria-controls="menu" aria-label="Menu openen">
+    <span></span><span></span><span></span>
+  </button>
 </header>
+
+<div class="menu" id="menu" aria-label="Menu">
+  <a href="#studio">Studio</a>
+  <a href="#artiesten">Artiesten</a>
+  <a href="#werk">Werk</a>
+  <a href="#boeken">Boeken</a>
+  <a href="#contact">Contact</a>
+</div>
 
 <main id="hoofd">
 <div id="top"></div>
@@ -555,8 +632,8 @@ body::after{
 
     <div class="wrap hero__inner">
       <div class="hero__top">
-        <p class="eyebrow">Tattoo studio · Stationsstraat 72, Lanaken (BE) · enkel op afspraak</p>
-        <p class="eyebrow">Sinds 2018</p>
+        <p class="label">Tattoo studio · Stationsstraat 72, Lanaken (BE) · enkel op afspraak</p>
+        <p class="label">Sinds 2018</p>
       </div>
 
       <div class="hero__mid">
@@ -574,12 +651,17 @@ body::after{
       </div>
 
       <div class="hero__foot">
-        <p class="hero__sub" data-hero-fade>Vier artiesten, vier handschriften. De beste tattoo is er een die jouw statement perfect belichaamt — daarom tekenen we mee, denken we mee en gaat de naald pas op de huid als het ontwerp klopt.</p>
+        <p class="lead hero__lead" data-hero-fade>Vier artiesten, vier handschriften. De naald gaat pas op je huid als het ontwerp klopt.</p>
         <div class="hero__cta" data-hero-fade>
-          <a class="btn" href="#boeken">Boek een afspraak</a>
+          <a class="btn btn--primary" href="#boeken">Boek een afspraak</a>
           <a class="btn btn--ghost" href="#werk">Bekijk het werk</a>
         </div>
       </div>
+    </div>
+
+    <div class="scroll-hint" aria-hidden="true">
+      <span class="scroll-hint__txt">Scroll</span>
+      <span class="scroll-hint__line"></span>
     </div>
   </section>
 
@@ -594,15 +676,15 @@ body::after{
   </div>
 
   <!-- ═══ 01 DE STUDIO ═══ -->
-  <section class="manifest" id="studio">
+  <section class="section bg-1" id="studio">
     <div class="wrap">
       <div class="sec-head">
-        <h2 class="h-neon" data-reveal>De studio</h2>
-        <p class="eyebrow" data-reveal><b>01</b> — Sinds 2018 aan de Stationsstraat</p>
+        <h2 class="h2-neon neon-sm" data-reveal>De studio</h2>
+        <p class="label" data-reveal><b>01</b> — Sinds 2018 aan de Stationsstraat</p>
       </div>
-      <div class="manifest__grid">
-        <p class="quote" data-reveal>De beste tattoo is er een die <em>jouw</em> statement perfect belichaamt.</p>
-        <div class="manifest__body">
+      <div class="g12 studio__body">
+        <p class="lead studio__lead" data-reveal>De beste tattoo is er een die <em>jouw</em> statement perfect belichaamt.</p>
+        <div class="studio__text">
           <p data-reveal>Art Brut is in 2018 geopend door Fleur de Vries aan de Stationsstraat 72 in Lanaken. Vandaag werken er vier artiesten, elk met een eigen handschrift: van realisme en black &amp; grey tot fineline, dotwork en ornamental.</p>
           <p data-reveal>Wij tekenen mee en denken mee. De naald gaat pas op je huid als het ontwerp klopt. Dat kost tijd — dat is precies de bedoeling. Werken kan enkel op afspraak.</p>
         </div>
@@ -616,136 +698,110 @@ body::after{
     </div>
   </section>
 
-  <!-- ═══ 02 DE ARTIESTEN ═══ -->
-  <section class="artists" id="artiesten">
+  <!-- ═══ 02 ONZE ARTISTS ═══ -->
+  <section class="section bg-0" id="artiesten">
     <div class="wrap">
       <div class="sec-head">
-        <h2 class="h-neon" data-reveal>Onze artists</h2>
-        <p class="eyebrow" data-reveal><b>02</b> — Vier handschriften</p>
+        <h2 class="h2-neon neon-sm" data-reveal>Onze artists</h2>
+        <p class="label" data-reveal><b>02</b> — Vier handschriften</p>
       </div>
 
       <div class="artists__list">
-      <a class="artist" href="https://instagram.com/fleur_dvrs" data-reveal>
-        <div class="artist__media">
-          <img src="media/artiest-01-fleur.jpg" alt="Portret van Fleur de Vries, artist en eigenaar van Art Brut" loading="lazy" decoding="async" width="800" height="800">
-        </div>
-        <div class="artist__body">
-          <span class="artist__no">01</span>
-          <h3 class="artist__name">Fleur de Vries</h3>
-          <span class="artist__rule" aria-hidden="true"></span>
-          <p class="artist__role">Artist, eigenaar</p>
-          <p class="artist__style">Realisme · black &amp; grey · freehand</p>
-          <span class="artist__handle">@fleur_dvrs</span>
-        </div>
-      </a>
+        <a class="artist" href="https://instagram.com/fleur_dvrs" data-reveal>
+          <div class="artist__media">
+            <img src="media/artiest-01-fleur.jpg" alt="Portret van Fleur de Vries, artist en eigenaar van Art Brut" loading="lazy" decoding="async" width="800" height="800">
+          </div>
+          <div class="artist__body">
+            <span class="artist__no">01</span>
+            <h3 class="artist__name">Fleur de Vries</h3>
+            <span class="artist__rule" aria-hidden="true"></span>
+            <p class="artist__role">Artist, eigenaar</p>
+            <p class="artist__style">Realisme · black &amp; grey · freehand</p>
+            <span class="artist__handle">@fleur_dvrs</span>
+          </div>
+        </a>
 
-      <div class="artist" data-reveal>
-        <div class="artist__media">
-          <img src="media/artiest-02-chayenne.jpg" alt="Portret van Chayenne Fraiquin, artist bij Art Brut" loading="lazy" decoding="async" width="801" height="800">
+        <div class="artist" data-reveal>
+          <div class="artist__media">
+            <img src="media/artiest-02-chayenne.jpg" alt="Portret van Chayenne Fraiquin, artist bij Art Brut" loading="lazy" decoding="async" width="801" height="800">
+          </div>
+          <div class="artist__body">
+            <span class="artist__no">02</span>
+            <h3 class="artist__name">Chayenne Fraiquin</h3>
+            <span class="artist__rule" aria-hidden="true"></span>
+            <p class="artist__role">Artist</p>
+            <p class="artist__style">Black &amp; grey · lettering · micro-realisme · surrealisme · fineline</p>
+          </div>
         </div>
-        <div class="artist__body">
-          <span class="artist__no">02</span>
-          <h3 class="artist__name">Chayenne Fraiquin</h3>
-          <span class="artist__rule" aria-hidden="true"></span>
-          <p class="artist__role">Artist</p>
-          <p class="artist__style">Black &amp; grey · lettering · micro-realisme · surrealisme · fineline</p>
-        </div>
-      </div>
 
-      <a class="artist" href="https://instagram.com/lensonnable" data-reveal>
-        <div class="artist__media">
-          <img src="media/artiest-03-lenn.jpg" alt="Portret van Lenn de Meij, artist bij Art Brut" loading="lazy" decoding="async" width="800" height="800">
-        </div>
-        <div class="artist__body">
-          <span class="artist__no">03</span>
-          <h3 class="artist__name">Lenn de Meij</h3>
-          <span class="artist__rule" aria-hidden="true"></span>
-          <p class="artist__role">Artist</p>
-          <p class="artist__style">Dikkere lijnen · simpele shading · fineline · peppershading</p>
-          <span class="artist__handle">@lensonnable</span>
-        </div>
-      </a>
+        <a class="artist" href="https://instagram.com/lensonnable" data-reveal>
+          <div class="artist__media">
+            <img src="media/artiest-03-lenn.jpg" alt="Portret van Lenn de Meij, artist bij Art Brut" loading="lazy" decoding="async" width="800" height="800">
+          </div>
+          <div class="artist__body">
+            <span class="artist__no">03</span>
+            <h3 class="artist__name">Lenn de Meij</h3>
+            <span class="artist__rule" aria-hidden="true"></span>
+            <p class="artist__role">Artist</p>
+            <p class="artist__style">Dikkere lijnen · simpele shading · fineline · peppershading</p>
+            <span class="artist__handle">@lensonnable</span>
+          </div>
+        </a>
 
-      <a class="artist" href="https://instagram.com/yael.sherah.tattoo" data-reveal>
-        <div class="artist__media">
-          <img src="media/artiest-04-yael-bw.jpg" alt="Portret van Yaël Sherah, artist bij Art Brut" loading="lazy" decoding="async" width="1251" height="1246">
-        </div>
-        <div class="artist__body">
-          <span class="artist__no">04</span>
-          <h3 class="artist__name">Yaël Sherah</h3>
-          <span class="artist__rule" aria-hidden="true"></span>
-          <p class="artist__role">Artist</p>
-          <p class="artist__style">Fineline · ornamental · dotwork · floral &amp; mandala · blackwork</p>
-          <span class="artist__handle">@yael.sherah.tattoo</span>
-        </div>
-      </a>
+        <a class="artist" href="https://instagram.com/yael.sherah.tattoo" data-reveal>
+          <div class="artist__media">
+            <img src="media/artiest-04-yael-bw.jpg" alt="Portret van Yaël Sherah, artist bij Art Brut" loading="lazy" decoding="async" width="1251" height="1246">
+          </div>
+          <div class="artist__body">
+            <span class="artist__no">04</span>
+            <h3 class="artist__name">Yaël Sherah</h3>
+            <span class="artist__rule" aria-hidden="true"></span>
+            <p class="artist__role">Artist</p>
+            <p class="artist__style">Fineline · ornamental · dotwork · floral &amp; mandala · blackwork</p>
+            <span class="artist__handle">@yael.sherah.tattoo</span>
+          </div>
+        </a>
       </div>
     </div>
   </section>
 
   <!-- ═══ 03 HET WERK ═══
-       Elke cel is bedraad. Staat het bestand in media/, dan vult de cel
-       zichzelf met de foto; ontbreekt het, dan valt hij terug op een egaal
-       --panel-vlak met het stijlnummer in neon-outline. -->
-  <section class="work" id="werk">
+       Het raster is bewust klein gehouden: er is één echte foto van eigen
+       werk, dus staat er ook maar één lege plek naast. Zodra er beeld
+       bijkomt, groeit het raster mee. -->
+  <section class="section bg-2" id="werk">
     <div class="wrap">
       <div class="sec-head">
-        <h2 class="h-sans" data-reveal>Het werk</h2>
-        <p class="eyebrow" data-reveal><b>03</b> — Zeven stijlen</p>
+        <h2 class="h2-sans" data-reveal>Het werk</h2>
+        <p class="label" data-reveal><b>03</b> — Zeven stijlen</p>
       </div>
 
       <div class="wall">
-        <article class="cell" style="--r:5" data-cell>
-          <img class="cell__img" src="media/werk-realisme.jpg" alt="Eigen werk in realisme" loading="lazy" decoding="async">
-          <span class="cell__ghost" aria-hidden="true">01</span>
-          <div class="cell__foot"><span class="cell__no">01</span><span class="cell__label">Realisme</span><span class="cell__wait">Foto van eigen werk volgt</span></div>
-        </article>
-
-        <article class="cell" style="--r:4" data-cell>
-          <img class="cell__img" src="media/werk-black-grey.jpg" alt="Eigen werk in black &amp; grey" loading="lazy" decoding="async">
-          <span class="cell__ghost" aria-hidden="true">02</span>
-          <div class="cell__foot"><span class="cell__no">02</span><span class="cell__label">Black &amp; grey</span><span class="cell__wait">Foto van eigen werk volgt</span></div>
-        </article>
-
-        <article class="cell" style="--r:4" data-cell>
-          <img class="cell__img" src="media/werk-fineline.jpg" alt="Eigen werk in fineline" loading="lazy" decoding="async">
-          <span class="cell__ghost" aria-hidden="true">03</span>
-          <div class="cell__foot"><span class="cell__no">03</span><span class="cell__label">Fineline</span><span class="cell__wait">Foto van eigen werk volgt</span></div>
-        </article>
-
-        <article class="cell" style="--r:5" data-cell>
-          <img class="cell__img" src="media/werk-dotwork-mandala.jpg" alt="Dotwork mandala over de volledige rug" loading="lazy" decoding="async">
-          <span class="cell__ghost" aria-hidden="true">04</span>
-          <div class="cell__foot"><span class="cell__no">04</span><span class="cell__label">Dotwork</span><span class="cell__wait">Foto van eigen werk volgt</span></div>
-        </article>
-
-        <article class="cell cell--wide" style="--r:6" data-cell>
-          <img class="cell__img" src="media/werk-ornamental-rug.jpg" alt="Ornamenteel rugstuk in black &amp; grey, gezet in de studio" loading="lazy" decoding="async" width="380" height="380">
-          <span class="cell__ghost" aria-hidden="true">05</span>
-          <div class="cell__foot"><span class="cell__no">05</span><span class="cell__label">Ornamental</span><span class="cell__wait">Foto van eigen werk volgt</span></div>
-        </article>
-
-        <article class="cell" style="--r:6" data-cell>
-          <img class="cell__img" src="media/werk-freehand.jpg" alt="Eigen werk in freehand" loading="lazy" decoding="async">
-          <span class="cell__ghost" aria-hidden="true">06</span>
-          <div class="cell__foot"><span class="cell__no">06</span><span class="cell__label">Freehand</span><span class="cell__wait">Foto van eigen werk volgt</span></div>
-        </article>
-
-        <article class="cell" style="--r:6" data-cell>
-          <img class="cell__img" src="media/werk-cover-up.jpg" alt="Eigen werk, cover up" loading="lazy" decoding="async">
-          <span class="cell__ghost" aria-hidden="true">07</span>
-          <div class="cell__foot"><span class="cell__no">07</span><span class="cell__label">Cover up</span><span class="cell__wait">Foto van eigen werk volgt</span></div>
+        <article class="wall__cell wall__cell--photo" data-cell>
+          <img class="wall__img" src="media/werk-ornamental-rug.jpg" alt="Ornamenteel rugstuk in black &amp; grey, gezet in de studio" loading="lazy" decoding="async" width="1000" height="563">
+          <div class="wall__cap"><b>Ornamental</b><span>Fleur de Vries</span></div>
         </article>
       </div>
+      <p class="wall__note" data-reveal>Eigen werk, gezet in de studio. Beeld van de overige stijlen volgt zodra de studio het aanlevert.</p>
+
+      <ol class="styles" data-reveal>
+        <li><span class="n">01</span><span class="t">Realisme</span></li>
+        <li><span class="n">02</span><span class="t">Black &amp; grey</span></li>
+        <li><span class="n">03</span><span class="t">Fineline</span></li>
+        <li><span class="n">04</span><span class="t">Dotwork</span></li>
+        <li><span class="n">05</span><span class="t">Ornamental</span></li>
+        <li><span class="n">06</span><span class="t">Freehand</span></li>
+        <li><span class="n">07</span><span class="t">Cover up</span></li>
+      </ol>
     </div>
   </section>
 
   <!-- ═══ 04 ZO BOEK JE ═══ -->
-  <section class="proces" id="boeken">
+  <section class="section bg-1" id="boeken">
     <div class="wrap">
       <div class="sec-head">
-        <h2 class="h-sans" data-reveal>Zo boek je</h2>
-        <p class="eyebrow" data-reveal><b>04</b> — Van idee naar afspraak</p>
+        <h2 class="h2-sans" data-reveal>Zo boek je</h2>
+        <p class="label" data-reveal><b>04</b> — Van idee naar afspraak</p>
       </div>
       <div class="steps">
         <div class="step" data-reveal><b>01</b><h3>Stuur je idee</h3><p>Beschrijf je idee, de plaatsing, de maximale grootte en of je black &amp; grey of kleur wil. Voorbeelden mogen erbij.</p></div>
@@ -757,33 +813,33 @@ body::after{
   </section>
 
   <!-- ═══ 05 GEZEGD ═══ -->
-  <section class="reviews">
+  <section class="section bg-0">
     <div class="wrap">
       <div class="sec-head">
-        <h2 class="h-neon" data-reveal>Gezegd</h2>
-        <p class="eyebrow" data-reveal><b>05</b> — Uit de Google reviews</p>
+        <h2 class="h2-neon neon-sm" data-reveal>Gezegd</h2>
+        <p class="label" data-reveal><b>05</b> — Uit de Google reviews</p>
       </div>
       <div class="rev-grid">
         <figure class="rev" data-reveal>
           <blockquote>Er is in mijn ogen geen betere tattoo artieste te vinden. Begrijpt heel goed wat je wilt, denkt enorm mee en is super getalenteerd.</blockquote>
-          <figcaption><small>Zoë Raike · Google review</small></figcaption>
+          <figcaption>Zoë Raike · Google review</figcaption>
         </figure>
         <figure class="rev" data-reveal>
           <blockquote>De studio was heel schoon en professioneel, wat meteen vertrouwen gaf.</blockquote>
-          <figcaption><small>Hubert Fraussen · Google review</small></figcaption>
+          <figcaption>Hubert Fraussen · Google review</figcaption>
         </figure>
         <figure class="rev" data-reveal>
           <blockquote>Kom al ongeveer 10 jaar bij Fleur, vertrouw haar als geen ander! Ze heeft echt talent voor tekenen en tattoo's zetten.</blockquote>
-          <figcaption><small>Melanie Reus · Google review</small></figcaption>
+          <figcaption>Melanie Reus · Google review</figcaption>
         </figure>
       </div>
     </div>
   </section>
 
   <!-- ═══ CONTACT ═══ -->
-  <section class="cta" id="contact">
+  <section class="section bg-2 cta" id="contact">
     <div class="wrap">
-      <h2 data-reveal>Get your<br>ass <span class="neon">here</span></h2>
+      <h2 data-reveal>Get your<br>ass <span class="cta__here neon-lg">here</span></h2>
       <dl class="cta__info" data-reveal>
         <div><dt>Adres</dt><dd>Stationsstraat 72, 3620 Lanaken (BE)</dd></div>
         <div><dt>Mail</dt><dd><a href="mailto:bookings@artbruttattoo.com">bookings@artbruttattoo.com</a></dd></div>
