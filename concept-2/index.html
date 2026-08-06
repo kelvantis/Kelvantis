@@ -1,0 +1,806 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Art Brut Tattoo Studio — Lanaken · conceptontwerp D</title>
+<meta name="robots" content="noindex, nofollow, noarchive, noimageindex">
+<meta name="description" content="Tattoo studio Art Brut aan de Stationsstraat 72 in Lanaken. Vier artiesten, vier handschriften. Enkel op afspraak.">
+<link rel="stylesheet" href="assets/fonts/fonts.css">
+<style>
+/* ══════════════════════════════════════════════════════════════════
+   ART BRUT — concept D "Rood neon"
+   De studio bij nacht: zwart, korrelig en zwaar, met de naam in rood
+   neon aan de muur. Het signatuur-element is dat haperende neon plus
+   de rode gloed die op de foto eronder valt.
+   ══════════════════════════════════════════════════════════════════ */
+
+:root{
+  --black:#08080A;      /* achtergrond */
+  --panel:#101013;      /* vlakken, kaders, lege beeldplekken */
+  --bone:#EDEAE4;       /* tekst */
+  /* De brief noemt #7C7873 als ondergrens. Dat haalt AA op --black (4,57:1)
+     maar niet op --panel (4,33:1), en labels staan op allebei. Eén stap
+     lichter haalt het overal: 5,16:1 op zwart en 4,90:1 op --panel. */
+  --dim:#858179;        /* secundaire tekst */
+  --neon:#CC0000;       /* hun eigen rood, alleen voor licht en accenten */
+  --neon-hot:#FF4A3D;   /* de hete kern van de tube */
+  --neon-deep:#6E0000;  /* schaduwkant, alleen in de buitenste gloed */
+  --hair:rgba(237,234,228,.14);
+
+  --f-neon:"Bodoni Moda", Didot, "Times New Roman", serif;
+  --f-display:"Archivo Black", Impact, sans-serif;
+  --f-body:"Barlow", system-ui, sans-serif;
+
+  --maxw:1320px;
+  --gut:clamp(20px, 4vw, 56px);
+}
+
+*,*::before,*::after{ box-sizing:border-box }
+html{ -webkit-text-size-adjust:100% }
+body{
+  margin:0; background:var(--black); color:var(--bone);
+  font-family:var(--f-body); font-weight:300;
+  font-size:clamp(16px,1.05vw,18px); line-height:1.62;
+  overflow-x:hidden; -webkit-font-smoothing:antialiased;
+}
+img{ display:block; max-width:100% }
+a{ color:inherit }
+h1,h2,h3{ margin:0; font-weight:400 }
+p{ margin:0 }
+dl,dd{ margin:0 }
+
+.wrap{ width:min(100% - (var(--gut) * 2), var(--maxw)); margin-inline:auto }
+
+/* korrel — één vaste laag over de hele pagina, zodat het zwart niet vlak wordt */
+body::after{
+  content:''; position:fixed; inset:0; z-index:900; pointer-events:none;
+  opacity:.05; mix-blend-mode:overlay;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.82' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+.eyebrow{
+  font-size:11px; letter-spacing:.22em; text-transform:uppercase;
+  color:var(--dim); font-weight:600; line-height:1.5;
+}
+.eyebrow b{ color:var(--bone); font-weight:600 }
+
+/* ── het neon-effect ─────────────────────────────────────────────── */
+.neon{
+  color:#FF6A5E;
+  text-shadow:
+    0 0 2px #FFD9D4,
+    0 0 6px var(--neon-hot),
+    0 0 18px var(--neon),
+    0 0 40px var(--neon),
+    0 0 80px var(--neon-deep);
+}
+/* neon-sectiekop: Bodoni, en een zachte rode vlek erachter zodat het
+   licht op de achtergrond valt in plaats van los te zweven */
+.h-neon{
+  position:relative; display:inline-block;
+  font-family:var(--f-neon); font-weight:900;
+  font-size:clamp(28px,4.5vw,64px); line-height:1.04;
+  letter-spacing:.06em; text-transform:uppercase;
+}
+.h-neon::before{
+  content:''; position:absolute; inset:-70% -18%; z-index:-1;
+  background:radial-gradient(ellipse at 50% 50%, rgba(204,0,0,.7), transparent 70%);
+  filter:blur(40px); opacity:.35; pointer-events:none;
+}
+/* witte sans-kop — een sectie heeft een neon-serif kop óf deze, nooit allebei */
+.h-sans{
+  font-family:var(--f-display); font-weight:400;
+  font-size:clamp(34px,5.6vw,86px); line-height:.85;
+  letter-spacing:-.01em; text-transform:uppercase;
+}
+
+.sec-head{ padding-block:clamp(56px,7vw,104px) clamp(28px,3.4vw,48px) }
+.sec-head .eyebrow{ margin-top:14px }
+
+/* ── knoppen ─────────────────────────────────────────────────────── */
+.btn{
+  display:inline-block; padding:15px 26px; border:1px solid var(--bone);
+  font-size:11px; letter-spacing:.22em; text-transform:uppercase; font-weight:600;
+  text-decoration:none; border-radius:2px;
+  transition:color .35s, border-color .35s, background-color .35s, box-shadow .35s;
+}
+.btn:hover,.btn:focus-visible{
+  color:#FF6A5E; border-color:var(--neon);
+  box-shadow:0 0 18px rgba(204,0,0,.45), inset 0 0 18px rgba(204,0,0,.16);
+}
+.btn--ghost{ border-color:var(--hair); color:var(--dim) }
+.btn--ghost:hover,.btn--ghost:focus-visible{ color:#FF6A5E; border-color:var(--neon) }
+:focus-visible{ outline:2px solid #FF6A5E; outline-offset:3px }
+
+.skip{ position:absolute; left:-9999px }
+.skip:focus{ left:12px; top:12px; z-index:1000; background:var(--panel); padding:12px 18px }
+
+/* ══ HEADER ══════════════════════════════════════════════════════ */
+.site{
+  position:fixed; inset:0 0 auto 0; z-index:800;
+  display:flex; align-items:center; justify-content:space-between;
+  gap:20px; padding:16px var(--gut);
+  border-bottom:1px solid transparent;
+  transition:background-color .4s, border-color .4s;
+}
+.site.is-stuck{ background:var(--black); border-bottom-color:var(--hair) }
+/* Het woordmerk in de balk verschijnt pas zodra je van de hero af scrollt.
+   Boven in beeld staat het al groot in neon; twee keer hetzelfde logo onder
+   elkaar leest als een fout. */
+.site__mark{
+  display:block; width:132px; flex:none;
+  opacity:0; visibility:hidden; transform:translate3d(0,-6px,0);
+  transition:opacity .4s, transform .4s, visibility .4s;
+}
+.site.is-past-hero .site__mark{ opacity:1; visibility:visible; transform:none }
+.site__mark img{
+  width:100%; height:auto;
+  filter:drop-shadow(0 0 4px rgba(204,0,0,.85)) drop-shadow(0 0 14px rgba(204,0,0,.5));
+}
+.site__nav{ display:flex; gap:clamp(14px,2vw,30px) }
+.site__nav a{
+  font-size:11px; letter-spacing:.22em; text-transform:uppercase; font-weight:600;
+  text-decoration:none; color:var(--dim); transition:color .3s;
+}
+.site__nav a:hover,.site__nav a:focus-visible{ color:#FF6A5E }
+@media (max-width:640px){ .site__nav{ display:none } .site__mark{ width:112px } }
+
+/* ══ HERO ════════════════════════════════════════════════════════ */
+.hero{
+  position:relative; min-height:100svh;
+  display:flex; align-items:stretch;
+  padding-block:clamp(88px,12vh,124px) clamp(28px,4vw,56px); overflow:hidden;
+}
+.hero__media{ position:absolute; inset:0; z-index:0; overflow:hidden }
+/* Zodra de studiovideo er is, vervang je deze <img> 1-op-1 door onderstaande <video>.
+   Zelfde class, zelfde box, dus geen enkele layoutverschuiving:
+   <video class="hero__video" autoplay muted loop playsinline poster="media/studio-nacht.jpg">
+     <source src="media/studio.mp4" type="video/mp4">
+   </video>
+*/
+.hero__video{
+  position:absolute; inset:0; width:100%; height:100%;
+  object-fit:cover; object-position:58% 30%;
+  filter:grayscale(.15) contrast(1.08) brightness(.88);
+}
+.hero__scrim{
+  position:absolute; inset:0;
+  background:
+    radial-gradient(ellipse 120% 70% at 46% 8%, rgba(204,0,0,.22), transparent 62%),
+    linear-gradient(to bottom, rgba(8,8,10,.74) 0%, rgba(8,8,10,.28) 32%, rgba(8,8,10,.66) 72%, var(--black) 100%);
+}
+.hero__inner{
+  position:relative; z-index:2;
+  display:flex; flex-direction:column; justify-content:space-between;
+  gap:clamp(22px,3vw,44px);
+}
+.hero__top{
+  display:flex; flex-wrap:wrap; gap:8px 24px; justify-content:space-between;
+}
+
+/* het neonbord */
+.sign{
+  position:relative; display:block;
+  width:min(470px,72vw); aspect-ratio:1380 / 388;
+  margin-bottom:clamp(20px,2.6vw,38px);
+}
+.sign__halo{
+  position:absolute; inset:-46% -14%; z-index:0; pointer-events:none;
+  background:radial-gradient(ellipse at 50% 46%, rgba(204,0,0,.62), transparent 68%);
+  filter:blur(40px); opacity:.35;
+}
+.sign img{
+  position:absolute; inset:0; z-index:1;
+  width:100%; height:100%; object-fit:contain;
+  filter:
+    drop-shadow(0 0 2px #FFD9D4)
+    drop-shadow(0 0 6px var(--neon-hot))
+    drop-shadow(0 0 16px var(--neon))
+    drop-shadow(0 0 34px var(--neon))
+    drop-shadow(0 0 68px var(--neon-deep));
+}
+/* de U van BRUT is een aparte, permanent zwakkere buis — de klassieke
+   halfdode letter. Hij zit in een eigen PNG, dus elke letter houdt zijn
+   eigen halo en er wordt nergens een gloed doorgesneden. */
+.sign__u{ opacity:.55 }
+
+/* Eén haper per cyclus van 10s: drie korte dips, daarna weer stabiel.
+   Let op de paren keyframes die de opacity op 1 vasthouden (88.4%+92.0%,
+   92.8%+96.4%). Zonder die houdpunten interpoleert CSS lineair over het
+   hele gat en begint de volgende dip al veel eerder — gemeten liep dat op
+   tot 5,5 dips per seconde. Met de houdpunten liggen de dips 440ms uit
+   elkaar: 2,3 per seconde, ruim onder de grens van 3 per seconde.
+   Dit is het enige dat flikkert op de pagina. */
+@keyframes signFlicker{
+  0%,87.6%,100%{ opacity:1 }
+  87.9%{ opacity:.26 }
+  88.4%,92.0%{ opacity:1 }
+  92.3%{ opacity:.40 }
+  92.8%,96.4%{ opacity:1 }
+  96.7%{ opacity:.22 }
+  97.2%{ opacity:1 }
+}
+/* de zwakke letter ademt traag — een vloeiende verandering, geen flits,
+   dus die telt niet mee in het aantal dips per seconde */
+@keyframes uBreathe{ 0%,100%{ opacity:.50 } 50%{ opacity:.63 } }
+
+.sign.is-lit{ animation:signFlicker 10s linear infinite }
+.sign.is-lit .sign__u{ animation:uBreathe 7s ease-in-out infinite }
+
+.hero h1{
+  font-family:var(--f-display); font-weight:400;
+  font-size:clamp(46px,8.6vw,128px); line-height:.85;
+  letter-spacing:-.01em; text-transform:uppercase;
+}
+.hero h1 .mask{ display:block; overflow:hidden; padding-bottom:.02em }
+.hero h1 .mask > span{ display:block }
+.hero h1 .mask:nth-child(2){ padding-left:clamp(18px,6vw,104px) }
+
+.hero__foot{
+  display:grid; gap:clamp(18px,2.4vw,40px);
+  grid-template-columns:minmax(0,1fr);
+  align-items:end;
+  padding-top:clamp(18px,2.2vw,30px); border-top:1px solid var(--hair);
+}
+.hero__sub{ max-width:56ch; color:var(--dim) }
+.hero__cta{ display:flex; flex-wrap:wrap; gap:12px }
+@media (min-width:860px){
+  .hero__foot{ grid-template-columns:minmax(0,1.5fr) auto }
+}
+
+/* ══ PAYOFF-BAND ═════════════════════════════════════════════════ */
+.band{
+  position:relative; overflow:hidden;
+  border-block:1px solid var(--hair); background:var(--panel);
+  padding-block:16px;
+}
+.band__track{ display:flex; width:max-content; animation:bandRoll 34s linear infinite }
+.band__track span{
+  display:inline-flex; align-items:center; gap:clamp(20px,3vw,44px);
+  padding-inline:clamp(20px,3vw,44px);
+  font-family:var(--f-neon); font-weight:700;
+  font-size:clamp(14px,1.7vw,22px); letter-spacing:.22em; text-transform:uppercase;
+  white-space:nowrap; color:#FF6A5E;
+  text-shadow:0 0 4px var(--neon-hot), 0 0 16px var(--neon), 0 0 34px var(--neon-deep);
+}
+.band__track span::after{ content:''; width:5px; height:5px; background:currentColor; border-radius:50% }
+@keyframes bandRoll{ from{ transform:translate3d(0,0,0) } to{ transform:translate3d(-50%,0,0) } }
+
+/* ══ 01 DE STUDIO ════════════════════════════════════════════════ */
+.manifest{ border-bottom:1px solid var(--hair) }
+.manifest__grid{
+  display:grid; gap:clamp(24px,3.4vw,56px);
+  grid-template-columns:minmax(0,1fr);
+  padding-bottom:clamp(48px,6vw,88px);
+}
+@media (min-width:900px){ .manifest__grid{ grid-template-columns:minmax(0,.9fr) minmax(0,1.5fr) } }
+.quote{
+  font-family:var(--f-body); font-weight:300;
+  font-size:clamp(25px,3.4vw,46px); line-height:1.18; letter-spacing:-.01em;
+  margin-bottom:clamp(20px,2.4vw,32px);
+}
+.quote em{ font-style:normal; color:#FF6A5E; text-shadow:0 0 12px rgba(204,0,0,.7) }
+.manifest__body p + p{ margin-top:1em }
+.manifest__body{ color:var(--dim); max-width:62ch }
+
+.stats{
+  display:grid; grid-template-columns:repeat(2,minmax(0,1fr));
+  border-top:1px solid var(--hair);
+}
+@media (min-width:760px){ .stats{ grid-template-columns:repeat(4,minmax(0,1fr)) } }
+.stat{
+  padding:clamp(22px,2.6vw,36px) clamp(14px,2vw,28px);
+  border-left:1px solid var(--hair);
+}
+.stat:nth-child(-n+2){ border-top:0 }
+.stat:nth-child(2n+1){ border-left:0 }
+@media (min-width:760px){
+  .stat:nth-child(2n+1){ border-left:1px solid var(--hair) }
+  .stat:first-child{ border-left:0 }
+}
+.stat b{
+  display:block; font-family:var(--f-display); font-weight:400;
+  font-size:clamp(30px,3.6vw,54px); line-height:1; letter-spacing:-.02em;
+}
+.stat small{ display:block; margin-top:10px; font-size:11px; letter-spacing:.22em; text-transform:uppercase; color:var(--dim) }
+
+/* ══ 02 DE ARTIESTEN ═════════════════════════════════════════════ */
+.artists{ border-bottom:1px solid var(--hair) }
+.artist{
+  display:grid; gap:clamp(18px,3vw,48px);
+  grid-template-columns:minmax(0,1fr);
+  align-items:center; text-decoration:none;
+  padding-block:clamp(24px,3vw,44px); border-top:1px solid var(--hair);
+}
+.artist:first-child{ border-top:0 }
+/* Om en om links en rechts. De rijen zijn een mix van <a> (met Instagram) en
+   <div> (zonder), dus nth-child en niet nth-of-type — die telt per elementsoort
+   en zet de kolommen dan scheef. Bij het omdraaien kantelt ook het
+   kolommenschema mee, anders krijgt de foto de brede kolom. */
+@media (min-width:820px){
+  .artist{ grid-template-columns:minmax(0,.4fr) minmax(0,1fr) }
+  .artist:nth-child(even){ grid-template-columns:minmax(0,1fr) minmax(0,.4fr) }
+  .artist:nth-child(even) .artist__media{ order:2 }
+  .artist:nth-child(even) .artist__body{ text-align:right }
+  .artist:nth-child(even) .artist__style{ margin-left:auto }
+}
+.artist__media{
+  position:relative; overflow:hidden; background:var(--panel);
+  aspect-ratio:1 / 1; border-radius:2px;
+}
+/* Onder de tweekolomsgrens zou een vierkant portret over de volle breedte
+   op tablet ruim 700px hoog worden en de rij helemaal opeten. Vandaar hier
+   een staand kader met een plafond op de breedte. */
+@media (max-width:819px){
+  .artist__media{ aspect-ratio:4 / 5; max-width:min(340px,72vw) }
+}
+.artist__media img{
+  width:100%; height:100%; object-fit:cover;
+  /* portretten blijven zwart-wit, ook bij hover — dat is hun beeldtaal en
+     het laat het rood en het tattoowerk het enige kleuraccent zijn */
+  filter:grayscale(1) contrast(1.08) brightness(.86);
+  transition:filter .5s ease, transform .6s cubic-bezier(.22,1,.36,1);
+}
+.artist__media::after{
+  content:''; position:absolute; inset:0; pointer-events:none;
+  background:linear-gradient(to top, rgba(8,8,10,.6), transparent 52%);
+}
+.artist:hover .artist__media img,
+.artist:focus-visible .artist__media img{ filter:grayscale(1) brightness(1.04); transform:scale(1.03) }
+
+.artist__body{ position:relative }
+.artist__no{
+  display:block; font-family:var(--f-neon); font-weight:700;
+  font-size:12px; letter-spacing:.22em; color:var(--dim); margin-bottom:10px;
+}
+.artist__name{
+  font-family:var(--f-display); font-weight:400;
+  font-size:clamp(30px,5.4vw,80px); line-height:.92;
+  letter-spacing:-.02em; text-transform:uppercase;
+  transition:transform .5s cubic-bezier(.22,1,.36,1), color .4s, text-shadow .4s;
+}
+.artist:hover .artist__name,
+.artist:focus-visible .artist__name{
+  transform:translate3d(clamp(8px,1.4vw,22px),0,0);
+  color:#FF6A5E;
+  text-shadow:0 0 4px var(--neon-hot), 0 0 20px var(--neon), 0 0 48px var(--neon-deep);
+}
+@media (min-width:820px){
+  .artist:nth-child(even):hover .artist__name,
+  .artist:nth-child(even):focus-visible .artist__name{
+    transform:translate3d(calc(-1 * clamp(8px,1.4vw,22px)),0,0);
+  }
+}
+.artist__rule{
+  display:block; height:1px; margin:16px 0 14px; background:var(--hair);
+  transform-origin:left; transition:background-color .4s, box-shadow .4s;
+}
+.artist:hover .artist__rule,
+.artist:focus-visible .artist__rule{ background:var(--neon); box-shadow:0 0 12px rgba(204,0,0,.8) }
+.artist__role{ font-size:11px; letter-spacing:.22em; text-transform:uppercase; color:var(--dim); font-weight:600 }
+.artist__style{ margin-top:10px; color:var(--dim); max-width:46ch }
+.artist__handle{
+  display:inline-block; margin-top:14px;
+  font-size:11px; letter-spacing:.22em; text-transform:uppercase; color:var(--dim); font-weight:600;
+  transition:color .35s;
+}
+.artist:hover .artist__handle{ color:#FF6A5E }
+
+/* ══ 03 HET WERK ═════════════════════════════════════════════════ */
+.work{ border-bottom:1px solid var(--hair) }
+.wall{
+  display:grid; grid-template-columns:repeat(2,minmax(0,1fr));
+  grid-auto-rows:clamp(42px,4.9vw,70px); grid-auto-flow:row dense; gap:6px;
+  padding-bottom:clamp(40px,5vw,72px);
+}
+@media (min-width:900px){ .wall{ grid-template-columns:repeat(4,minmax(0,1fr)) } }
+.cell{
+  position:relative; overflow:hidden; border-radius:2px;
+  background:var(--panel); border:1px solid var(--hair);
+  grid-row:span var(--r,4);
+  display:flex; flex-direction:column; justify-content:flex-end;
+}
+.cell--wide{ grid-column:span 2 }
+.cell__img{
+  position:absolute; inset:0; width:100%; height:100%; object-fit:cover;
+  filter:grayscale(.15) contrast(1.08) brightness(.92);
+  transition:filter .5s ease, transform .6s cubic-bezier(.22,1,.36,1);
+}
+.cell--photo:hover .cell__img{ filter:grayscale(0) brightness(1); transform:scale(1.03) }
+.cell--photo::after{
+  content:''; position:absolute; inset:0; pointer-events:none;
+  background:linear-gradient(to top, rgba(8,8,10,.82), rgba(8,8,10,.1) 46%, transparent 70%);
+}
+/* lege cel: een egaal --panel-vlak met het nummer in neon-outline en de
+   stijlnaam. Nooit een gebroken beeld. Zodra het bestand in media/ staat,
+   vult de cel zichzelf. */
+.cell__ghost{
+  position:absolute; inset:0; display:grid; place-items:center;
+  font-family:var(--f-neon); font-weight:900;
+  font-size:clamp(46px,7vw,104px); line-height:1;
+  color:transparent; -webkit-text-stroke:1px rgba(204,0,0,.62);
+  text-shadow:0 0 24px rgba(204,0,0,.22); pointer-events:none;
+}
+.cell--photo .cell__ghost{ display:none }
+.cell__foot{
+  position:relative; z-index:2; display:flex; align-items:baseline;
+  gap:10px; flex-wrap:wrap; padding:clamp(12px,1.4vw,18px);
+}
+.cell__no{ font-family:var(--f-neon); font-weight:700; font-size:11px; letter-spacing:.22em; color:#FF6A5E }
+.cell__label{ font-size:11px; letter-spacing:.22em; text-transform:uppercase; font-weight:600 }
+.cell__wait{ width:100%; font-size:10px; letter-spacing:.18em; text-transform:uppercase; color:var(--dim) }
+.cell--photo .cell__wait{ display:none }
+
+/* ══ 04 ZO BOEK JE ═══════════════════════════════════════════════ */
+.proces{ border-bottom:1px solid var(--hair) }
+.steps{
+  display:grid; grid-template-columns:minmax(0,1fr);
+  padding-bottom:clamp(40px,5vw,72px);
+}
+@media (min-width:700px){ .steps{ grid-template-columns:repeat(2,minmax(0,1fr)) } }
+@media (min-width:1060px){ .steps{ grid-template-columns:repeat(4,minmax(0,1fr)) } }
+.step{
+  padding:clamp(22px,2.4vw,34px) clamp(16px,1.8vw,28px);
+  border-top:2px solid rgba(237,234,228,.2);
+}
+@media (min-width:700px){
+  .step{ border-top:0; border-left:2px solid rgba(237,234,228,.2) }
+  .step:nth-child(2n+1){ border-left:0 }
+}
+@media (min-width:1060px){
+  .step:nth-child(2n+1){ border-left:2px solid rgba(237,234,228,.2) }
+  .step:first-child{ border-left:0 }
+}
+.step b{
+  display:block; font-family:var(--f-neon); font-weight:900;
+  font-size:clamp(38px,4.2vw,64px); line-height:1; margin-bottom:16px;
+  color:transparent; -webkit-text-stroke:1px var(--neon);
+  text-shadow:0 0 20px rgba(204,0,0,.35);
+}
+.step h3{
+  font-family:var(--f-display); font-weight:400; font-size:clamp(15px,1.4vw,19px);
+  text-transform:uppercase; letter-spacing:-.005em; margin-bottom:10px;
+}
+.step p{ color:var(--dim) }
+
+/* ══ 05 GEZEGD ═══════════════════════════════════════════════════ */
+.reviews{ border-bottom:1px solid var(--hair) }
+.rev-grid{
+  display:grid; gap:1px; background:var(--hair);
+  grid-template-columns:minmax(0,1fr); margin-bottom:clamp(48px,6vw,88px);
+}
+@media (min-width:820px){ .rev-grid{ grid-template-columns:repeat(3,minmax(0,1fr)) } }
+.rev{
+  margin:0; padding:clamp(24px,2.6vw,38px); background:var(--black);
+  display:flex; flex-direction:column; gap:18px;
+}
+.rev blockquote{ margin:0; font-size:clamp(16px,1.3vw,19px) }
+.rev blockquote::before{ content:'“' }
+.rev blockquote::after{ content:'”' }
+.rev figcaption{ margin-top:auto; padding-top:14px; border-top:1px solid var(--neon) }
+.rev figcaption small{ font-size:11px; letter-spacing:.22em; text-transform:uppercase; color:var(--dim) }
+
+/* ══ CONTACT / CTA ═══════════════════════════════════════════════ */
+.cta{ padding-block:clamp(64px,9vw,140px) }
+.cta h2{
+  font-family:var(--f-display); font-weight:400;
+  font-size:clamp(52px,11.5vw,176px); line-height:.85;
+  letter-spacing:-.02em; text-transform:uppercase;
+}
+.cta__info{
+  display:grid; gap:1px; background:var(--hair);
+  grid-template-columns:minmax(0,1fr);
+  margin-top:clamp(38px,5vw,72px); border-top:1px solid var(--hair);
+}
+@media (min-width:700px){ .cta__info{ grid-template-columns:repeat(2,minmax(0,1fr)) } }
+@media (min-width:1060px){ .cta__info{ grid-template-columns:repeat(4,minmax(0,1fr)) } }
+.cta__info > div{ background:var(--black); padding:clamp(20px,2.2vw,30px) }
+.cta__info dt{ font-size:11px; letter-spacing:.22em; text-transform:uppercase; color:var(--dim); font-weight:600; margin-bottom:10px }
+.cta__info dd a{ text-decoration:none; border-bottom:1px solid var(--hair); transition:color .3s, border-color .3s }
+.cta__info dd a:hover,.cta__info dd a:focus-visible{ color:#FF6A5E; border-color:var(--neon) }
+
+.foot{
+  display:flex; flex-wrap:wrap; gap:10px 28px; justify-content:space-between;
+  margin-top:clamp(40px,5vw,72px); padding-top:24px; border-top:1px solid var(--hair);
+  font-size:11px; letter-spacing:.16em; text-transform:uppercase; color:var(--dim);
+}
+
+/* ══ REDUCED MOTION ══════════════════════════════════════════════
+   Geen flikkering, geen beweging. De gloed staat stabiel aan en de
+   pagina is volledig zichtbaar. */
+@media (prefers-reduced-motion: reduce){
+  *,*::before,*::after{
+    animation-duration:.001ms !important; animation-iteration-count:1 !important;
+    transition-duration:.001ms !important; scroll-behavior:auto !important;
+  }
+  .sign.is-lit,.sign.is-lit .sign__u{ animation:none }
+  .sign.is-lit{ opacity:1 }
+  .sign.is-lit .sign__u{ opacity:.55 }
+  .band__track{ animation:none }
+}
+</style>
+</head>
+<body>
+
+<a class="skip" href="#hoofd">Naar de inhoud</a>
+
+<header class="site" id="site">
+  <a class="site__mark" href="#top" aria-label="Art Brut Tattoo Studio, naar boven">
+    <img src="media/logo-art-brut.png" alt="Art Brut Tattoo Studio" width="1380" height="388">
+  </a>
+  <nav class="site__nav" aria-label="Hoofdmenu">
+    <a href="#artiesten">Artiesten</a>
+    <a href="#werk">Werk</a>
+    <a href="#boeken">Boeken</a>
+    <a href="#contact">Contact</a>
+  </nav>
+</header>
+
+<main id="hoofd">
+<div id="top"></div>
+
+  <!-- ═══ HERO ═══ -->
+  <section class="hero">
+    <div class="hero__media">
+      <!-- Zodra de studiovideo er is, vervang je deze <img> 1-op-1 door onderstaande <video>.
+           Zelfde class, zelfde box, dus geen enkele layoutverschuiving:
+           <video class="hero__video" autoplay muted loop playsinline poster="media/studio-nacht.jpg">
+             <source src="media/studio.mp4" type="video/mp4">
+           </video>
+      -->
+      <img class="hero__video" src="media/studio-nacht.jpg" alt="Een ornamentele rugtattoo wordt gezet in de studio aan de Stationsstraat in Lanaken" width="1000" height="1250" decoding="async" fetchpriority="high">
+      <div class="hero__scrim" aria-hidden="true"></div>
+    </div>
+
+    <div class="wrap hero__inner">
+      <div class="hero__top">
+        <p class="eyebrow">Tattoo studio · Stationsstraat 72, Lanaken (BE) · enkel op afspraak</p>
+        <p class="eyebrow">Sinds 2018</p>
+      </div>
+
+      <div class="hero__mid">
+        <div class="sign" id="sign" role="img" aria-label="Art Brut Tattoo Studio">
+          <span class="sign__halo" aria-hidden="true"></span>
+          <img class="sign__rest" src="media/logo-art-brut-rest.png" alt="" aria-hidden="true" width="1380" height="388" decoding="async">
+          <img class="sign__u" src="media/logo-art-brut-u.png" alt="" aria-hidden="true" width="1380" height="388" decoding="async">
+        </div>
+
+        <h1>
+          <span class="mask"><span data-hero-line>Rauwe</span></span>
+          <span class="mask"><span data-hero-line>kunst</span></span>
+          <span class="mask"><span data-hero-line>op huid</span></span>
+        </h1>
+      </div>
+
+      <div class="hero__foot">
+        <p class="hero__sub" data-hero-fade>Vier artiesten, vier handschriften. De beste tattoo is er een die jouw statement perfect belichaamt — daarom tekenen we mee, denken we mee en gaat de naald pas op de huid als het ontwerp klopt.</p>
+        <div class="hero__cta" data-hero-fade>
+          <a class="btn" href="#boeken">Boek een afspraak</a>
+          <a class="btn btn--ghost" href="#werk">Bekijk het werk</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══ PAYOFF ═══ -->
+  <div class="band" aria-label="Get your ass here">
+    <div class="band__track" id="band" aria-hidden="true">
+      <span>Get your ass here</span>
+      <span>Get your ass here</span>
+      <span>Get your ass here</span>
+      <span>Get your ass here</span>
+    </div>
+  </div>
+
+  <!-- ═══ 01 DE STUDIO ═══ -->
+  <section class="manifest" id="studio">
+    <div class="wrap">
+      <div class="sec-head">
+        <h2 class="h-neon" data-reveal>De studio</h2>
+        <p class="eyebrow" data-reveal><b>01</b> — Sinds 2018 aan de Stationsstraat</p>
+      </div>
+      <div class="manifest__grid">
+        <p class="quote" data-reveal>De beste tattoo is er een die <em>jouw</em> statement perfect belichaamt.</p>
+        <div class="manifest__body">
+          <p data-reveal>Art Brut is in 2018 geopend door Fleur de Vries aan de Stationsstraat 72 in Lanaken. Vandaag werken er vier artiesten, elk met een eigen handschrift: van realisme en black &amp; grey tot fineline, dotwork en ornamental.</p>
+          <p data-reveal>Wij tekenen mee en denken mee. De naald gaat pas op je huid als het ontwerp klopt. Dat kost tijd — dat is precies de bedoeling. Werken kan enkel op afspraak.</p>
+        </div>
+      </div>
+      <dl class="stats">
+        <div class="stat" data-reveal><b>2018</b><small>Opgericht</small></div>
+        <div class="stat" data-reveal><b>4</b><small>Artiesten</small></div>
+        <div class="stat" data-reveal><b>8,1K</b><small>Volgers op Instagram</small></div>
+        <div class="stat" data-reveal><b>100%</b><small>Aanbevolen · 17 reviews</small></div>
+      </dl>
+    </div>
+  </section>
+
+  <!-- ═══ 02 DE ARTIESTEN ═══ -->
+  <section class="artists" id="artiesten">
+    <div class="wrap">
+      <div class="sec-head">
+        <h2 class="h-neon" data-reveal>Onze artists</h2>
+        <p class="eyebrow" data-reveal><b>02</b> — Vier handschriften</p>
+      </div>
+
+      <div class="artists__list">
+      <a class="artist" href="https://instagram.com/fleur_dvrs" data-reveal>
+        <div class="artist__media">
+          <img src="media/artiest-01-fleur.jpg" alt="Portret van Fleur de Vries, artist en eigenaar van Art Brut" loading="lazy" decoding="async" width="800" height="800">
+        </div>
+        <div class="artist__body">
+          <span class="artist__no">01</span>
+          <h3 class="artist__name">Fleur de Vries</h3>
+          <span class="artist__rule" aria-hidden="true"></span>
+          <p class="artist__role">Artist, eigenaar</p>
+          <p class="artist__style">Realisme · black &amp; grey · freehand</p>
+          <span class="artist__handle">@fleur_dvrs</span>
+        </div>
+      </a>
+
+      <div class="artist" data-reveal>
+        <div class="artist__media">
+          <img src="media/artiest-02-chayenne.jpg" alt="Portret van Chayenne Fraiquin, artist bij Art Brut" loading="lazy" decoding="async" width="801" height="800">
+        </div>
+        <div class="artist__body">
+          <span class="artist__no">02</span>
+          <h3 class="artist__name">Chayenne Fraiquin</h3>
+          <span class="artist__rule" aria-hidden="true"></span>
+          <p class="artist__role">Artist</p>
+          <p class="artist__style">Black &amp; grey · lettering · micro-realisme · surrealisme · fineline</p>
+        </div>
+      </div>
+
+      <a class="artist" href="https://instagram.com/lensonnable" data-reveal>
+        <div class="artist__media">
+          <img src="media/artiest-03-lenn.jpg" alt="Portret van Lenn de Meij, artist bij Art Brut" loading="lazy" decoding="async" width="800" height="800">
+        </div>
+        <div class="artist__body">
+          <span class="artist__no">03</span>
+          <h3 class="artist__name">Lenn de Meij</h3>
+          <span class="artist__rule" aria-hidden="true"></span>
+          <p class="artist__role">Artist</p>
+          <p class="artist__style">Dikkere lijnen · simpele shading · fineline · peppershading</p>
+          <span class="artist__handle">@lensonnable</span>
+        </div>
+      </a>
+
+      <a class="artist" href="https://instagram.com/yael.sherah.tattoo" data-reveal>
+        <div class="artist__media">
+          <img src="media/artiest-04-yael-bw.jpg" alt="Portret van Yaël Sherah, artist bij Art Brut" loading="lazy" decoding="async" width="1251" height="1246">
+        </div>
+        <div class="artist__body">
+          <span class="artist__no">04</span>
+          <h3 class="artist__name">Yaël Sherah</h3>
+          <span class="artist__rule" aria-hidden="true"></span>
+          <p class="artist__role">Artist</p>
+          <p class="artist__style">Fineline · ornamental · dotwork · floral &amp; mandala · blackwork</p>
+          <span class="artist__handle">@yael.sherah.tattoo</span>
+        </div>
+      </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══ 03 HET WERK ═══
+       Elke cel is bedraad. Staat het bestand in media/, dan vult de cel
+       zichzelf met de foto; ontbreekt het, dan valt hij terug op een egaal
+       --panel-vlak met het stijlnummer in neon-outline. -->
+  <section class="work" id="werk">
+    <div class="wrap">
+      <div class="sec-head">
+        <h2 class="h-sans" data-reveal>Het werk</h2>
+        <p class="eyebrow" data-reveal><b>03</b> — Zeven stijlen</p>
+      </div>
+
+      <div class="wall">
+        <article class="cell" style="--r:5" data-cell>
+          <img class="cell__img" src="media/werk-realisme.jpg" alt="Eigen werk in realisme" loading="lazy" decoding="async">
+          <span class="cell__ghost" aria-hidden="true">01</span>
+          <div class="cell__foot"><span class="cell__no">01</span><span class="cell__label">Realisme</span><span class="cell__wait">Foto van eigen werk volgt</span></div>
+        </article>
+
+        <article class="cell" style="--r:4" data-cell>
+          <img class="cell__img" src="media/werk-black-grey.jpg" alt="Eigen werk in black &amp; grey" loading="lazy" decoding="async">
+          <span class="cell__ghost" aria-hidden="true">02</span>
+          <div class="cell__foot"><span class="cell__no">02</span><span class="cell__label">Black &amp; grey</span><span class="cell__wait">Foto van eigen werk volgt</span></div>
+        </article>
+
+        <article class="cell" style="--r:4" data-cell>
+          <img class="cell__img" src="media/werk-fineline.jpg" alt="Eigen werk in fineline" loading="lazy" decoding="async">
+          <span class="cell__ghost" aria-hidden="true">03</span>
+          <div class="cell__foot"><span class="cell__no">03</span><span class="cell__label">Fineline</span><span class="cell__wait">Foto van eigen werk volgt</span></div>
+        </article>
+
+        <article class="cell" style="--r:5" data-cell>
+          <img class="cell__img" src="media/werk-dotwork-mandala.jpg" alt="Dotwork mandala over de volledige rug" loading="lazy" decoding="async">
+          <span class="cell__ghost" aria-hidden="true">04</span>
+          <div class="cell__foot"><span class="cell__no">04</span><span class="cell__label">Dotwork</span><span class="cell__wait">Foto van eigen werk volgt</span></div>
+        </article>
+
+        <article class="cell cell--wide" style="--r:6" data-cell>
+          <img class="cell__img" src="media/werk-ornamental-rug.jpg" alt="Ornamenteel rugstuk in black &amp; grey, gezet in de studio" loading="lazy" decoding="async" width="380" height="380">
+          <span class="cell__ghost" aria-hidden="true">05</span>
+          <div class="cell__foot"><span class="cell__no">05</span><span class="cell__label">Ornamental</span><span class="cell__wait">Foto van eigen werk volgt</span></div>
+        </article>
+
+        <article class="cell" style="--r:6" data-cell>
+          <img class="cell__img" src="media/werk-freehand.jpg" alt="Eigen werk in freehand" loading="lazy" decoding="async">
+          <span class="cell__ghost" aria-hidden="true">06</span>
+          <div class="cell__foot"><span class="cell__no">06</span><span class="cell__label">Freehand</span><span class="cell__wait">Foto van eigen werk volgt</span></div>
+        </article>
+
+        <article class="cell" style="--r:6" data-cell>
+          <img class="cell__img" src="media/werk-cover-up.jpg" alt="Eigen werk, cover up" loading="lazy" decoding="async">
+          <span class="cell__ghost" aria-hidden="true">07</span>
+          <div class="cell__foot"><span class="cell__no">07</span><span class="cell__label">Cover up</span><span class="cell__wait">Foto van eigen werk volgt</span></div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══ 04 ZO BOEK JE ═══ -->
+  <section class="proces" id="boeken">
+    <div class="wrap">
+      <div class="sec-head">
+        <h2 class="h-sans" data-reveal>Zo boek je</h2>
+        <p class="eyebrow" data-reveal><b>04</b> — Van idee naar afspraak</p>
+      </div>
+      <div class="steps">
+        <div class="step" data-reveal><b>01</b><h3>Stuur je idee</h3><p>Beschrijf je idee, de plaatsing, de maximale grootte en of je black &amp; grey of kleur wil. Voorbeelden mogen erbij.</p></div>
+        <div class="step" data-reveal><b>02</b><h3>Kies je artiest</h3><p>Noem de artiest van je voorkeur en geef aan of een leerling-tatoeëerder ook mag.</p></div>
+        <div class="step" data-reveal><b>03</b><h3>Voorschot</h3><p>Je afspraak staat vast zodra het voorschot binnen is. Verplaatsen kan eenmalig kosteloos tot 72 uur van tevoren.</p></div>
+        <div class="step" data-reveal><b>04</b><h3>Get your ass here</h3><p>Stationsstraat 72, Lanaken. Enkel op afspraak.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══ 05 GEZEGD ═══ -->
+  <section class="reviews">
+    <div class="wrap">
+      <div class="sec-head">
+        <h2 class="h-neon" data-reveal>Gezegd</h2>
+        <p class="eyebrow" data-reveal><b>05</b> — Uit de Google reviews</p>
+      </div>
+      <div class="rev-grid">
+        <figure class="rev" data-reveal>
+          <blockquote>Er is in mijn ogen geen betere tattoo artieste te vinden. Begrijpt heel goed wat je wilt, denkt enorm mee en is super getalenteerd.</blockquote>
+          <figcaption><small>Zoë Raike · Google review</small></figcaption>
+        </figure>
+        <figure class="rev" data-reveal>
+          <blockquote>De studio was heel schoon en professioneel, wat meteen vertrouwen gaf.</blockquote>
+          <figcaption><small>Hubert Fraussen · Google review</small></figcaption>
+        </figure>
+        <figure class="rev" data-reveal>
+          <blockquote>Kom al ongeveer 10 jaar bij Fleur, vertrouw haar als geen ander! Ze heeft echt talent voor tekenen en tattoo's zetten.</blockquote>
+          <figcaption><small>Melanie Reus · Google review</small></figcaption>
+        </figure>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══ CONTACT ═══ -->
+  <section class="cta" id="contact">
+    <div class="wrap">
+      <h2 data-reveal>Get your<br>ass <span class="neon">here</span></h2>
+      <dl class="cta__info" data-reveal>
+        <div><dt>Adres</dt><dd>Stationsstraat 72, 3620 Lanaken (BE)</dd></div>
+        <div><dt>Mail</dt><dd><a href="mailto:bookings@artbruttattoo.com">bookings@artbruttattoo.com</a></dd></div>
+        <div><dt>Instagram</dt><dd><a href="https://instagram.com/artbrut_tattoo">@artbrut_tattoo</a></dd></div>
+        <div><dt>Openingstijden</dt><dd>Enkel op afspraak</dd></div>
+      </dl>
+      <div class="foot">
+        <span>Art Brut Tattoo Studio</span>
+        <span>Conceptontwerp · Kelvantis × Studio N3ms · niet definitief · augustus 2026</span>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<script src="assets/gsap.min.js"></script>
+<script src="assets/ScrollTrigger.min.js"></script>
+<script src="assets/concept.js"></script>
+</body>
+</html>
