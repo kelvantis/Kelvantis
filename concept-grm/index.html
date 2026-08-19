@@ -1,0 +1,584 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GRM Steigerverhuur — conceptontwerp</title>
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<meta name="robots" content="noindex, nofollow, noarchive, noimageindex">
+<meta name="description" content="Conceptontwerp voor GRM Steigerverhuur, Maastricht. Rolsteigers, gevelsteigers en projectsteigers in Zuid-Limburg.">
+<link rel="stylesheet" href="assets/fonts/fonts.css">
+<style>
+:root{
+  --graf:#16171B; --graf-2:#1D1E23;
+  --beton:#D3CDC1; --beton-2:#C5BFB1;
+  --red:#DB2A1F;
+  --red-txt:#F0554A;      /* rood voor kleine tekst op donker */
+  --red-txt-d:#9C140D;    /* rood voor kleine tekst op beton */
+  --steel:#A19E95;
+  --line:rgba(211,205,193,.18);
+  --line-d:rgba(22,23,27,.22);
+  --disp:'Bricolage Grotesque',system-ui,sans-serif;
+  --sans:'Archivo',system-ui,sans-serif;
+  --mono:'IBM Plex Mono',monospace;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:var(--graf);color:var(--beton);font-family:var(--sans);
+  font-size:17.5px;line-height:1.66;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+img{display:block;width:100%;height:100%;object-fit:cover}
+a{color:inherit;text-decoration:none}
+body::after{content:"";position:fixed;inset:0;z-index:9998;pointer-events:none;opacity:.045;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")}
+.wrap{width:min(1280px,92vw);margin-inline:auto}
+.mono{font-family:var(--mono);font-size:12.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--steel);line-height:1.5}
+h1,h2,h3,h4{font-family:var(--disp);font-weight:800;line-height:1;letter-spacing:-.022em}
+.h1{font-size:clamp(2.6rem,6.2vw,5.4rem);font-variation-settings:'wdth' 78;line-height:.92}
+.h2{font-size:clamp(1.7rem,2.9vw,2.7rem);font-variation-settings:'wdth' 84}
+.h3{font-size:clamp(1.2rem,1.6vw,1.5rem);font-variation-settings:'wdth' 90;letter-spacing:-.012em}
+.lede{font-size:clamp(1.08rem,1.2vw,1.22rem);line-height:1.6;color:#CBC5BA;max-width:48ch}
+.red{color:var(--red)}
+:focus-visible{outline:2px solid var(--red);outline-offset:3px}
+
+/* knoppen: groot genoeg voor dikke duimen */
+.btn{position:relative;display:inline-flex;align-items:center;justify-content:center;gap:10px;
+  font-family:var(--sans);font-weight:600;font-size:16px;letter-spacing:.01em;
+  padding:17px 30px;border:1.5px solid var(--beton);min-height:56px;
+  box-shadow:0 0 0 0 var(--red);
+  transition:transform .26s cubic-bezier(.2,.8,.2,1),box-shadow .26s cubic-bezier(.2,.8,.2,1),
+             background .26s,color .26s,border-color .26s}
+/* rode plaat schuift achter de knop vandaan */
+.btn:hover,.btn:focus-visible{transform:translate(-4px,-4px);box-shadow:8px 8px 0 0 var(--red)}
+.btn:active{transform:translate(0,0);box-shadow:2px 2px 0 0 var(--red)}
+
+.btn-red{background:var(--red);border-color:var(--red);color:#fff}
+.btn-red:hover,.btn-red:focus-visible{box-shadow:8px 8px 0 0 var(--graf)}
+.btn-red:active{box-shadow:2px 2px 0 0 var(--graf)}
+.btn-line{background:transparent;color:var(--beton)}
+.btn-line:hover{background:var(--beton);color:var(--graf)}
+.btn-dark{background:var(--graf);border-color:var(--graf);color:var(--beton)}
+
+/* telefoonknop in de balk */
+.nav-phone{transition:background .26s,transform .26s cubic-bezier(.2,.8,.2,1),box-shadow .26s}
+.nav-phone:hover{background:#9C140D;transform:translate(-3px,-3px);box-shadow:6px 6px 0 0 rgba(211,205,193,.25)}
+
+/* vaste balk onderaan: hover bestaat daar niet, dus reageren op indrukken */
+.sticky-bar a{transition:background .2s}
+.sticky-bar a:active{background:var(--graf-2)}
+.sticky-bar a.call:active{background:#9C140D}
+
+/* ---------- NAV ---------- */
+nav{position:sticky;top:0;z-index:100;background:rgba(22,23,27,.94);backdrop-filter:blur(8px);
+  border-bottom:1px solid var(--line);display:flex;align-items:center;justify-content:space-between;
+  padding:12px min(5vw,40px);gap:16px}
+.brand{display:flex;align-items:center;gap:11px}
+.brand-mark{width:32px;height:25px}
+.brand-mark line{stroke:var(--beton);stroke-width:2.6}
+.brand-mark line.d{stroke:var(--red)}
+.brand-txt{font-family:var(--disp);font-weight:800;font-size:19px;line-height:1}
+.brand small{display:block;font-family:var(--mono);font-size:9.5px;letter-spacing:.14em;color:var(--steel);text-transform:uppercase}
+.nav-links{display:flex;gap:26px}
+.nav-links a{font-size:15px;font-weight:500;padding-bottom:2px;border-bottom:1.5px solid transparent}
+.nav-links a:hover{border-color:var(--red)}
+.nav-phone{display:flex;align-items:center;gap:9px;background:var(--red);color:#fff;
+  padding:11px 18px;font-weight:600;font-size:15.5px;white-space:nowrap}
+@media(max-width:980px){
+  nav{flex-wrap:wrap;padding-bottom:0}
+  .nav-links{order:3;width:100%;gap:0;overflow-x:auto;scrollbar-width:none;
+    border-top:1px solid var(--line);margin-top:12px}
+  .nav-links::-webkit-scrollbar{display:none}
+  .nav-links a{white-space:nowrap;padding:13px 16px;border-bottom:2px solid transparent;font-size:14.5px}
+  .nav-links a:first-child{padding-left:0}
+}
+@media(max-width:520px){.nav-phone span{display:none}}
+
+/* ---------- HERO ---------- */
+.hero{position:relative;min-height:100svh;display:flex;flex-direction:column;justify-content:center;align-items:center;overflow:hidden;text-align:center}
+.hero-bg{position:absolute;inset:0;z-index:0;overflow:hidden}
+.hero-bg img{filter:grayscale(1) contrast(1.5) brightness(.62);transform:scale(1.06)}
+.hero-bg::before{content:"";position:absolute;inset:0;z-index:1;background:#8C1109;mix-blend-mode:multiply;opacity:.42}
+.hero-bg::after{content:"";position:absolute;inset:0;z-index:2;
+  background:
+    radial-gradient(105% 78% at 50% 46%,rgba(22,23,27,.24) 0%,rgba(22,23,27,.82) 100%),
+    linear-gradient(180deg,rgba(22,23,27,.66) 0%,rgba(22,23,27,.15) 34%,rgba(22,23,27,.92) 100%)}
+.scaffold{position:absolute;inset:0;z-index:2;pointer-events:none}
+.scaffold line{stroke:rgba(211,205,193,.17);stroke-width:1.1;vector-effect:non-scaling-stroke}
+.scaffold line.beam{stroke:var(--red);stroke-width:2.2}
+.nodes{position:absolute;inset:0;z-index:2;pointer-events:none}
+.nodes rect{fill:var(--red)}
+.hero-inner{position:relative;z-index:3;padding:100px min(6vw,44px) 40px;width:100%;flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center}
+.hero h1{margin-bottom:24px;max-width:17ch}
+.hero h1 em{font-style:normal;color:var(--red);display:block;text-shadow:0 0 55px rgba(219,42,31,.4)}
+.hero .lede{margin-inline:auto;max-width:52ch;color:#D6D0C4}
+.hero-tag{display:flex;gap:11px;align-items:center;justify-content:center;margin-bottom:26px}
+.hero-tag i{width:26px;height:2px;background:var(--red);display:block}
+.hero h1 .l{display:block;overflow:hidden}
+.hero h1 .l>span{display:block}
+.hero-cue{position:relative;z-index:3;margin-top:46px;
+  display:flex;flex-direction:column;align-items:center;gap:10px;
+  font-family:var(--mono);font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--steel)}
+.hero-cue i{display:block;width:1px;height:38px;background:linear-gradient(var(--red),transparent)}
+.hero-actions{display:flex;gap:12px;flex-wrap:wrap;margin-top:28px}
+/* feitenstrook onder de hero */
+.factbar{position:relative;z-index:3;margin-top:auto;width:100%;display:grid;grid-template-columns:repeat(4,1fr);
+  gap:1px;background:var(--line);border-top:1px solid var(--line)}
+.factbar span{background:var(--graf-2);padding:17px 20px;font-size:16px;color:#CBC5BA;
+  display:flex;align-items:center;gap:9px}
+.factbar span::before{content:"";width:9px;height:9px;background:var(--red);flex:0 0 auto}
+@media(max-width:880px){.factbar{grid-template-columns:1fr 1fr}}
+@media(max-width:520px){.factbar{grid-template-columns:1fr}}
+
+/* keuzesectie */
+.keuze{padding:clamp(48px,6vh,74px) 0 0}
+.keuze-head{margin-bottom:22px}
+
+/* ---------- SPLIT ---------- */
+.split{display:grid;grid-template-columns:1fr 1fr;border:1px solid var(--line);position:relative;z-index:2}
+.pane{position:relative;padding:32px min(5vw,42px) 32px;display:flex;flex-direction:column;
+  justify-content:space-between;overflow:hidden;cursor:pointer}
+.pane+.pane{border-left:1px solid var(--line)}
+.pane-img{position:absolute;inset:0;z-index:0;opacity:0;transform:scale(1.08)}
+.pane-img img{filter:grayscale(1) brightness(.3) contrast(1.2)}
+.pane-fill{position:absolute;inset:0;z-index:1;background:var(--red);transform:translateY(101%)}
+.pane-in{position:relative;z-index:2}
+.pane h3{margin:12px 0 9px}
+.pane p{max-width:42ch;font-size:16.5px;color:#CBC5BA}
+.pane.on p{color:rgba(255,255,255,.9)}
+.pane.on .mono{color:rgba(255,255,255,.85)}
+.pane-cta{position:relative;z-index:2;margin-top:22px;display:flex;align-items:center;gap:10px;
+  font-weight:600;font-size:15.5px}
+.pane-cta i{display:block;width:22px;height:1.5px;background:currentColor;transition:width .4s}
+.pane:hover .pane-cta i{width:46px}
+@media(max-width:880px){.split{grid-template-columns:1fr}.pane+.pane{border-left:0;border-top:1px solid var(--line)}}
+
+/* ---------- SECTIES ---------- */
+.sec{padding:clamp(70px,10vh,120px) 0}
+.sec-head{margin-bottom:44px;max-width:60ch}
+.sec-head h2{margin-top:10px}
+.sec-head p{margin-top:16px}
+
+/* WAT KUNT U HUREN */
+.huur-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+.huur{border:1px solid var(--line);background:var(--graf-2);display:flex;flex-direction:column}
+.huur .ph{aspect-ratio:16/10;overflow:hidden;background:var(--graf)}
+.huur img{filter:grayscale(1) contrast(1.1) brightness(.78);transition:.6s}
+.huur:hover img{filter:grayscale(.8) brightness(.92);transform:scale(1.03)}
+.huur-body{padding:24px 22px 26px;display:flex;flex-direction:column;flex:1}
+.huur h3{margin-bottom:10px}
+.huur p{font-size:16.5px;color:#C7C1B7}
+.huur ul{list-style:none;margin:18px 0 0;padding-top:16px;border-top:1px solid var(--line)}
+.huur li{font-size:16px;padding-left:20px;position:relative;color:#C7C1B7;line-height:1.55;margin-bottom:8px}
+.huur li::before{content:"";position:absolute;left:0;top:11px;width:9px;height:1.5px;background:var(--red)}
+.huur .go{margin-top:auto;padding-top:22px;font-weight:600;font-size:16px;color:var(--red-txt);
+  display:flex;align-items:center;gap:10px}
+.huur .go::after{content:"";width:20px;height:1.5px;background:currentColor;transition:width .4s cubic-bezier(.2,.8,.2,1)}
+.huur:hover .go::after{width:48px}
+@media(max-width:980px){.huur-grid{grid-template-columns:1fr}}
+@media(min-width:981px) and (max-width:1180px){.huur-grid{grid-template-columns:1fr 1fr}}
+
+/* ZO WERKT HET */
+.werk{background:var(--beton);color:var(--graf);position:relative}
+.werk::before{content:"";position:absolute;inset:0;pointer-events:none;
+  background-image:linear-gradient(rgba(22,23,27,.05) 1px,transparent 1px),linear-gradient(90deg,rgba(22,23,27,.05) 1px,transparent 1px);
+  background-size:64px 64px}
+.werk>*{position:relative}
+.werk .mono{color:#46433D}
+.werk .lede{color:#3E3B35}
+.stap-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--line-d);border-block:1px solid var(--line-d);position:relative}
+.constructie{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;z-index:2}
+.constructie line{stroke:rgba(22,23,27,.28);stroke-width:1;vector-effect:non-scaling-stroke}
+.constructie line.c-b{stroke:var(--red);stroke-width:1.4;opacity:.55}
+.stap{background:var(--beton);padding:28px 22px 32px;position:relative;z-index:1}
+.stap .n{font-family:var(--disp);font-weight:800;font-variation-settings:'wdth' 78;font-size:2.6rem;
+  line-height:.8;color:transparent;-webkit-text-stroke:1.5px var(--red-txt-d);display:block;margin-bottom:22px}
+.stap h4{font-size:1.2rem;margin-bottom:9px;font-variation-settings:'wdth' 90}
+.stap p{font-size:16.5px;color:#38352F;line-height:1.56}
+@media(min-width:881px) and (max-width:1180px){.stap-grid{grid-template-columns:1fr 1fr}}
+@media(max-width:1180px){.constructie{display:none}}
+@media(max-width:880px){.stap-grid{grid-template-columns:1fr}}
+
+/* PRIJS */
+.prijs-grid{display:grid;grid-template-columns:1fr 1fr;gap:min(5vw,60px);align-items:start}
+.prijs-box{border:1px solid var(--line-d);background:rgba(22,23,27,.05);padding:28px 26px 30px}
+.prijs-box h4{font-size:1.15rem;margin-bottom:14px}
+.prijs-box ul{list-style:none}
+.prijs-box li{font-size:16px;padding-left:22px;position:relative;margin-bottom:10px;color:#413E38}
+.prijs-box li::before{content:"→";position:absolute;left:0;color:var(--red-txt-d);font-weight:700}
+@media(max-width:880px){.prijs-grid{grid-template-columns:1fr;gap:30px}}
+
+/* WERKGEBIED */
+.gebied-grid{display:grid;grid-template-columns:1fr 1fr;gap:min(5vw,60px);align-items:center}
+.plaatsen{display:flex;flex-wrap:wrap;gap:9px;margin-top:24px}
+.plaatsen span{border:1px solid var(--line);padding:10px 16px;font-size:15.5px;color:#CBC5BA}
+.gebied-map{aspect-ratio:4/3;overflow:hidden;background:var(--graf-2);border:1px solid var(--line)}
+.gebied-map img{filter:grayscale(1) contrast(1.1) brightness(.7)}
+@media(max-width:880px){.gebied-grid{grid-template-columns:1fr;gap:30px}}
+
+/* PROJECTEN */
+.p-grid{display:grid;grid-template-columns:repeat(12,1fr);gap:14px;
+  grid-auto-rows:clamp(240px,26vw,380px)}
+.p-card{display:flex;flex-direction:column}
+.p-card .ph{overflow:hidden;background:var(--graf-2);flex:1;min-height:0}
+.p-card img{filter:grayscale(1) contrast(1.1) brightness(.72);
+  transition:transform .8s cubic-bezier(.2,.7,.2,1),filter .5s}
+.p-card:hover img{transform:scale(1.05);filter:grayscale(.8) contrast(1.05) brightness(.95)}
+.p-card .meta{display:flex;justify-content:space-between;margin-top:10px;font-size:15px;color:#B3AFA6}
+.p-card:nth-child(1){grid-column:span 7}
+.p-card:nth-child(2){grid-column:span 5}
+.p-card:nth-child(3){grid-column:span 5}
+.p-card:nth-child(4){grid-column:span 7}
+@media(max-width:880px){.p-grid{grid-auto-rows:clamp(200px,52vw,300px)}.p-card{grid-column:span 12!important}}
+
+/* STATEMENT */
+.claim{padding:clamp(80px,12vh,140px) 0;border-top:1px solid var(--line);border-bottom:1px solid var(--line);background:var(--graf-2)}
+.claim-h{font-size:clamp(2.4rem,6vw,5rem);font-variation-settings:'wdth' 80;margin-top:14px;line-height:.98}
+
+/* VRAGEN */
+.faq{border-top:1px solid var(--line)}
+.faq details{border-bottom:1px solid var(--line)}
+.faq summary{list-style:none;cursor:pointer;padding:24px 0;display:grid;grid-template-columns:56px 1fr 30px;
+  gap:12px;align-items:center;font-family:var(--disp);font-weight:700;font-variation-settings:'wdth' 92;
+  font-size:clamp(1.05rem,1.5vw,1.3rem);transition:color .3s}
+.faq summary:hover{color:var(--red-txt)}
+.faq summary::-webkit-details-marker{display:none}
+.faq summary .q-n{font-family:var(--mono);font-size:13px;letter-spacing:.08em;color:var(--red-txt);font-weight:500}
+.faq summary::after{content:"+";color:var(--red-txt);font-size:1.6rem;line-height:1;text-align:right}
+.faq details[open] summary::after{content:"−";color:var(--red-txt)}
+.faq p{padding:0 0 26px 68px;max-width:68ch;color:#C7C1B7;font-size:17px;line-height:1.62}
+@media(max-width:600px){.faq summary{grid-template-columns:38px 1fr 24px}.faq p{padding-left:50px}}
+
+/* CONTACT */
+.contact{background:var(--red);color:#fff;padding:clamp(90px,14vh,160px) 0}
+.contact .mono{color:rgba(255,255,255,.78)}
+.contact h2{font-size:clamp(2.6rem,7vw,6rem);font-variation-settings:'wdth' 78;line-height:.94}
+.c-grid{display:grid;grid-template-columns:1fr 1fr;gap:min(5vw,64px);align-items:start;margin-top:44px}
+.c-phone{display:inline-block;font-family:var(--disp);font-weight:800;font-variation-settings:'wdth' 80;
+  font-size:clamp(2.3rem,5.4vw,4.2rem);letter-spacing:-.035em;border-bottom:4px solid rgba(255,255,255,.45);padding-bottom:6px}
+.c-phone:hover{border-color:#fff}
+.c-list{margin-top:30px;font-size:16.5px;line-height:2}
+.c-list b{font-weight:600}
+.form{background:rgba(0,0,0,.16);padding:28px 26px 30px}
+.form label{display:block;font-size:14.5px;font-weight:600;margin-bottom:7px;margin-top:16px}
+.form label:first-of-type{margin-top:0}
+.form input,.form textarea,.form select{width:100%;background:rgba(255,255,255,.94);border:0;
+  padding:14px 14px;font-family:var(--sans);font-size:16px;color:var(--graf);min-height:52px}
+.form textarea{min-height:104px;resize:vertical}
+.form .btn{margin-top:22px;width:100%;justify-content:center}
+.form small{display:block;margin-top:14px;font-size:14px;color:rgba(255,255,255,.8)}
+@media(max-width:880px){.c-grid{grid-template-columns:1fr;gap:36px}}
+
+/* STICKY BALK MOBIEL */
+.sticky-bar{position:fixed;left:0;right:0;bottom:0;z-index:200;display:none;
+  grid-template-columns:1fr 1fr;gap:1px;background:var(--line);border-top:1px solid var(--line)}
+.sticky-bar a{background:var(--graf);padding:16px 8px;text-align:center;font-weight:600;font-size:16px}
+.sticky-bar a.call{background:var(--red);color:#fff}
+@media(max-width:1024px){.sticky-bar{display:grid}body{padding-bottom:58px}}
+@media(max-width:600px){
+  .hero{min-height:auto}
+  .hero-inner{padding-top:56px;padding-bottom:34px}
+  .hero-bg img{filter:grayscale(1) contrast(1.15) brightness(.42)}
+  .btn{width:100%;justify-content:center}
+  .sec{padding:clamp(52px,8vh,80px) 0}
+  .sec-head{margin-bottom:30px}
+  .p-grid{gap:10px}
+}
+
+footer{padding:36px 0;border-top:1px solid var(--line)}
+.f-grid{display:flex;justify-content:space-between;gap:26px;flex-wrap:wrap;font-size:15.5px;color:#B3AFA6;line-height:1.9}
+.f-grid b{color:var(--beton);font-weight:600}
+@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+
+<nav>
+  <a class="brand" href="#">
+    <svg class="brand-mark" viewBox="0 0 40 30" fill="none">
+      <line x1="2" y1="2" x2="38" y2="2"/><line x1="2" y1="15" x2="38" y2="15"/><line x1="2" y1="28" x2="38" y2="28"/>
+      <line x1="4" y1="2" x2="4" y2="28"/><line x1="20" y1="2" x2="20" y2="28"/><line x1="36" y1="2" x2="36" y2="28"/>
+      <line class="d" x1="20" y1="15" x2="36" y2="28"/>
+    </svg>
+    <span><span class="brand-txt">GRM</span><small>Steigerverhuur</small></span>
+  </a>
+  <div class="nav-links">
+    <a href="#huren">Wat kunt u huren</a>
+    <a href="#werkt">Zo werkt het</a>
+    <a href="#prijs">Wat kost het</a>
+    <a href="#gebied">Werkgebied</a>
+    <a href="#contact">Contact</a>
+  </div>
+  <a class="nav-phone" href="tel:0433440653">☎ <span>043 344 06 53</span></a>
+</nav>
+
+<header class="hero">
+  <div class="hero-bg"><img src="media/projecten3.jpg" alt="Steiger aan een gevel in Maastricht"></div>
+  <svg class="scaffold" preserveAspectRatio="none" viewBox="0 0 100 100">
+    <line class="v" x1="9" y1="0" x2="9" y2="100"/><line class="v" x1="34" y1="0" x2="34" y2="100"/>
+    <line class="v" x1="66" y1="0" x2="66" y2="100"/><line class="v" x1="91" y1="0" x2="91" y2="100"/>
+  </svg>
+  <svg class="nodes" viewBox="0 0 100 100" preserveAspectRatio="none">
+    <rect x="8.4" y="21.4" width="1.2" height="1.2"/><rect x="90.4" y="21.4" width="1.2" height="1.2"/>
+    <rect x="8.4" y="74.4" width="1.2" height="1.2"/><rect x="90.4" y="74.4" width="1.2" height="1.2"/>
+  </svg>
+  <div class="hero-inner wrap">
+    <div class="hero-tag"><i></i><span class="mono">Steiger huren in Maastricht en Limburg</span></div>
+    <h1 class="h1">
+      <span class="l"><span>Wij zetten hem neer.</span></span>
+      <span class="l"><span><em>U werkt door.</em></span></span>
+    </h1>
+    <p class="lede">Rolsteigers, gevelsteigers en projectsteigers. Wij bouwen op, u werkt door, wij halen hem weer op.</p>
+    <div class="hero-cue"><span>Bekijk wat u kunt huren</span><i></i></div>
+  </div>
+
+  <div class="factbar">
+    <span>Binnen 24 uur een prijs</span>
+    <span>Opbouw en afbraak inbegrepen</span>
+    <span>Jaarlijks gekeurd materiaal</span>
+    <span>Particulier en zakelijk</span>
+  </div>
+</header>
+
+<section class="keuze wrap">
+  <div class="keuze-head">
+    <span class="mono">Waarvoor heeft u een steiger nodig?</span>
+  </div>
+  <div class="split">
+    <a class="pane" href="#huren" data-pane>
+      <div class="pane-img"><img src="media/projecten1.jpg" alt=""></div>
+      <div class="pane-fill"></div>
+      <div class="pane-in">
+        <span class="mono">Particulier</span>
+        <h3 class="h3">Ik ga verbouwen of schilderen</h3>
+        <p>Een steiger voor uw eigen woning. Wij bouwen op, u werkt in alle rust door, wij halen hem weer weg. Netten en zeilen houden het stof binnen het werk.</p>
+      </div>
+      <div class="pane-cta"><i></i>Bekijk wat u kunt huren</div>
+    </a>
+    <a class="pane" href="#huren" data-pane>
+      <div class="pane-img"><img src="media/projecten6.jpg" alt=""></div>
+      <div class="pane-fill"></div>
+      <div class="pane-in">
+        <span class="mono">Zakelijk</span>
+        <h3 class="h3">Ik zoek een projectsteiger</h3>
+        <p>Voor aannemers, schilders en gevelbedrijven. Met steigernetten of een doorwerkkap met krimpfolie, zodat regen uw planning niet bepaalt.</p>
+      </div>
+      <div class="pane-cta"><i></i>Bespreek uw project</div>
+    </a>
+  </div>
+</section>
+
+<!-- WAT KUNT U HUREN -->
+<section class="sec wrap" id="huren">
+  <div class="sec-head">
+    <span class="mono">Ons aanbod</span>
+    <h2 class="h2">Wat kunt u bij ons huren</h2>
+    <p class="lede">Weet u niet welke steiger u nodig heeft? Bel gerust, dan vragen wij wat u gaat doen en zeggen wij het u.</p>
+  </div>
+  <div class="huur-grid">
+    <div class="huur">
+      <div class="ph"><img src="media/projecten2.jpg" alt="Rolsteiger"></div>
+      <div class="huur-body">
+        <h3 class="h3">Rolsteiger</h3>
+        <p>Verrijdbaar en snel opgebouwd. Handig voor klussen binnen of langs één stuk gevel.</p>
+        <ul>
+          <li>Voor plafonds, kozijnen en kleiner schilderwerk</li>
+          <li>Zelf verplaatsen zonder afbreken</li>
+          <li>Ook per dag of weekend te huur</li>
+        </ul>
+        <span class="go">Vraag beschikbaarheid</span>
+      </div>
+    </div>
+    <div class="huur">
+      <div class="ph"><img src="media/projecten5.jpg" alt="Gevelsteiger"></div>
+      <div class="huur-body">
+        <h3 class="h3">Gevelsteiger</h3>
+        <p>Verankerd aan uw gevel, over de volle breedte. De standaard voor schilder- en gevelwerk aan een woning.</p>
+        <ul>
+          <li>Voor schilderwerk, dakgoot, voegwerk en isolatie</li>
+          <li>Netten en zeilen tegen stofoverlast</li>
+          <li>Wij bouwen op en breken af</li>
+        </ul>
+        <span class="go">Vraag een prijs</span>
+      </div>
+    </div>
+    <div class="huur">
+      <div class="ph"><img src="media/projecten7.jpg" alt="Projectsteiger"></div>
+      <div class="huur-body">
+        <h3 class="h3">Projectsteiger</h3>
+        <p>Voor grotere bouwprojecten en langere doorlooptijden. In overleg met uw planning.</p>
+        <ul>
+          <li>Voor aannemers, schilders en gevelbedrijven</li>
+          <li>Doorwerkkap met krimpfolie mogelijk</li>
+          <li>Materiaal jaarlijks gekeurd</li>
+        </ul>
+        <span class="go">Bespreek uw project</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ZO WERKT HET -->
+<section class="werk sec" id="werkt">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="mono">Zo werkt het</span>
+      <h2 class="h2">Vier stappen. Geen verrassingen.</h2>
+      <p class="lede">U weet vooraf wanneer hij staat, wat hij kost en wanneer hij weer weg is.</p>
+    </div>
+    <div class="stap-grid">
+      <svg class="constructie" viewBox="0 0 100 100" preserveAspectRatio="none">
+        <line class="c-v" x1="25" y1="0" x2="25" y2="100"/><line class="c-v" x1="50" y1="0" x2="50" y2="100"/>
+        <line class="c-v" x1="75" y1="0" x2="75" y2="100"/>
+        <line class="c-h" x1="0" y1="34" x2="100" y2="34"/><line class="c-h" x1="0" y1="72" x2="100" y2="72"/>
+        <line class="c-b" x1="0" y1="72" x2="25" y2="34"/><line class="c-b" x1="25" y1="34" x2="50" y2="72"/><line class="c-b" x1="50" y1="72" x2="75" y2="34"/><line class="c-b" x1="75" y1="34" x2="100" y2="72"/>
+      </svg>
+      <div class="stap"><span class="n">1</span><h4>U belt of mailt</h4><p>Vertel wat u gaat doen en waar. Een paar foto's van de gevel helpen al genoeg, langskomen mag ook.</p></div>
+      <div class="stap"><span class="n">2</span><h4>U krijgt een prijs</h4><p>Binnen een werkdag hoort u wat het kost, inclusief opbouw en afbraak. Een vaste prijs, geen indicatie.</p></div>
+      <div class="stap"><span class="n">3</span><h4>Wij bouwen op</h4><p>Op de afgesproken dag. Onze monteurs verankeren aan de gevel en schermen af met netten of zeilen.</p></div>
+      <div class="stap"><span class="n">4</span><h4>Wij halen hem op</h4><p>Klaar is klaar. Wij breken af en laten de plek achter zoals wij hem aantroffen.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- WAT KOST HET -->
+<section class="werk sec" id="prijs" style="padding-top:0">
+  <div class="wrap prijs-grid">
+    <div>
+      <span class="mono">Wat kost het</span>
+      <h2 class="h2" style="margin-top:10px">Geen verrassingen achteraf</h2>
+      <p class="lede" style="margin-top:16px">Wij bespreken vooraf wat er nodig is, wat wij leveren en wat het kost. Zo weet u waar u aan toe bent voordat de eerste steiger staat. Een vaste prijs, geen rij losse posten na afloop.</p>
+      <div class="hero-actions" style="margin-top:26px">
+        <a class="btn btn-dark" href="tel:0433440653">Bel voor een prijs</a>
+      </div>
+    </div>
+    <div class="prijs-box">
+      <h4>Dit bepaalt uw prijs</h4>
+      <ul>
+        <li>De breedte en hoogte van de gevel</li>
+        <li>Hoe lang de steiger blijft staan</li>
+        <li>Of er netten, zeilen of een doorwerkkap bij moeten</li>
+        <li>De bereikbaarheid van de plek</li>
+        <li>Of wij opbouwen en afbreken, of alleen leveren</li>
+      </ul>
+      <p style="margin-top:20px;font-size:16px;color:#413E38"><b>Opbouw en afbraak zitten standaard bij de prijs in.</b> U krijgt één bedrag, niet een rij losse posten achteraf.</p>
+    </div>
+  </div>
+</section>
+
+<!-- STATEMENT -->
+<section class="claim">
+  <div class="wrap">
+    <span class="mono">Over GRM</span>
+    <h2 class="claim-h">Geen callcenter.<br><span class="red">Geen gedoe.</span></h2>
+    <p class="lede" style="margin-top:24px">Gewoon iemand die bij u langskomt, kijkt wat er nodig is en het regelt. U spreekt dezelfde mensen die de steiger komen zetten.</p>
+  </div>
+</section>
+
+<!-- WERKGEBIED -->
+<section class="sec wrap" id="gebied">
+  <div class="gebied-grid">
+    <div>
+      <span class="mono">Werkgebied</span>
+      <h2 class="h2" style="margin-top:10px">Wij komen bij u langs</h2>
+      <p class="lede" style="margin-top:16px">Wij werken vanuit Maastricht in heel Zuid-Limburg. Twijfelt u of uw adres erbij zit? Bel even, meestal kunnen wij het regelen.</p>
+      <div class="plaatsen">
+        <span>Maastricht</span><span>Meerssen</span><span>Valkenburg</span><span>Eijsden</span>
+        <span>Gulpen</span><span>Sittard</span><span>Heerlen</span><span>Beek</span><span>Margraten</span>
+      </div>
+      <p style="margin-top:24px;font-size:16.5px"><b>Alde Caerteruwe 54, 6218 ER Maastricht</b></p>
+    </div>
+    <div class="gebied-map"><img src="media/projecten9.jpg" alt="Werk in Maastricht"></div>
+  </div>
+</section>
+
+<!-- PROJECTEN -->
+<section class="sec wrap" style="padding-top:0" id="projecten">
+  <div class="sec-head">
+    <span class="mono">Ons werk</span>
+    <h2 class="h2">Steigers die wij plaatsten</h2>
+  </div>
+  <div class="p-grid" id="grid"></div>
+</section>
+
+<!-- VRAGEN -->
+<section class="sec wrap" style="padding-top:0">
+  <div class="sec-head">
+    <span class="mono">Veelgestelde vragen</span>
+    <h2 class="h2">Wat mensen ons meestal vragen</h2>
+  </div>
+  <div class="faq">
+    <details open>
+      <summary><span class="q-n">01</span><span>Moet ik de steiger zelf opbouwen?</span></summary>
+      <p>Nee. Onze monteurs komen opbouwen en breken hem na afloop weer af. Dat zit bij de prijs in. Bij een rolsteiger kunt u ervoor kiezen hem zelf op te halen en te plaatsen.</p>
+    </details>
+    <details>
+      <summary><span class="q-n">02</span><span>Hoe snel kan er een steiger staan?</span></summary>
+      <p>Dat hangt van de planning af, maar u hoort binnen een werkdag wat er mogelijk is. Bel even, dan kijken wij meteen in de agenda.</p>
+    </details>
+    <details>
+      <summary><span class="q-n">03</span><span>Heb ik een vergunning nodig?</span></summary>
+      <p>Voor een steiger op eigen terrein meestal niet. Staat hij op de stoep of op straat, dan is bij de gemeente vaak een melding of ontheffing nodig. Wij vertellen u vooraf waar u aan moet denken.</p>
+    </details>
+    <details>
+      <summary><span class="q-n">04</span><span>Is de steiger veilig en verzekerd?</span></summary>
+      <p>Al ons materiaal wordt ieder jaar gekeurd en wordt opgebouwd door gediplomeerde en ervaren monteurs. Vraag gerust naar de keuringspapieren.</p>
+    </details>
+    <details>
+      <summary><span class="q-n">05</span><span>Kan ik doorwerken als het regent?</span></summary>
+      <p>Bij langere projecten kunnen wij de steiger voorzien van steigernetten of een doorwerkkap met krimpfolie. Dan hoeft een natte week geen verloren week te zijn.</p>
+    </details>
+    <details>
+      <summary><span class="q-n">06</span><span>Werken jullie ook voor bedrijven?</span></summary>
+      <p>Ja. Wij werken voor particulieren, aannemers, schilders, gevelbedrijven en vastgoedbeheerders. Grote en kleine steigers, en rolsteigers.</p>
+    </details>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section class="contact" id="contact">
+  <div class="wrap">
+    <span class="mono">Contact</span>
+    <h2 class="h2" style="margin-top:12px;max-width:14ch">Heeft u een project?</h2>
+    <div class="c-grid">
+      <div>
+        <a class="c-phone" href="tel:0433440653">043 344 06 53</a>
+        <div class="c-list">
+          <b>E-mail</b> info@gevelreinigingmaastricht.nl<br>
+          <b>Adres</b> Alde Caerteruwe 54, 6218 ER Maastricht<br>
+          <b>Bereikbaar</b> maandag t/m vrijdag, 07:00 tot 17:00<br>
+          <b>KvK</b> 62233343
+        </div>
+      </div>
+      <div class="form">
+        <label for="n">Uw naam</label>
+        <input id="n" type="text" autocomplete="name">
+        <label for="t">Telefoonnummer</label>
+        <input id="t" type="tel" autocomplete="tel">
+        <label for="a">Adres van de klus</label>
+        <input id="a" type="text">
+        <label for="w">Wat gaat u doen?</label>
+        <textarea id="w" placeholder="Bijvoorbeeld: schilderwerk voorgevel, twee verdiepingen, ongeveer drie weken"></textarea>
+        <a class="btn btn-dark" href="tel:0433440653">Aanvraag versturen</a>
+        <small>Liever direct iemand spreken? Bel 043 344 06 53.</small>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap f-grid">
+    <div><b>GRM Steigerverhuur</b><br>Alde Caerteruwe 54, Maastricht<br>KvK 62233343</div>
+    <div><b>Huren</b><br>Rolsteiger<br>Gevelsteiger<br>Projectsteiger</div>
+    <div><b>Contact</b><br>043 344 06 53<br>info@gevelreinigingmaastricht.nl</div>
+    <div><b>Concept</b><br>Ontwerp door Kelvantis</div>
+  </div>
+</footer>
+
+<div class="sticky-bar">
+  <a class="call" href="tel:0433440653">☎ Bel direct</a>
+  <a href="#contact">Prijs aanvragen</a>
+</div>
+
+<script src="assets/gsap.min.js"></script>
+<script src="assets/ScrollTrigger.min.js"></script>
+<script src="assets/concept.js"></script>
+</body>
+</html>

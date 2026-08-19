@@ -68,6 +68,18 @@
       "headers": [
         { "key": "Cache-Control", "value": "public, max-age=2592000, stale-while-revalidate=604800" }
       ]
+    },
+    {
+      "source": "/concept-grm/(.*)",
+      "headers": [
+        { "key": "X-Robots-Tag", "value": "noindex, nofollow, noarchive, noimageindex" }
+      ]
+    },
+    {
+      "source": "/concept-grm/assets/fonts/(.*)",
+      "headers": [
+        { "key": "Cache-Control", "value": "public, max-age=2592000, stale-while-revalidate=604800" }
+      ]
     }
   ]
 }
